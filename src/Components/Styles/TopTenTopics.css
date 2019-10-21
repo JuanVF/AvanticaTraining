@@ -1,0 +1,11 @@
+section{
+    padding-top: 60px;
+}
+
+section table{
+    overflow: hidden;
+}
+
+section table tbody tr th{
+    font-weight: normal;
+}
