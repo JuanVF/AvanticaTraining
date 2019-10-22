@@ -1,0 +1,8 @@
+.container button{
+    background: #337AB7;
+    color: white;
+}
+
+table tbody tr th:nth-of-type(1){
+    color: #007BFF;
+}

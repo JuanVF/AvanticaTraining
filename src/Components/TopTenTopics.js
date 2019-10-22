@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Styles/TopTenTopics.css'
 
-import SetTableContent from './SetTableContent';
+import GenerateTopTopicsTable from './GenerateTopTopicsTable';
 
 class TopTenTopics extends React.Component{
     constructor(props){
@@ -74,7 +74,7 @@ class TopTenTopics extends React.Component{
                         <th scope="col">Resources</th>
                     </thead>
                     <tbody>
-                        <SetTableContent tableContent={this.state.tableContent}/>
+                        <GenerateTopTopicsTable tableContent={this.state.tableContent}/>
                     </tbody>
                 </table>
             </section>

@@ -1,12 +1,14 @@
 import React from 'react';
 
-function SetTableContent(props) {
+function GenerateTopTopicsTable(props) {
     let tableData = props.tableContent;
 
     const tableItems = tableData.map((item) => {
         return (
             <tr key={(item.id).toString()}>
-                <th scope="row">{item.topic}</th>
+                <th scope="row">
+                    {item.topic}
+                </th>
                 <th>{item.resources}</th>
             </tr>
         )
@@ -15,4 +17,4 @@ function SetTableContent(props) {
     return tableItems;
 }
 
-export default SetTableContent;
+export default GenerateTopTopicsTable;
