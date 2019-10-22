@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import GenerateTopicsTable from '../Components/GenerateTopicsTable';
 
@@ -27,7 +28,7 @@ class Topics extends React.Component{
     }
     render(){
         return(
-            <section className="container">
+            <section className="container topics_container">
                 <h2>My Topics</h2>
                 <table className="table table-striped">
                     <thead>
@@ -40,7 +41,7 @@ class Topics extends React.Component{
                         <GenerateTopicsTable tableData={this.state.tableData}/>
                     </tbody>
                 </table>
-                <button className="btn primary_button">New</button>
+                <Link to="/training/topics/add" className="btn primary_button back_button">New</Link>
             </section>
         );
     }

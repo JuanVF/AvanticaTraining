@@ -7,6 +7,7 @@ import Login from '../Pages/Login';
 import SignUp from '../Pages/SignUp';
 import Topics from '../Pages/Topics';
 import AddTopics from '../Pages/AddTopics';
+import EditTopic from '../Pages/EditTopic';
 
 import Layout from './Layout';
 
@@ -20,6 +21,7 @@ function App(){
                     <Route exact path="/training/login" component={Login}/>
                     <Route exact path="/training/topics" component={Topics}/>
                     <Route exact path="/training/topics/add" component={AddTopics}/>
+                    <Route exact path="/training/topics/edit/:id" component={EditTopic}/>
                 </Switch>
             </Layout>
         </BrowserRouter>   
