@@ -2,7 +2,7 @@ import React from 'react';
 
 function GenerateTopTopicsTable(props) {
     let tableData = props.tableContent;
-
+    
     const tableItems = tableData.map((item) => {
         return (
             <tr key={(item.id).toString()}>
@@ -11,7 +11,7 @@ function GenerateTopTopicsTable(props) {
                 </th>
                 <th>{item.resources}</th>
             </tr>
-        )
+        );
     });
 
     return tableItems;

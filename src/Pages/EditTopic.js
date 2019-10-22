@@ -15,7 +15,8 @@ class EditTopic extends React.Component {
         };
     }
 
-    handleChange(value){
+    //This function will handle the name value and a visual alert.
+    handleInput(value){
         if (value !== "") {
             this.setState({
                 topicName: value,
@@ -46,8 +47,8 @@ class EditTopic extends React.Component {
                         type="text" 
                         value={state.topicName}
                         placeholder="Topic Name" 
-                        onChange={e => this.handleChange(e.target.value)} />
-                    <button className="btn">Save</button>
+                        onChange={e => this.handleInput(e.target.value)} />
+                    <button className="btn save_button">Save</button>
                 </form>
                 <Link to="/training/topics">Back to list</Link>
             </section>
