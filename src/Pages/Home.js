@@ -7,10 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function Home(props){
     return(
-        <div>
-            <Navbar/>
-            <TopTenTopics/>
-        </div>
+        <TopTenTopics/>
     )
 }
 
