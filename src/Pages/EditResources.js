@@ -13,6 +13,8 @@ class EditResources extends React.Component {
         this.state = {
             descriptionValue : "",
             urlValue : "",
+            descriptionValueTitle : "",
+            urlValueTitle : "",
             descriptionValueAlert : {
                 borderLeft : '5px solid #42A948'
             },
@@ -46,6 +48,7 @@ class EditResources extends React.Component {
         if(!util.Compare.isAnEmptyString(item.value)){
             this.setState({
                 [item.name] : item.value,
+                [item.name+"Title"] : "",
                 [item.name + "Alert"] : {
                     borderLeft : '5px solid #42A948'
                 }
@@ -53,6 +56,7 @@ class EditResources extends React.Component {
         }else{
             this.setState({
                 [item.name] : item.value,
+                [item.name+"Title"] : "Please fill out this field",
                 [item.name + "Alert"] : {
                     borderLeft : '5px solid #AB4846'
                 }
@@ -91,7 +95,8 @@ class EditResources extends React.Component {
                             type="text"
                             name="descriptionValue"
                             style={state.descriptionValueAlert}
-                            value={this.state.descriptionValue}
+                            value={state.descriptionValue}
+                            title={state.descriptionValueTitle}
                             className="form-control"
                             placeholder="Description" />
                     </div>
@@ -103,7 +108,8 @@ class EditResources extends React.Component {
                             type="text"
                             name="urlValue"
                             style={state.urlValueAlert}
-                            value={this.state.urlValue}
+                            value={state.urlValue}
+                            title={state.urlValueTitle}
                             className="form-control"
                             placeholder="URL" />
                     </div>

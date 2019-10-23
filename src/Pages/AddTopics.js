@@ -11,6 +11,7 @@ class AddTopics extends React.Component {
 
         this.state = {
             nameValue : "",
+            nameValueTitle : "Please fill out this field",
             nameValueAlert : {
                 borderLeft : '5px solid #AB4846'
             }
@@ -28,6 +29,7 @@ class AddTopics extends React.Component {
         if(!compare.isAnEmptyString(item.value)){
             this.setState({
                 [item.name] : item.value,
+                [item.name+"Title"] :"",
                 [item.name + "Alert"] : {
                     borderLeft : '5px solid #42A948'
                 }
@@ -35,6 +37,7 @@ class AddTopics extends React.Component {
         }else{
             this.setState({
                 [item.name] : item.value,
+                [item.name + "Title"] : "Please fill out this field",
                 [item.name + "Alert"] : {
                     borderLeft : '5px solid #AB4846'
                 }
@@ -64,6 +67,7 @@ class AddTopics extends React.Component {
                         className="form-control" 
                         type="text" 
                         placeholder="Topic Name"
+                        title={this.state.nameValueTitle}
                         style={this.state.nameValueAlert}
                         value={this.state.nameValue}
                         onChange={this.handleInput}

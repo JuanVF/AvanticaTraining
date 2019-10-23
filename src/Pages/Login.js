@@ -12,8 +12,8 @@ class Login extends React.Component{
         this.state = {
             passwordValue : "",
             emailValue : "",
-            emailValueAlert : "Please fill out this field",
-            passwordValueAlert : "Please fill out this field"
+            emailValueTitle : "Please fill out this field",
+            passwordValueTitle : "Please fill out this field"
         };
     }
 
@@ -24,12 +24,12 @@ class Login extends React.Component{
         if(util.Compare.isAnEmptyString(item.value)){
             this.setState({
                 [item.name] : item.value,
-                [item.name+"Alert"] : "Please fill out this field"
+                [item.name+"Title"] : "Please fill out this field"
             });
         }else{
             this.setState({
                 [item.name] : item.value,
-                [item.name+"Alert"] : ""
+                [item.name+"Title"] : ""
             });
         }
     }
@@ -70,7 +70,7 @@ class Login extends React.Component{
                         name="emailValue"
                         className="form-control" 
                         type="email" 
-                        title={this.state.emailValueAlert}
+                        title={this.state.emailValueTitle}
                         placeholder="Email"/>
                     <input 
                         onChange={this.handleInputs}
@@ -78,7 +78,7 @@ class Login extends React.Component{
                         name="passwordValue"
                         className="form-control" 
                         type="password" 
-                        title={this.state.passwordValueAlert}
+                        title={this.state.passwordValueTitle}
                         placeholder="Password"/>
                     <button 
                         onClick={this.handleLoginButton}

@@ -11,6 +11,7 @@ class EditTopic extends React.Component {
 
         this.state = {
             topicName: "NodeJS",
+            topicNameTitle : "",
             inputAlertColor : {
                 borderLeft : '5px solid #42A948'
             }
@@ -25,6 +26,7 @@ class EditTopic extends React.Component {
         if (!util.Compare.isAnEmptyString(item.value)) {
             this.setState({
                 topicName: item.value,
+                topicNameTitle : "",
                 inputAlertColor : {
                     borderLeft : '5px solid #42A948'
                 }
@@ -32,6 +34,7 @@ class EditTopic extends React.Component {
         }else{
             this.setState({
                 topicName: item.value,
+                topicNameTitle : "Please fill out this field",
                 inputAlertColor : {
                     borderLeft : '5px solid #AB4846'
                 }
@@ -63,6 +66,7 @@ class EditTopic extends React.Component {
                         className="form-control" 
                         style={state.inputAlertColor} 
                         type="text" 
+                        title={this.state.topicNameTitle}
                         value={state.topicName}
                         placeholder="Topic Name" 
                         onChange={this.handleInput} />

@@ -12,47 +12,51 @@ class AddResource extends React.Component {
 
         this.state = {
             resourceValue: "Spring Boot",
-            descriptionValue : "",
-            urlValue : "",
-            descriptionValueAlert : {
-                borderLeft : '5px solid #AB4846'
+            descriptionValue: "",
+            urlValue: "",
+            descriptionValueTitle: "Please fill out this field",
+            urlValueTitle: "Please fill out this field",
+            descriptionValueAlert: {
+                borderLeft: '5px solid #AB4846'
             },
-            urlValueAlert : {
-                borderLeft : '5px solid #AB4846'
+            urlValueAlert: {
+                borderLeft: '5px solid #AB4846'
             }
         };
     }
 
     //This function sets the resource value and the dropdown box texts
-    handleDropdown = (event)=>{
+    handleDropdown = (event) => {
         event.preventDefault();
 
         let value = event.target.innerHTML;
 
         this.setState({
-            resourceValue : value
+            resourceValue: value
         })
     }
 
     //This function handle the inputs value and set a warning if the value is empty
-    handleInputs = (event)=>{
+    handleInputs = (event) => {
         event.preventDefault();
 
         let value = event.target.value;
         let compare = util.Compare;
-        
-        if(!compare.isAnEmptyString(value)){
+
+        if (!compare.isAnEmptyString(value)) {
             this.setState({
-                [event.target.name] : event.target.value,
-                [event.target.name + "Alert"] : {
-                    borderLeft : '5px solid #42A948'
+                [event.target.name]: event.target.value,
+                [event.target.name+"Title"] : "",
+                [event.target.name + "Alert"]: {
+                    borderLeft: '5px solid #42A948'
                 }
             });
-        }else{
+        } else {
             this.setState({
-                [event.target.name] : event.target.value,
-                [event.target.name + "Alert"] : {
-                    borderLeft : '5px solid #AB4846'
+                [event.target.name]: event.target.value,
+                [event.target.name+"Title"] : "Please fill out this field",
+                [event.target.name + "Alert"]: {
+                    borderLeft: '5px solid #AB4846'
                 }
             });
         }
@@ -60,7 +64,7 @@ class AddResource extends React.Component {
 
     //This function alerts the user to fill out the red inputs if they are empty
     //TODO: Handle the fetch to save the new resource
-    handleSaveButton = (event)=>{
+    handleSaveButton = (event) => {
         event.preventDefault();
 
         let objectCollection = [
@@ -69,7 +73,7 @@ class AddResource extends React.Component {
             this.state.urlValue
         ];
 
-        if(!util.Alerts.alertIfObjectsAreEmpty(objectCollection)){
+        if (!util.Alerts.alertIfObjectsAreEmpty(objectCollection)) {
             document.location = "/training/resources"
         }
     }
@@ -82,27 +86,29 @@ class AddResource extends React.Component {
                 <h1>Add Resource</h1>
 
                 <form>
-                    <input 
-                        onChange={this.handleInputs} 
-                        value={state.descriptionValue} 
-                        name="descriptionValue" 
-                        type="text" 
-                        style={this.state.descriptionValueAlert}
-                        className="form-control" 
+                    <input
+                        onChange={this.handleInputs}
+                        value={state.descriptionValue}
+                        name="descriptionValue"
+                        type="text"
+                        title={state.descriptionValueTitle}
+                        style={state.descriptionValueAlert}
+                        className="form-control"
                         placeholder="Description" />
 
-                    <input 
+                    <input
                         onChange={this.handleInputs}
-                        value={state.urlValue} 
-                        name="urlValue" 
-                        style={this.state.urlValueAlert}
-                        type="text" 
-                        className="form-control" 
+                        value={state.urlValue}
+                        name="urlValue"
+                        title={state.urlValueTitle}
+                        style={state.urlValueAlert}
+                        type="text"
+                        className="form-control"
                         placeholder="URL" />
 
                     <div className="dropdown">
-                        <button 
-                            onClick={(event)=>event.preventDefault()}
+                        <button
+                            onClick={(event) => event.preventDefault()}
                             className="dropbtn">
                             {state.resourceValue}
                         </button>
@@ -114,7 +120,7 @@ class AddResource extends React.Component {
                     </div>
 
                     <div>
-                        <button 
+                        <button
                             onClick={this.handleSaveButton}
                             className="btn save_button">
                             Save

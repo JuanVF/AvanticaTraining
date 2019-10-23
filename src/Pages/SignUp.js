@@ -13,9 +13,9 @@ class SignUp extends React.Component {
             emailValue : "",
             passwordValue : "",
             nameValue : "",
-            emailValueAlert : "Please fill out this field",
-            passwordValueAlert : "Please fill out this field",
-            nameValueAlert : "Please fill out this field",
+            emailValueTitle : "Please fill out this field",
+            passwordValueTitle : "Please fill out this field",
+            nameValueTitle : "Please fill out this field",
         };
     }
 
@@ -26,12 +26,12 @@ class SignUp extends React.Component {
         if(util.Compare.isAnEmptyString(item.value)){
             this.setState({
                 [item.name] : item.value,
-                [item.name+"Alert"] : "Please fill out this field"
+                [item.name+"Title"] : "Please fill out this field"
             });
         }else{
             this.setState({
                 [item.name] : item.value,
-                [item.name+"Alert"] : ""
+                [item.name+"Title"] : ""
             });
         }
     }
@@ -76,7 +76,7 @@ class SignUp extends React.Component {
                         name="emailValue"
                         className="form-control" 
                         type="email" 
-                        title={state.emailValueAlert}
+                        title={state.emailValueTitle}
                         placeholder="Email" />
                     <input 
                         value={state.passwordValue}
@@ -84,7 +84,7 @@ class SignUp extends React.Component {
                         name="passwordValue"
                         className="form-control" 
                         type="password" 
-                        title={state.passwordValueAlert}
+                        title={state.passwordValueTitle}
                         placeholder="password" />
                     <input 
                         value={state.nameValue}
@@ -92,7 +92,7 @@ class SignUp extends React.Component {
                         name="nameValue"
                         className="form-control" 
                         type="text" 
-                        title={state.nameValueAlert}
+                        title={state.nameValueTitle}
                         placeholder="Name" />
 
                     <button onClick={this.handleSignup} className="btn btn-success">Sign Up</button>
