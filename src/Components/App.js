@@ -12,11 +12,13 @@ import MyResources from '../Pages/MyResources';
 import AddResource from '../Pages/AddResource';
 import Layout from './Layout';
 
+//This component allows the app to set routes and allow the navigation between them
 function App() {
     return (
         <BrowserRouter>
             <Layout>
                 <Switch>
+                    <Route exact path="/" component={Home}/>
                     <Route exact path="/training/top" component={Home} />
                     <Route exact path="/training/signup" component={SignUp} />
                     <Route exact path="/training/login" component={Login} />

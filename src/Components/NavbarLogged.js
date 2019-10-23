@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import './Styles/NavbarLogged.css';
 
 class NavbarLogged extends React.Component{
+    handleLogout = (event)=>{
+        this.props.handleSetLogged(false)
+    }
     render(){
         return(
             <nav className="navbar navbar-light bg-light">
@@ -16,7 +19,11 @@ class NavbarLogged extends React.Component{
                     </div>
                     <ul className="d-flex justify-content-end">
                         <li className="nav-item">
-                            <button className="nav-link">Log out</button>
+                            <button 
+                                onClick={this.handleLogout} 
+                                className="nav-link">
+                                Log out
+                            </button>
                         </li> 
                     </ul>
                 </div>

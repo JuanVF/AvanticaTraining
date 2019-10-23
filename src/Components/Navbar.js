@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import NavbarLogged from './NavbarLogged';
 import NavbarUnlogged from './NavbarUnlogged';
 
+//This components handle which navbar to use
+//Because the app has two, when is logged and unlogged
 function Navbar(){
-    let isLogged = true;
-    if(isLogged) return <NavbarLogged></NavbarLogged>
+    const [isLogged, setIsLogged] = useState(true);
+    if(isLogged) return <NavbarLogged handleSetLogged={setIsLogged}></NavbarLogged>
 
-    return <NavbarUnlogged></NavbarUnlogged>
+    return <NavbarUnlogged handleSetLogged={setIsLogged}></NavbarUnlogged>
 }
 
 export default Navbar;

@@ -4,6 +4,7 @@ section{
 
 section table{
     overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.1);
 }
 
 section table tbody tr th{

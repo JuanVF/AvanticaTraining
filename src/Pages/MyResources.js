@@ -34,6 +34,7 @@ class MyResources extends React.Component {
             ]
         };
     }
+    
     render() { 
         return (
             <section className="container my_resources_container">

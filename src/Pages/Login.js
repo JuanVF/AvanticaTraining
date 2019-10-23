@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import util from '../Util/Util';
+
 import './Styles/SignAndLogin.css';
 
 class Login extends React.Component{
@@ -12,6 +14,8 @@ class Login extends React.Component{
             emailValue : ""
         };
     }
+
+    //This function handles the password and email values with states
     handleInputs = (event)=>{
         let item = event.target;
 
@@ -20,12 +24,31 @@ class Login extends React.Component{
         });
     }
 
+    //TODO: Implement Facebook Login
+    handleFacebookLogin = (event)=>{
+        event.preventDefault();
+    }
+
+    //This function will alert the user if the inputs are empty
+    //TODO: Implement login
+    handleLoginButton =(event)=>{
+        event.preventDefault();
+
+        let objectCollection = [
+            this.state.passwordValue,
+            this.state.emailValue
+        ];
+
+        util.Alerts.alertIfObjectsAreEmpty(objectCollection);
+    }
+
     render(){
         return (
             <section className="sl_container">
                 <div>
                     <button className="btn btn-lg btn-block">Log in with Facebook</button>
                 </div>
+
                 <form>
                     <input 
                         onChange={this.handleInputs}
@@ -41,9 +64,14 @@ class Login extends React.Component{
                         className="form-control" 
                         type="password" 
                         placeholder="Password"/>
-                    <button className="btn btn-success">Log in</button>
+                    <button 
+                        onClick={this.handleLoginButton}
+                        className="btn btn-success">
+                        Log in
+                    </button>
                 </form>
-                <p>Don't have an account?<Link to="/signup">Sign up</Link></p>
+
+                <p>Don't have an account?<Link to="/training/signup">Sign up</Link></p>
             </section>
         );
     }

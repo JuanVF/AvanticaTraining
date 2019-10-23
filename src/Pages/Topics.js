@@ -26,6 +26,7 @@ class Topics extends React.Component{
             ]
         };
     }
+    
     render(){
         return(
             <section className="container topics_container">

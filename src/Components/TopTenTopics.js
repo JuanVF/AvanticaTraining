@@ -63,6 +63,8 @@ class TopTenTopics extends React.Component{
             ]
         }
     }
+
+    
     render(){
         
         return (
@@ -70,8 +72,10 @@ class TopTenTopics extends React.Component{
                 <h2>Top ten topics</h2>
                 <table className="table table-striped">
                     <thead>
-                        <th scope="col">Topic</th>
-                        <th scope="col">Resources</th>
+                        <tr>
+                          <th scope="col">Topic</th>
+                          <th scope="col">Resources</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <GenerateTopTopicsTable tableContent={this.state.tableContent}/>

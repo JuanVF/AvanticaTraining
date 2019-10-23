@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+//This component will generate the rows for table in
+//src/Pages/Topics.js
 function GenerateTopicsTable(props) {
     const tableData = props.tableData;
 

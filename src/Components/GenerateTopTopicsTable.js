@@ -1,5 +1,7 @@
 import React from 'react';
 
+//This function generates all the rows for the top ten topics table
+//that is located in src/Components/TopTenTopics.js
 function GenerateTopTopicsTable(props) {
     let tableData = props.tableContent;
     
