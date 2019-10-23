@@ -39,7 +39,11 @@ class Login extends React.Component{
             this.state.emailValue
         ];
 
-        util.Alerts.alertIfObjectsAreEmpty(objectCollection);
+        let alerts = util.Alerts;
+
+        if(!alerts.alertIfObjectsAreEmpty(objectCollection) && alerts.alertIfIsNotAnEmail(this.state.emailValue)){
+            document.location = "/"
+        }
     }
 
     render(){

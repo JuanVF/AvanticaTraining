@@ -46,7 +46,9 @@ class EditTopic extends React.Component {
 
         let topicName = this.state.topicName;
 
-        util.Alerts.alertIfIsEmpty(topicName);
+        if(!util.Alerts.alertIfIsEmpty(topicName)){
+            document.location = "/training/topics";
+        }
     }
 
     render() {

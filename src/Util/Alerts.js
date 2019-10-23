@@ -2,6 +2,8 @@ import _ from 'lodash';
 
 function alertIfIsEmpty(firstObject){
     if(_.isEqual(firstObject,"")) alert('Please, fill the empty inputs');
+
+    return (_.isEqual(firstObject,""));
 }
 
 function alertIfObjectsAreEmpty(objectCollection){
@@ -14,9 +16,23 @@ function alertIfObjectsAreEmpty(objectCollection){
     });
 
     if(areEmpty > 0) alert('Please fill the empty inputs');
+
+    return (areEmpty > 0)
+}
+
+function alertIfIsNotAnEmail(email){
+    let re = /\S+@\S+\.\S+/;
+    let isAnEmail = re.test(email);
+
+    if(!isAnEmail){
+        alert('Please type a correct email')
+    }
+
+    return isAnEmail;
 }
 
 export default {
     alertIfIsEmpty : alertIfIsEmpty,
-    alertIfObjectsAreEmpty : alertIfObjectsAreEmpty
+    alertIfObjectsAreEmpty : alertIfObjectsAreEmpty,
+    alertIfIsNotAnEmail : alertIfIsNotAnEmail
 }

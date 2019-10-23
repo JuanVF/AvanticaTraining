@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import GenerateResourcesTable from '../Components/GenerateResourcesTable';
 
@@ -34,6 +33,14 @@ class MyResources extends React.Component {
             ]
         };
     }
+
+    //TODO: Once the API is done, fetch topics and verify if has data
+    //because to add a new resource requires at least one topic on DB
+    handleNewButton = (event)=>{
+        event.preventDefault();
+
+        document.location = "/training/resources/add"
+    }
     
     render() { 
         return (
@@ -50,7 +57,7 @@ class MyResources extends React.Component {
                         <GenerateResourcesTable tableData={this.state.tableData}/>
                     </tbody>
                 </table>
-                <Link to="/training/resources/add" className="btn">New</Link>
+                <button onClick={this.handleNewButton} className="btn">New</button>
             </section>
         );
     }

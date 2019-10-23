@@ -1,0 +1,19 @@
+.edit_resource_container{
+    width: 40%;
+    display: grid;
+    grid-gap: 20px;
+}
+
+.edit_resource_container form{
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 100%;
+}
+
+.edit_resource_container .dropdown, .edit_resource_container form button{
+    justify-self: flex-start;
+}
+
+.dropdown-edit-resource{
+    display: grid;
+}

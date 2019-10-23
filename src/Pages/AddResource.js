@@ -69,7 +69,9 @@ class AddResource extends React.Component {
             this.state.urlValue
         ];
 
-        util.Alerts.alertIfObjectsAreEmpty(objectCollection);
+        if(!util.Alerts.alertIfObjectsAreEmpty(objectCollection)){
+            document.location = "/training/resources"
+        }
     }
 
     render() {
@@ -99,7 +101,11 @@ class AddResource extends React.Component {
                         placeholder="URL" />
 
                     <div className="dropdown">
-                        <button className="dropbtn">{state.resourceValue}</button>
+                        <button 
+                            onClick={(event)=>event.preventDefault()}
+                            className="dropbtn">
+                            {state.resourceValue}
+                        </button>
                         <div className="dropdown-content">
                             <a onClick={this.handleDropdown} href="#">NodeJS</a>
                             <a onClick={this.handleDropdown} href="#">Spring boot</a>

@@ -48,7 +48,9 @@ class AddTopics extends React.Component {
         event.preventDefault();
 
         let nameValue = this.state.nameValue
-        util.Alerts.alertIfIsEmpty(nameValue);
+        if(!util.Alerts.alertIfIsEmpty(nameValue)){
+            document.location = "/training/topics"
+        }
     }
 
     render() { 
