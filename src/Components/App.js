@@ -11,6 +11,7 @@ import EditTopic from '../Pages/EditTopic';
 import MyResources from '../Pages/MyResources';
 import AddResource from '../Pages/AddResource';
 import EditResources from '../Pages/EditResources';
+import Page404 from '../Pages/Page404';
 import Layout from './Layout';
 
 //This component allows the app to set routes and allow the navigation between them
@@ -29,6 +30,7 @@ function App() {
                     <Route exact path="/training/resources" component={MyResources} />
                     <Route exact path="/training/resources/add" component={AddResource} />
                     <Route exact path="/training/resources/edit/:id" component={EditResources} />
+                    <Route component={Page404}/>
                 </Switch>
             </Layout>
         </BrowserRouter>

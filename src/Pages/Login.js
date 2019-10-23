@@ -11,7 +11,9 @@ class Login extends React.Component{
 
         this.state = {
             passwordValue : "",
-            emailValue : ""
+            emailValue : "",
+            emailValueAlert : "Please fill out this field",
+            passwordValueAlert : "Please fill out this field"
         };
     }
 
@@ -19,9 +21,17 @@ class Login extends React.Component{
     handleInputs = (event)=>{
         let item = event.target;
 
-        this.setState({
-            [item.name] : item.value
-        });
+        if(util.Compare.isAnEmptyString(item.value)){
+            this.setState({
+                [item.name] : item.value,
+                [item.name+"Alert"] : "Please fill out this field"
+            });
+        }else{
+            this.setState({
+                [item.name] : item.value,
+                [item.name+"Alert"] : ""
+            });
+        }
     }
 
     //TODO: Implement Facebook Login
@@ -60,6 +70,7 @@ class Login extends React.Component{
                         name="emailValue"
                         className="form-control" 
                         type="email" 
+                        title={this.state.emailValueAlert}
                         placeholder="Email"/>
                     <input 
                         onChange={this.handleInputs}
@@ -67,6 +78,7 @@ class Login extends React.Component{
                         name="passwordValue"
                         className="form-control" 
                         type="password" 
+                        title={this.state.passwordValueAlert}
                         placeholder="Password"/>
                     <button 
                         onClick={this.handleLoginButton}

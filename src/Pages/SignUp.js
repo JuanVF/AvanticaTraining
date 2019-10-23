@@ -12,7 +12,10 @@ class SignUp extends React.Component {
         this.state = {
             emailValue : "",
             passwordValue : "",
-            nameValue : ""
+            nameValue : "",
+            emailValueAlert : "Please fill out this field",
+            passwordValueAlert : "Please fill out this field",
+            nameValueAlert : "Please fill out this field",
         };
     }
 
@@ -20,9 +23,17 @@ class SignUp extends React.Component {
     handleInputs = (event)=>{
         let item = event.target;
 
-        this.setState({
-            [item.name] : item.value
-        });
+        if(util.Compare.isAnEmptyString(item.value)){
+            this.setState({
+                [item.name] : item.value,
+                [item.name+"Alert"] : "Please fill out this field"
+            });
+        }else{
+            this.setState({
+                [item.name] : item.value,
+                [item.name+"Alert"] : ""
+            });
+        }
     }
 
     //TODO: Implement Facebook login
@@ -65,6 +76,7 @@ class SignUp extends React.Component {
                         name="emailValue"
                         className="form-control" 
                         type="email" 
+                        title={state.emailValueAlert}
                         placeholder="Email" />
                     <input 
                         value={state.passwordValue}
@@ -72,6 +84,7 @@ class SignUp extends React.Component {
                         name="passwordValue"
                         className="form-control" 
                         type="password" 
+                        title={state.passwordValueAlert}
                         placeholder="password" />
                     <input 
                         value={state.nameValue}
@@ -79,6 +92,7 @@ class SignUp extends React.Component {
                         name="nameValue"
                         className="form-control" 
                         type="text" 
+                        title={state.nameValueAlert}
                         placeholder="Name" />
 
                     <button onClick={this.handleSignup} className="btn btn-success">Sign Up</button>
