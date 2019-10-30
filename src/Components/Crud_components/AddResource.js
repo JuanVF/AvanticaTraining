@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import util from '../Util/Util';
+import util from '../../Util/Util';
 
-import './Styles/CRUDTopics.css';
-import './Styles/AddResource.css';
+import '../Styles/CRUDTopics.css';
+import '../Styles/AddResource.css';
 
 class AddResource extends React.Component {
     constructor(props) {
@@ -15,13 +14,7 @@ class AddResource extends React.Component {
             descriptionValue: "",
             urlValue: "",
             descriptionValueTitle: "Please fill out this field",
-            urlValueTitle: "Please fill out this field",
-            descriptionValueAlert: {
-                borderLeft: '5px solid #AB4846'
-            },
-            urlValueAlert: {
-                borderLeft: '5px solid #AB4846'
-            }
+            urlValueTitle: "Please fill out this field"
         };
     }
 
@@ -46,18 +39,12 @@ class AddResource extends React.Component {
         if (!compare.isAnEmptyString(value)) {
             this.setState({
                 [event.target.name]: event.target.value,
-                [event.target.name+"Title"] : "",
-                [event.target.name + "Alert"]: {
-                    borderLeft: '5px solid #42A948'
-                }
+                [event.target.name+"Title"] : ""
             });
         } else {
             this.setState({
                 [event.target.name]: event.target.value,
-                [event.target.name+"Title"] : "Please fill out this field",
-                [event.target.name + "Alert"]: {
-                    borderLeft: '5px solid #AB4846'
-                }
+                [event.target.name+"Title"] : "Please fill out this field"
             });
         }
     }
@@ -82,7 +69,7 @@ class AddResource extends React.Component {
         let state = this.state;
 
         return (
-            <section className="container crud_topic_container">
+            <div className="add_resource_container crud_topic_container">
                 <h1>Add Resource</h1>
 
                 <form>
@@ -92,7 +79,6 @@ class AddResource extends React.Component {
                         name="descriptionValue"
                         type="text"
                         title={state.descriptionValueTitle}
-                        style={state.descriptionValueAlert}
                         className="form-control"
                         placeholder="Description" />
 
@@ -101,7 +87,6 @@ class AddResource extends React.Component {
                         value={state.urlValue}
                         name="urlValue"
                         title={state.urlValueTitle}
-                        style={state.urlValueAlert}
                         type="text"
                         className="form-control"
                         placeholder="URL" />
@@ -125,10 +110,9 @@ class AddResource extends React.Component {
                             className="btn save_button">
                             Save
                         </button>
-                        <Link to="/training/resources">Back to list</Link>
                     </div>
                 </form>
-            </section>
+            </div>
 
         );
     }

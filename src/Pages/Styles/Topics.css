@@ -1,8 +1,19 @@
-.topics_container .back_button{
-    background: #337AB7;
-    color: white;
+.topics_container{
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 30% 50%;
+    grid-gap: 100px;
 }
 
-.topics_container table tbody tr th:nth-of-type(1){
-    color: #007BFF;
+.topics_container table thead{
+    text-align: center;
+}
+
+.topics_container table tbody div{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2,100px);
+    justify-items: center;
+    justify-content: center;
 }

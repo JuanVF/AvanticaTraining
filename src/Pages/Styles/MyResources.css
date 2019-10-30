@@ -1,4 +1,23 @@
-.my_resources_container .btn {
-    background: #337AB7;
-    color: white;
+.my_resources_container {
+    width: 100%;
+    display: grid;
+    gap: 100px;
+    grid-template-columns: 30% 50%;
+    justify-content: center;
+}
+
+.my_resources_container div{
+    width: 100%;
+}
+
+.my_resources_container table thead{
+    text-align: center;
+}
+
+.my_resources_container table tbody div{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2,100px);
+    justify-items: center;
+    justify-content: center;
 }

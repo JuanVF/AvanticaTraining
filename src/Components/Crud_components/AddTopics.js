@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import util from '../Util/Util';
+import util from '../../Util/Util';
 
-import './Styles/CRUDTopics.css';
+import '../Styles/CRUDTopics.css';
 
 class AddTopics extends React.Component {
     constructor(props){
@@ -58,7 +57,7 @@ class AddTopics extends React.Component {
 
     render() { 
         return (
-            <section className="container crud_topic_container">
+            <div className="container crud_topic_container">
                 <h1>Add Topic</h1>
 
                 <form className="justify-content-start">
@@ -79,9 +78,7 @@ class AddTopics extends React.Component {
                         Save
                     </button>
                 </form>
-
-                <Link to="/training/topics">Back to list</Link>
-            </section>
+            </div>
         );
     }
 }

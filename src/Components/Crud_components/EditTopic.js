@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import util from '../Util/Util';
+import util from '../../Util/Util';
 
-import './Styles/CRUDTopics.css'
+import '../Styles/CRUDTopics.css'
 
 class EditTopic extends React.Component {
     constructor(props) {
@@ -57,7 +57,7 @@ class EditTopic extends React.Component {
     render() {
         let state = this.state;
         return (
-            <section className="container crud_topic_container">
+            <div className="container crud_topic_container">
                 <h1>Edit Topic</h1>
 
                 <form className="justify-content-start">
@@ -79,7 +79,7 @@ class EditTopic extends React.Component {
                 </form>
 
                 <Link to="/training/topics">Back to list</Link>
-            </section>
+            </div>
         );
     }
 }

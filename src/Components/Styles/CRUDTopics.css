@@ -1,6 +1,6 @@
 .crud_topic_container{
     display: grid;
-    grid-gap: 20px;
+    grid-gap: 40px;
 }
 .crud_topic_container form{
     width: 100%;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 import util from '../Util/Util';
 
@@ -35,8 +36,8 @@ class Login extends React.Component{
     }
 
     //TODO: Implement Facebook Login
-    handleFacebookLogin = (event)=>{
-        event.preventDefault();
+    handleFacebookLogin = (response)=>{
+        console.log(response)
     }
 
     //This function will alert the user if the inputs are empty
@@ -56,11 +57,24 @@ class Login extends React.Component{
         }
     }
 
+    
+
     render(){
         return (
             <section className="sl_container">
                 <div>
-                    <button className="btn btn-lg btn-block">Log in with Facebook</button>
+                    <FacebookLogin
+                        id="facebook_login_button"
+                        appId="2627135220683277"
+                        fields="name,email,picture"
+                        callback={this.handleFacebookLogin}
+                        render={renderProps=>(
+                            <button 
+                                className="btn btn-lg btn-block facebook_login_button"
+                                onClick={renderProps.onClick}>
+                                Login with Facebook
+                            </button>
+                        )}/>
                 </div>
 
                 <form>

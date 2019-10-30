@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import util from '../Util/Util';
+import util from '../../Util/Util';
 
-import './Styles/EditResources.css';
-import './Styles/AddResource.css';
+import '../Styles/EditResources.css';
+import '../Styles/AddResource.css';
 
 class EditResources extends React.Component {
     constructor(props){
@@ -15,12 +15,6 @@ class EditResources extends React.Component {
             urlValue : "",
             descriptionValueTitle : "",
             urlValueTitle : "",
-            descriptionValueAlert : {
-                borderLeft : '5px solid #42A948'
-            },
-            urlValueAlert : {
-                borderLeft : '5px solid #42A948'
-            },
             resourceValue : "NodeJS"
         };
     }
@@ -48,18 +42,12 @@ class EditResources extends React.Component {
         if(!util.Compare.isAnEmptyString(item.value)){
             this.setState({
                 [item.name] : item.value,
-                [item.name+"Title"] : "",
-                [item.name + "Alert"] : {
-                    borderLeft : '5px solid #42A948'
-                }
+                [item.name+"Title"] : ""
             });
         }else{
             this.setState({
                 [item.name] : item.value,
-                [item.name+"Title"] : "Please fill out this field",
-                [item.name + "Alert"] : {
-                    borderLeft : '5px solid #AB4846'
-                }
+                [item.name+"Title"] : "Please fill out this field"
             });
         }
         
@@ -84,7 +72,7 @@ class EditResources extends React.Component {
         let state = this.state;
 
         return (
-            <section className="container edit_resource_container">
+            <div className="edit_resource_container">
                 <h1>Edit Resource</h1>
 
                 <form className="justify-content-start">
@@ -94,7 +82,6 @@ class EditResources extends React.Component {
                             onChange={this.handleInputs}
                             type="text"
                             name="descriptionValue"
-                            style={state.descriptionValueAlert}
                             value={state.descriptionValue}
                             title={state.descriptionValueTitle}
                             className="form-control"
@@ -107,7 +94,6 @@ class EditResources extends React.Component {
                             onChange={this.handleInputs}
                             type="text"
                             name="urlValue"
-                            style={state.urlValueAlert}
                             value={state.urlValue}
                             title={state.urlValueTitle}
                             className="form-control"
@@ -140,7 +126,7 @@ class EditResources extends React.Component {
                 </form>
 
                 <Link to="/training/resources">Back to list</Link>
-            </section>
+            </div>
         );
     }
 }

@@ -2,6 +2,7 @@
     width: 40%;
     display: grid;
     grid-gap: 20px;
+    padding-top: 0;
 }
 
 .edit_resource_container form{
@@ -16,4 +17,12 @@
 
 .dropdown-edit-resource{
     display: grid;
+}
+
+.edit_resource_container input:placeholder-shown{
+    border-left: 4px solid #AB4846;
+}
+
+.edit_resource_container input:not(:placeholder-shown){
+    border-left: 4px solid #42A948;
 }
