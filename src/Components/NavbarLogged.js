@@ -1,4 +1,5 @@
 import React from 'react';
+import ls from 'local-storage';
 
 import { Link } from 'react-router-dom';
 
@@ -6,7 +7,8 @@ import './Styles/NavbarLogged.css';
 
 class NavbarLogged extends React.Component{
     handleLogout = (event)=>{
-        this.props.handleSetLogged(false)
+        ls.remove("login_token");
+        document.location = "/";
     }
     render(){
         return(

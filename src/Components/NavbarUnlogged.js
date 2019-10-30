@@ -11,12 +11,12 @@ class NavbarLogged extends React.Component {
                     <div className="navbar-header">
                         <Link to="/training/top" className="navbar-brand active">Avantica Training</Link>
                     </div>
-                    <ul class="d-flex justify-content-end">
-                        <li class="nav-item">
-                            <Link class="nav-link" to="/training/login">Log in</Link>
+                    <ul className="d-flex justify-content-end">
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/training/login">Log in</Link>
                         </li>
-                        <li class="nav-item">
-                            <Link class="nav-link" to="/training/signup">Sign up</Link>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/training/signup">Sign up</Link>
                         </li>
                     </ul>
                 </div>

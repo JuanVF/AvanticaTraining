@@ -1,4 +1,5 @@
 import React from 'react';
+import ls from 'local-storage';
 
 import util from '../../Util/Util';
 
@@ -10,7 +11,9 @@ class AddResource extends React.Component {
         super(props);
 
         this.state = {
-            resourceValue: "Spring Boot",
+            dropdownData : [],
+            resourceDesc : "",
+            resourceValue: undefined,
             descriptionValue: "",
             urlValue: "",
             descriptionValueTitle: "Please fill out this field",
@@ -18,14 +21,27 @@ class AddResource extends React.Component {
         };
     }
 
-    //This function sets the resource value and the dropdown box texts
-    handleDropdown = (event) => {
-        event.preventDefault();
-
-        let value = event.target.innerHTML;
+    async componentDidMount(){
+        let access_token = ls.get("login_token");
+        let dropdownData = await util.FetchTopic.getTopics(access_token);
+        let resourceDesc = `${dropdownData[0].topic_id} - ${dropdownData[0].name}`;
+        
+        console.log(resourceDesc)
 
         this.setState({
-            resourceValue: value
+            dropdownData : dropdownData,
+            resourceValue : dropdownData[0].topic_id,
+            resourceDesc : resourceDesc
+        })
+    }
+
+    //This function sets the resource value and the dropdown box texts
+    handleDropdown = (event,item) => {
+        event.preventDefault();
+
+        this.setState({
+            resourceValue: item.topic_id,
+            resourceDesc : `${item.topic_id} - ${item.name}`
         })
     }
 
@@ -65,6 +81,16 @@ class AddResource extends React.Component {
         }
     }
 
+    generateDropdownItems = ()=>{
+        let dropdownContent = this.state.dropdownData.map((item,index)=>{
+            return <p key={index} onClick={(event)=>this.handleDropdown(event,item)}>
+                {item.topic_id} - {item.name}
+            </p>
+        });
+
+        return dropdownContent;
+    }
+
     render() {
         let state = this.state;
 
@@ -95,12 +121,10 @@ class AddResource extends React.Component {
                         <button
                             onClick={(event) => event.preventDefault()}
                             className="dropbtn">
-                            {state.resourceValue}
+                            {state.resourceDesc}
                         </button>
                         <div className="dropdown-content">
-                            <a onClick={this.handleDropdown} href="#">NodeJS</a>
-                            <a onClick={this.handleDropdown} href="#">Spring boot</a>
-                            <a onClick={this.handleDropdown} href="#">Another test</a>
+                            {this.generateDropdownItems()}
                         </div>
                     </div>
 

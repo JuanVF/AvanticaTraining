@@ -1,13 +1,10 @@
-.crud_topic_container{
-    display: grid;
-    grid-gap: 40px;
-}
 .crud_topic_container form{
     width: 100%;
     display: grid;
     grid-template-columns: 60%;
     justify-items: flex-start;
-    grid-gap: 15px;
+    align-items: flex-start;
+    gap: 15px;
 }
 .crud_topic_container form input{
     width: 100%;
@@ -17,4 +14,12 @@
 .crud_topic_container form .save_button{
     background: #337AB7;
     color: white;
+}
+
+.crud_topic_container input:placeholder-shown{
+    border-left: 4px solid #AB4846;
+}
+
+.crud_topic_container input:not(:placeholder-shown){
+    border-left: 4px solid #42A948;
 }

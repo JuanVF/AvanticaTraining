@@ -56,8 +56,32 @@ class SignUp extends React.Component {
         let alerts = util.Alerts;
 
         if (!alerts.alertIfObjectsAreEmpty(objectCollection) && alerts.alertIfIsNotAnEmail(this.state.emailValue)) {
-            document.location = "/"
+            this.signUp();
         }
+    }
+
+    signUp = ()=>{
+        let url = "http://localhost:8080/signup";
+        let body = {
+            email : this.state.emailValue,
+            password : this.state.passwordValue,
+            name : this.state.nameValue
+        };
+
+        fetch(url,{
+            method : 'POST',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(body)
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                alert("User was registered!")
+                document.location = "/";
+            }
+        })
+        .catch((err)=>console.log(err));
     }
 
     render() {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import ls from 'local-storage';
 
 import util from '../Util/Util';
 
@@ -41,7 +42,6 @@ class Login extends React.Component{
     }
 
     //This function will alert the user if the inputs are empty
-    //TODO: Implement login
     handleLoginButton =(event)=>{
         event.preventDefault();
 
@@ -53,11 +53,40 @@ class Login extends React.Component{
         let alerts = util.Alerts;
 
         if(!alerts.alertIfObjectsAreEmpty(objectCollection) && alerts.alertIfIsNotAnEmail(this.state.emailValue)){
-            document.location = "/"
+            this.login();
         }
     }
 
-    
+    login = ()=>{
+        let url = "http://localhost:8080/login"
+        let body = {
+            email : this.state.emailValue,
+            password : this.state.passwordValue
+        };
+        let params = {
+            method : 'POST',
+            headers : {
+                'Content-Type':"application/json"
+            },
+            body : JSON.stringify(body)
+        };
+
+        fetch(url,params)
+        .then((res)=>res.json())
+        .then((res)=>{
+            if(res.Authorization){
+                ls.set('login_token',res.Authorization);
+                document.location = "/";
+                return;
+            }
+            alert("An error has ocurred, please try again");
+            
+        })
+        .catch((err)=>{
+            alert("An error has ocurred, please check your email or password fields");
+            console.log("An error has ocurred: " + err);
+        });
+    }
 
     render(){
         return (

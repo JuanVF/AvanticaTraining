@@ -1,4 +1,5 @@
 import React from 'react';
+import ls from 'local-storage';
 
 import util from '../../Util/Util';
 
@@ -10,10 +11,7 @@ class AddTopics extends React.Component {
 
         this.state = {
             nameValue : "",
-            nameValueTitle : "Please fill out this field",
-            nameValueAlert : {
-                borderLeft : '5px solid #AB4846'
-            }
+            nameValueTitle : "Please fill out this field"
         };
     }
 
@@ -23,36 +21,41 @@ class AddTopics extends React.Component {
         event.preventDefault();
 
         let item = event.target;
-        let compare = util.Compare;
 
-        if(!compare.isAnEmptyString(item.value)){
+        if(item.value !== ""){
             this.setState({
                 [item.name] : item.value,
-                [item.name+"Title"] :"",
-                [item.name + "Alert"] : {
-                    borderLeft : '5px solid #42A948'
-                }
+                [item.name+"Title"] :""
             });
         }else{
             this.setState({
                 [item.name] : item.value,
-                [item.name + "Title"] : "Please fill out this field",
-                [item.name + "Alert"] : {
-                    borderLeft : '5px solid #AB4846'
-                }
+                [item.name + "Title"] : "Please fill out this field"
             });
         }
     }
 
     //This function will alert the user to fill the inputs
-    //TODO: fetch API to save the topic
+    //Also inserts the new topic
     handleSaveButton = (event)=>{
         event.preventDefault();
 
         let nameValue = this.state.nameValue
         if(!util.Alerts.alertIfIsEmpty(nameValue)){
-            document.location = "/training/topics"
+            this.addTopics();
         }
+    }
+
+    //This function fetch the API to save the new topic and also refresh
+    //the table component
+    addTopics = async function(){
+        let access_token = ls.get('login_token');
+        let topic = {
+            name : this.state.nameValue
+        };
+
+        await util.FetchTopic.saveTopic(access_token,topic);
+        this.props.onUpdate();
     }
 
     render() { 

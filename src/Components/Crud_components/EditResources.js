@@ -111,9 +111,9 @@ class EditResources extends React.Component {
                             </button>
 
                             <div className="dropdown-content">
-                                <a onClick={this.handleDropdownMenu} href="#">NodeJS</a>
-                                <a onClick={this.handleDropdownMenu} href="#">Spring boot</a>
-                                <a onClick={this.handleDropdownMenu} href="#">Another test</a>
+                                <p onClick={this.handleDropdownMenu}>NodeJS</p>
+                                <p onClick={this.handleDropdownMenu}>Spring boot</p>
+                                <p onClick={this.handleDropdownMenu}>Another test</p>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,6 @@
 import React from 'react';
+import ls from 'local-storage';
+import Util from '../Util/Util';
 
 import TopicCRUDSelector from '../Components/TopicCRUDSelector';
 
@@ -10,33 +12,54 @@ class Topics extends React.Component{
 
         this.state = {
             tableData : [],
-            crudStatus : "ADD"
+            crudStatus : "ADD",
+            editId : null
         };
     }
 
+    //This fetch the data for the table
     componentDidMount(){
-        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
-        let url = 'http://localhost:8080/topic';
-        let params = {
-            method : 'GET',
-            headers : {
-                'Accept':'application/json',
-                'Content-Type':'application/json',
-                'Authorization':access_token
-            }
-        };
-        let context = this;
-
-        fetch(url,params)
-        .then((res)=>res.json())
-        .then((res)=>{
-            context.setState({
-                tableData : res
-            });
-        })
-        .catch(err=>console.log(err));
+        this.getTopics();
     }
 
+    //This allows the edit component to shows itself and also set the id
+    //get update
+    setEditMode = (id)=>{
+        this.setState({
+            editId : id,
+            crudStatus : "EDIT"
+        });
+    }
+
+    //This allows the edit component to show the AddTopic component when it is done
+    setAddMode = ()=>{
+        this.setState({
+            crudStatus : "ADD"
+        });
+    }
+
+    //This functions fetch the API to get topics data
+    getTopics = async ()=>{
+        let access_token = ls.get("login_token");
+        let tableData = await Util.FetchTopic.getTopics(access_token);
+
+        this.setState({
+            tableData : tableData
+        });
+    }
+
+    //This functions fetch the API to DELETE topics data
+    deleteTopic = async (event,id)=>{
+        let access_token = ls.get("login_token");
+        let isConfirmed = prompt("Are you sure you want to delete this topic?[Yes/No]");
+
+        if(isConfirmed.toLowerCase() === "yes"){
+            await Util.FetchTopic.deleteTopic(access_token,id);
+            this.getTopics();
+        }
+    }
+    
+    //This functions generates the rows with the Topic data
     generateTableContent = ()=>{
         let tableContent = this.state.tableData.map((item,index)=>{
             return(
@@ -45,8 +68,16 @@ class Topics extends React.Component{
                     <th>{item.name}</th>
                     <th>
                         <div>
-                            <button className="btn btn-info">Edit</button>
-                            <button className="btn btn-danger">Save</button>
+                            <button 
+                                onClick={()=>{this.setEditMode(item.topic_id)}} 
+                                className="btn btn-info">
+                                Edit
+                            </button>
+                            <button 
+                                onClick={(event)=>this.deleteTopic(event,item.topic_id)} 
+                                className="btn btn-danger">
+                                Delete
+                            </button>
                         </div>
                     </th>
                 </tr>
@@ -55,14 +86,17 @@ class Topics extends React.Component{
 
         return tableContent;
     }
-    
+
     render(){
         return(
             <section className="topics_container">
-                <TopicCRUDSelector status={this.state.crudStatus}/>
+                <TopicCRUDSelector onUpdate={this.getTopics} 
+                                    onEditFinish={this.setAddMode}
+                                    status={this.state.crudStatus}
+                                    editId={this.state.editId}/>
                 <div>
                     <h1>My Topics</h1>
-                    <table className="table table-striped">
+                    <table onClick={()=>this.componentDidMount()} className="table table-striped">
                         <thead className="thead-dark">
                             <tr>
                                 <th scope="col">Id</th>

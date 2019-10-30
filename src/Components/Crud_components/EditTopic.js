@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import ls from 'local-storage';
 
 import util from '../../Util/Util';
 
@@ -10,12 +10,43 @@ class EditTopic extends React.Component {
         super(props);
 
         this.state = {
-            topicName: "NodeJS",
+            topicName: "",
             topicNameTitle : "",
-            inputAlertColor : {
-                borderLeft : '5px solid #42A948'
-            }
+            editId : this.props.editId
         };
+        this.getTopic();
+    }
+
+    //This function checks when a new prop is passed
+    //and refresh the component with new data
+    async componentWillReceiveProps(props){
+        const {editId} = this.props;
+
+        if(props.editId !== editId){
+            await this.setState({editId : props.editId})
+            this.getTopic();
+        }
+    }
+
+    //This functions fetch API to get the new data
+    getTopic = async ()=>{
+        let access_token = ls.get("login_token");
+        let data = await util.FetchTopic.getTopic(access_token,this.state.editId);
+
+        this.setState({
+            topicName : data.name
+        });
+    }
+
+    //This function fetch API to update the selected data
+    updateData = async ()=>{
+        let access_token = ls.get("login_token");
+        let body = {
+            topic_id : this.state.editId,
+            name : this.state.topicName
+        };
+
+        await util.FetchTopic.updateTopic(access_token,body);
     }
 
     //This function will handle the name value and a visual alert if the
@@ -26,31 +57,26 @@ class EditTopic extends React.Component {
         if (!util.Compare.isAnEmptyString(item.value)) {
             this.setState({
                 topicName: item.value,
-                topicNameTitle : "",
-                inputAlertColor : {
-                    borderLeft : '5px solid #42A948'
-                }
+                topicNameTitle : ""
             });
         }else{
             this.setState({
                 topicName: item.value,
-                topicNameTitle : "Please fill out this field",
-                inputAlertColor : {
-                    borderLeft : '5px solid #AB4846'
-                }
+                topicNameTitle : "Please fill out this field"
             });
         }
     }
 
     //This function will alert the user to fill the inputs
-    //TODO: Fetch API to save changes on the selected topic
-    handleSaveButton = (event)=>{
+    handleSaveButton = async (event)=>{
         event.preventDefault();
 
-        let topicName = this.state.topicName;
+        let topicName = await this.state.topicName;
 
         if(!util.Alerts.alertIfIsEmpty(topicName)){
-            document.location = "/training/topics";
+            await this.updateData();
+            this.props.onEditFinish()
+            this.props.onUpdate();
         }
     }
 
@@ -64,7 +90,6 @@ class EditTopic extends React.Component {
                     <label className="font-weight-bold ">Name:</label>
                     <input 
                         className="form-control" 
-                        style={state.inputAlertColor} 
                         type="text" 
                         title={this.state.topicNameTitle}
                         value={state.topicName}
@@ -77,8 +102,7 @@ class EditTopic extends React.Component {
                         Save
                     </button>
                 </form>
-
-                <Link to="/training/topics">Back to list</Link>
+                <p onClick={this.props.onEditFinish} className="text-primary">Add new topic</p>
             </div>
         );
     }

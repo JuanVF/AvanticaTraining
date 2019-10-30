@@ -1,4 +1,6 @@
 import React from 'react';
+import Util from '../Util/Util';
+import ls from 'local-storage';
 
 import ResourceCRUDSelector from '../Components/ResourceCRUDSelector';
 
@@ -14,29 +16,22 @@ class MyResources extends React.Component {
         };
     }
 
+    //This sets the initial data for the resource table
     componentDidMount(){
-        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
-        let url = 'http://localhost:8080/resource';
-        let params = {
-            method : 'GET',
-            headers : {
-                'Accept':'application/json',
-                'Content-Type':'application/json',
-                'Authorization':access_token
-            }
-        };
-        let context = this;
-
-        fetch(url,params)
-        .then((res)=>res.json())
-        .then((res)=>{
-            context.setState({
-                tableData : res
-            });
-        })
-        .catch(err=>console.log(err));
+        this.getResources();
     }
 
+    //This function fetch the API to get resource data
+    getResources = async ()=>{
+        let access_token = ls.get("login_token");
+        let tableData = await Util.FetchResource.getResources(access_token);
+
+        this.setState({
+            tableData : tableData
+        });
+    }
+
+    //This function generates the rows for the resource table
     generateTableContent = ()=>{
         let tableContent = this.state.tableData.map((item,index)=>{
             return(
