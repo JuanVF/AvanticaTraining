@@ -1,45 +1,70 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import util from '../../Util/Util';
 
 import '../Styles/EditResources.css';
 import '../Styles/AddResource.css';
+import Util from '../../Util/Util';
 
 class EditResources extends React.Component {
     constructor(props){
         super(props);
 
+        let selectedItem = props.selectedItem;
+
         this.state = {
-            descriptionValue : "",
-            urlValue : "",
+            descriptionValue : selectedItem.description,
+            urlValue : selectedItem.url,
             descriptionValueTitle : "",
             urlValueTitle : "",
-            resourceValue : "NodeJS"
+            resourceValue : selectedItem.topic.topic_id,
+            dropdownValue : `${selectedItem.topic.topic_id} - ${selectedItem.topic.name}`,
+            dropdownItems : []
         };
     }
 
-    //TODO: Fetch API to get the values of the selected item
-    componentDidMount(){
+    componentDidMount = async()=>{
+        //Change this to its respective fetch function in Util.js
+        //Also get the login_token with local-storage
+        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+        let data;
 
+        let url = 'http://localhost:8080/topic';
+        let params = {
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json',
+                'Authorization': access_token
+            }
+        };
+        
+        await fetch(url,params)
+        .then((res)=>res.json())
+        .then((res)=>{
+            data = res
+        });
+
+        this.setState({
+            dropdownItems : data
+        });
     }
 
     //This function allows the user to change the dropdown menu item selected
-    handleDropdownMenu = (event)=>{
+    handleDropdownMenu = (event,item)=>{
         event.preventDefault();
-        
-        let item = event.target;
 
         this.setState({
-            resourceValue : item.innerHTML
+            resourceValue : item.topic_id,
+            dropdownValue : `${item.topic_id} - ${item.name}`
         });
+        
     }
 
     //This functions sets the value in state and makes an alert if the inputs is empty
     handleInputs = (event)=>{
         let item = event.target;
 
-        if(!util.Compare.isAnEmptyString(item.value)){
+        if(item.value !== ""){
             this.setState({
                 [item.name] : item.value,
                 [item.name+"Title"] : ""
@@ -55,7 +80,7 @@ class EditResources extends React.Component {
 
     //This function will alert the user if the form has empty inputs
     //TODO: Fetch API to save edits
-    handleSaveButton = (event)=>{
+    handleSaveButton = async(event)=>{
         event.preventDefault();
 
         let objectCollection = [
@@ -64,8 +89,34 @@ class EditResources extends React.Component {
         ];
         
         if(!util.Alerts.alertIfObjectsAreEmpty(objectCollection)){
-            document.location = "/training/resources"
+            let body = {
+                resource_id : this.props.selectedItem.resource_id,
+                description : this.state.descriptionValue,
+                url : this.state.urlValue,
+                topic : {
+                    topic_id : this.state.resourceValue
+                }
+            }
+            let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+            
+            await util.FetchResource.update(access_token,body);
+            this.props.closeEditContainer();
         }
+    }
+
+    //This function generate the items for the dropdown
+    generateDropdownItems = ()=>{
+        let dropdownItems = this.state.dropdownItems;
+
+        let dropdown = dropdownItems.map((item,index)=>{
+            return(
+                <a key={index} onClick={(event)=>this.handleDropdownMenu(event,item)}>
+                    {item.topic_id} - {item.name}
+                </a>
+            );
+        });
+
+        return dropdown;
     }
 
     render() {
@@ -107,13 +158,11 @@ class EditResources extends React.Component {
                             <button 
                                 onClick={(event)=>event.preventDefault()} 
                                 className="dropbtn">
-                                {state.resourceValue}
+                                {state.dropdownValue}
                             </button>
 
                             <div className="dropdown-content">
-                                <a onClick={this.handleDropdownMenu} href="#">NodeJS</a>
-                                <a onClick={this.handleDropdownMenu} href="#">Spring boot</a>
-                                <a onClick={this.handleDropdownMenu} href="#">Another test</a>
+                                {this.generateDropdownItems()}
                             </div>
                         </div>
                     </div>
@@ -125,7 +174,7 @@ class EditResources extends React.Component {
                     </button>
                 </form>
 
-                <Link to="/training/resources">Back to list</Link>
+                <p onClick={this.props.closeEditContainer}>Back to list</p>
             </div>
         );
     }

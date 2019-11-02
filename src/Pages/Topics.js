@@ -15,7 +15,7 @@ class Topics extends React.Component{
     }
 
     componentDidMount(){
-        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmRyb2lkYXBwczA3MDNAZ21haWwuY29tIiwiZXhwIjoxNTczNDMwNzkxfQ.-m8Z9wQhdMbUNlVN0Ss9zFTp13L4Ie6qObSwhteE0vMtJPdch8zXfpAZrSigUf59m5bvL1BtL6m37HLcj22_qw';
         let url = 'http://localhost:8080/topic';
         let params = {
             method : 'GET',

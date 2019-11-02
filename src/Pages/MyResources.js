@@ -1,4 +1,5 @@
 import React from 'react';
+import Util from '../Util/Util';
 
 import ResourceCRUDSelector from '../Components/ResourceCRUDSelector';
 
@@ -10,33 +11,64 @@ class MyResources extends React.Component {
 
         this.state = {
             tableData : [],
-            crudStatus : "ADD"
+            crudStatus : "ADD",
+            selectedItem : undefined
         };
     }
 
-    componentDidMount(){
-        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
-        let url = 'http://localhost:8080/resource';
-        let params = {
-            method : 'GET',
-            headers : {
-                'Accept':'application/json',
-                'Content-Type':'application/json',
-                'Authorization':access_token
-            }
-        };
-        let context = this;
-
-        fetch(url,params)
-        .then((res)=>res.json())
-        .then((res)=>{
-            context.setState({
-                tableData : res
-            });
+    //TODO: change access_token to a ls.get("login_token") once the merge is done
+    componentDidMount = async()=>{
+        let tableData = await this.getResources();
+        
+        this.setState({
+            tableData : tableData
         })
-        .catch(err=>console.log(err));
+    }
+    
+    //Function that returns resource data
+    getResources = async()=>{
+        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+
+        let tableData = await Util.FetchResource.getAll(access_token);
+        console.log(tableData)
+        return tableData;
     }
 
+    //
+    handleDeleteButton = async(event,resource_id)=>{
+        event.preventDefault();
+        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+
+        await Util.FetchResource.delete(access_token,resource_id);
+
+        let tableData = await this.getResources();
+
+        this.setState({
+            tableData : tableData
+        })
+    }
+
+    //This functions allows this component to show edit resource component
+    handleEditButton = (event, item)=>{
+        event.preventDefault();
+        this.setState({
+            selectedItem : item,
+            crudStatus : "EDIT"
+        });
+    }
+
+    //This function will allow the edit resource component to close itself
+    closeEditContainer = async()=>{
+        let tableData = await this.getResources();
+
+        this.setState({
+            crudStatus : "ADD",
+            tableData : tableData
+        })
+    }
+
+
+    //This functions generates the items for the table
     generateTableContent = ()=>{
         let tableContent = this.state.tableData.map((item,index)=>{
             return(
@@ -47,8 +79,13 @@ class MyResources extends React.Component {
                     <th>{item.description}</th>
                     <th>
                         <div>
-                            <button className="btn btn-info">Edit</button>
-                            <button className="btn btn-danger">Delete</button>
+                            <button onClick={(event)=>this.handleEditButton(event,item)} 
+                                    className="btn btn-info">
+                                    Edit
+                            </button>
+                            <button onClick={(event)=>this.handleDeleteButton(event,item.resource_id)}
+                                className="btn btn-danger">
+                                Delete</button>
                         </div>
                     </th>
                 </tr>
@@ -61,7 +98,9 @@ class MyResources extends React.Component {
     render() { 
         return (
             <section className="my_resources_container">
-                <ResourceCRUDSelector status={this.state.crudStatus}/>
+                <ResourceCRUDSelector   closeEditContainer={this.closeEditContainer}
+                                        selectedItem={this.state.selectedItem} 
+                                        status={this.state.crudStatus}/>
                 <div>
                     <h1>My Resources</h1>
                     <table className="table table-striped">
