@@ -98,9 +98,9 @@ class MyResources extends React.Component {
     render() { 
         return (
             <section className="my_resources_container">
-                <ResourceCRUDSelector   closeEditContainer={this.closeEditContainer}
-                                        selectedItem={this.state.selectedItem} 
-                                        status={this.state.crudStatus}/>
+                <ResourceCRUDSelector closeEditContainer={this.closeEditContainer}
+                                      selectedItem={this.state.selectedItem} 
+                                      status={this.state.crudStatus}/>
                 <div>
                     <h1>My Resources</h1>
                     <table className="table table-striped">

@@ -12,37 +12,23 @@ class Home extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
-    let url = 'http://localhost:8080/resource';
-    let params = {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': access_token
-      }
-    };
-    let context = this;
 
-    fetch(url, params)
-      .then((res) => res.json())
-      .then((res) => {
-        let parsedData = Util.ParseData.parseHomeData(res);
-        //console.log(parsedData)
-        context.setState({
-          tableData: parsedData
-        });
-      })
-      .catch(err => console.log(err));
+    let tableData = await Util.FetchResource.getAll(access_token);
+    tableData = Util.ParseData.parseHomeData(tableData);
+
+    this.setState({
+      tableData: tableData
+    })
   }
 
   generateTableContent = () => {
     let tableContent = this.state.tableData.map((item, index) => {
       return (
         <tr key={index}>
-          <th>{item.topic.name}</th>
-          <th>{item.topic.topic_id}</th>
+          <th>{item.topic}</th>
+          <th>{item.num_resource}</th>
         </tr>
       );
     });

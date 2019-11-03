@@ -10,7 +10,7 @@ class AddResource extends React.Component {
         super(props);
 
         this.state = {
-            resourceValue: "Spring Boot",
+            resourceValue: undefined,
             descriptionValue: "",
             urlValue: "",
             descriptionValueTitle: "Please fill out this field",
@@ -42,6 +42,7 @@ class AddResource extends React.Component {
         });
 
         this.setState({
+            resourceValue : data[0].topic_id,
             dropdownItems : data,
             dropdownValue : `${data[0].topic_id} - ${data[0].name}`
         });
