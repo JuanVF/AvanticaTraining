@@ -50,12 +50,19 @@ class Topics extends React.Component{
 
     //This functions fetch the API to DELETE topics data
     deleteTopic = async (event,id)=>{
+        event.preventDefault();
+        
         let access_token = ls.get("login_token");
         let isConfirmed = prompt("Are you sure you want to delete this topic?[Yes/No]");
+        let relations = await Util.FetchResource.checkHowManyRelationsAre(access_token,id);
 
         if(isConfirmed.toLowerCase() === "yes"){
-            await Util.FetchTopic.deleteTopic(access_token,id);
-            this.getTopics();
+            if(relations.length === 0){
+                await Util.FetchTopic.deleteTopic(access_token,id);
+                this.getTopics();
+            }else{
+                alert("You should remove the resource that references this topics");
+            }
         }
     }
     
@@ -94,7 +101,7 @@ class Topics extends React.Component{
                                     onEditFinish={this.setAddMode}
                                     status={this.state.crudStatus}
                                     editId={this.state.editId}/>
-                <div>
+                <div className="tp_table_container overflow-auto">
                     <h1>My Topics</h1>
                     <table onClick={()=>this.componentDidMount()} className="table table-striped">
                         <thead className="thead-dark">

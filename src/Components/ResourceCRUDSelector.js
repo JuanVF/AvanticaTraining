@@ -10,8 +10,6 @@ function TopicCRUDSelector(props){
                     selectedItem={props.selectedItem}/>;
     }
     
-    
-
     return <AddResource closeEditContainer={props.closeEditContainer}/>;
 }
 

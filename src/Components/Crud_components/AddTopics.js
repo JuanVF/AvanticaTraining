@@ -55,7 +55,14 @@ class AddTopics extends React.Component {
         };
 
         await util.FetchTopic.saveTopic(access_token,topic);
+        this.cleanInputs();
         this.props.onUpdate();
+    }
+
+    cleanInputs = ()=>{
+        this.setState({
+            nameValue : ""
+        })
     }
 
     render() { 

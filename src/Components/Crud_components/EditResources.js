@@ -21,7 +21,8 @@ class EditResources extends React.Component {
             dropdownItems : []
         };
     }
-
+    
+    //This function fetch topics api to get the dropdown items
     componentDidMount = async()=>{
         let access_token = ls.get('login_token');
         let data = await util.FetchTopic.getTopics(access_token);
@@ -61,7 +62,7 @@ class EditResources extends React.Component {
     }
 
     //This function will alert the user if the form has empty inputs
-    //TODO: Fetch API to save edits
+    //Also saves the edit was made
     handleSaveButton = async(event)=>{
         event.preventDefault();
 
@@ -106,7 +107,7 @@ class EditResources extends React.Component {
         let state = this.state;
 
         return (
-            <div className="edit_resource_container">
+            <div className="edit_resource_container overflow-auto">
                 <h1>Edit Resource</h1>
 
                 <form className="justify-content-start">

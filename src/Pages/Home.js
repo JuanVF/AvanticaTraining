@@ -13,6 +13,8 @@ class Home extends React.Component {
     }
   }
 
+  //This function fetch all the resource
+  //then parse the data to know how many relations are
   componentDidMount = async () => {
     let access_token = ls.get('login_token');
 

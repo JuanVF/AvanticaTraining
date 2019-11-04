@@ -4,10 +4,13 @@
     gap: 100px;
     grid-template-columns: 30% 50%;
     justify-content: center;
+    overflow: hidden;
 }
 
-.my_resources_container div{
+.my_resources_container .mr_table_container{
     width: 100%;
+    max-height: 80vh;
+    overflow: scroll;
 }
 
 .my_resources_container table thead{
@@ -27,3 +30,4 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
+

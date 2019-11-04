@@ -21,6 +21,7 @@ class AddResource extends React.Component {
         };
     }
 
+    //In this case ComponentDidMount fetch topics to fill the dropdown items
     async componentDidMount(){
         let access_token = ls.get("login_token");
         let dropdownItems = await util.FetchTopic.getTopics(access_token);
@@ -63,7 +64,6 @@ class AddResource extends React.Component {
     }
 
     //This function alerts the user to fill out the red inputs if they are empty
-    //TODO: Handle the fetch to save the new resource
     handleSaveButton = async(event) => {
         event.preventDefault();
 
@@ -74,7 +74,7 @@ class AddResource extends React.Component {
         ];
 
         if (!util.Alerts.alertIfObjectsAreEmpty(objectCollection)) {
-            let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+            let access_token = ls.get("login_token");
             let body = {
                 description: this.state.descriptionValue,
                 url: this.state.urlValue,
@@ -84,8 +84,21 @@ class AddResource extends React.Component {
             }
 
             await util.FetchResource.save(access_token,body);
+            //This will rerender the table
+            this.cleanInputs();
             this.props.closeEditContainer();
         }
+    }
+
+    cleanInputs = ()=>{
+        let dropdownValue = `${this.state.dropdownItems[0].topic_id} - ${this.state.dropdownItems[0].name}`;
+
+        this.setState({
+            resourceValue : this.state.dropdownItems[0].topic_id,
+            dropdownValue : dropdownValue,
+            descriptionValue : '',
+            urlValue : ''
+        })
     }
 
     //This function generate the items for the dropdown
@@ -107,7 +120,7 @@ class AddResource extends React.Component {
         let state = this.state;
 
         return (
-            <div className="add_resource_container crud_topic_container">
+            <div className="add_resource_container crud_topic_container overflow-auto">
                 <h1>Add Resource</h1>
 
                 <form>
@@ -135,7 +148,7 @@ class AddResource extends React.Component {
                             className="dropbtn">
                             {state.dropdownValue}
                         </button>
-                        <div className="dropdown-content">
+                        <div className="dropdown-content overflow-auto">
                             {this.generateDropdownItems()}
                         </div>
                     </div>

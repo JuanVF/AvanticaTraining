@@ -3,6 +3,7 @@
     display: grid;
     grid-gap: 20px;
     padding-top: 0;
+    align-content: flex-start;
 }
 
 .edit_resource_container form{

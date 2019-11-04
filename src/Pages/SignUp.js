@@ -38,8 +38,25 @@ class SignUp extends React.Component {
     }
 
     //TODO: Implement Facebook login
-    handleFacebookSignup = (res) => {
+    handleFacebookSignup = async(res) => {
         console.log(res);
+
+        let data = {
+            email : res.userID,
+            name : res.name,
+            fb_token : res.accessToken,
+            password : '',
+            role : 1
+        }
+
+        let status = await util.FetchSignup.signup_fb(data);
+
+        if(status === 200){
+            alert("User was registered!")
+            document.location = "/";
+        }else if(status === 406){
+            alert("This user is already registered")
+        }
     }
 
     //This function alerts the user to fill the empty inputs
@@ -60,28 +77,21 @@ class SignUp extends React.Component {
         }
     }
 
-    signUp = ()=>{
-        let url = "http://localhost:8080/signup";
+    signUp = async()=>{
         let body = {
             email : this.state.emailValue,
             password : this.state.passwordValue,
             name : this.state.nameValue
         };
 
-        fetch(url,{
-            method : 'POST',
-            headers : {
-                'Content-Type': 'application/json'
-            },
-            body : JSON.stringify(body)
-        })
-        .then((res)=>{
-            if(res.status === 200){
-                alert("User was registered!")
-                document.location = "/";
-            }
-        })
-        .catch((err)=>console.log(err));
+        let status = await util.FetchSignup.signup(body);
+
+        if(status === 200){
+            alert("User was registered!")
+            document.location = "/";
+        }else if(status === 406){
+            alert("This user is already registered")
+        }
     }
 
     render() {
