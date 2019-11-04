@@ -11,27 +11,25 @@ class AddResource extends React.Component {
         super(props);
 
         this.state = {
-            dropdownData : [],
-            resourceDesc : "",
             resourceValue: undefined,
             descriptionValue: "",
             urlValue: "",
             descriptionValueTitle: "Please fill out this field",
-            urlValueTitle: "Please fill out this field"
+            urlValueTitle: "Please fill out this field",
+            dropdownItems : [],
+            dropdownValue : '',
         };
     }
 
     async componentDidMount(){
         let access_token = ls.get("login_token");
-        let dropdownData = await util.FetchTopic.getTopics(access_token);
-        let resourceDesc = `${dropdownData[0].topic_id} - ${dropdownData[0].name}`;
+        let dropdownItems = await util.FetchTopic.getTopics(access_token);
+        let dropdownValue = `${dropdownItems[0].topic_id} - ${dropdownItems[0].name}`;
         
-        console.log(resourceDesc)
-
         this.setState({
-            dropdownData : dropdownData,
-            resourceValue : dropdownData[0].topic_id,
-            resourceDesc : resourceDesc
+            dropdownItems : dropdownItems,
+            resourceValue : dropdownItems[0].topic_id,
+            dropdownValue : dropdownValue
         })
     }
 
@@ -41,7 +39,7 @@ class AddResource extends React.Component {
 
         this.setState({
             resourceValue: item.topic_id,
-            resourceDesc : `${item.topic_id} - ${item.name}`
+            dropdownValue : `${item.topic_id} - ${item.name}`
         })
     }
 
@@ -50,9 +48,8 @@ class AddResource extends React.Component {
         event.preventDefault();
 
         let value = event.target.value;
-        let compare = util.Compare;
 
-        if (!compare.isAnEmptyString(value)) {
+        if (value !== "") {
             this.setState({
                 [event.target.name]: event.target.value,
                 [event.target.name+"Title"] : ""
@@ -67,7 +64,7 @@ class AddResource extends React.Component {
 
     //This function alerts the user to fill out the red inputs if they are empty
     //TODO: Handle the fetch to save the new resource
-    handleSaveButton = (event) => {
+    handleSaveButton = async(event) => {
         event.preventDefault();
 
         let objectCollection = [
@@ -77,18 +74,33 @@ class AddResource extends React.Component {
         ];
 
         if (!util.Alerts.alertIfObjectsAreEmpty(objectCollection)) {
-            document.location = "/training/resources"
+            let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+            let body = {
+                description: this.state.descriptionValue,
+                url: this.state.urlValue,
+                topic: {
+                    topic_id: this.state.resourceValue
+                }
+            }
+
+            await util.FetchResource.save(access_token,body);
+            this.props.closeEditContainer();
         }
     }
 
+    //This function generate the items for the dropdown
     generateDropdownItems = ()=>{
-        let dropdownContent = this.state.dropdownData.map((item,index)=>{
-            return <p key={index} onClick={(event)=>this.handleDropdown(event,item)}>
-                {item.topic_id} - {item.name}
-            </p>
+        let dropdownItems = this.state.dropdownItems;
+
+        let dropdown = dropdownItems.map((item,index)=>{
+            return(
+                <p key={index} onClick={(event)=>this.handleDropdown(event,item)}>
+                    {item.topic_id} - {item.name}
+                </p>
+            );
         });
 
-        return dropdownContent;
+        return dropdown;
     }
 
     render() {
@@ -121,7 +133,7 @@ class AddResource extends React.Component {
                         <button
                             onClick={(event) => event.preventDefault()}
                             className="dropbtn">
-                            {state.resourceDesc}
+                            {state.dropdownValue}
                         </button>
                         <div className="dropdown-content">
                             {this.generateDropdownItems()}

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import ls from 'local-storage';
 import util from '../../Util/Util';
 
 import '../Styles/EditResources.css';
@@ -10,36 +9,44 @@ class EditResources extends React.Component {
     constructor(props){
         super(props);
 
+        let selectedItem = props.selectedItem;
+
         this.state = {
-            descriptionValue : "",
-            urlValue : "",
+            descriptionValue : selectedItem.description,
+            urlValue : selectedItem.url,
             descriptionValueTitle : "",
             urlValueTitle : "",
-            resourceValue : "NodeJS"
+            resourceValue : selectedItem.topic.topic_id,
+            dropdownValue : `${selectedItem.topic.topic_id} - ${selectedItem.topic.name}`,
+            dropdownItems : []
         };
     }
 
-    //TODO: Fetch API to get the values of the selected item
-    componentDidMount(){
+    componentDidMount = async()=>{
+        let access_token = ls.get('login_token');
+        let data = await util.FetchTopic.getTopics(access_token);
 
+        this.setState({
+            dropdownItems : data
+        });
     }
 
     //This function allows the user to change the dropdown menu item selected
-    handleDropdownMenu = (event)=>{
+    handleDropdownMenu = (event,item)=>{
         event.preventDefault();
-        
-        let item = event.target;
 
         this.setState({
-            resourceValue : item.innerHTML
+            resourceValue : item.topic_id,
+            dropdownValue : `${item.topic_id} - ${item.name}`
         });
+        
     }
 
     //This functions sets the value in state and makes an alert if the inputs is empty
     handleInputs = (event)=>{
         let item = event.target;
 
-        if(!util.Compare.isAnEmptyString(item.value)){
+        if(item.value !== ""){
             this.setState({
                 [item.name] : item.value,
                 [item.name+"Title"] : ""
@@ -55,7 +62,7 @@ class EditResources extends React.Component {
 
     //This function will alert the user if the form has empty inputs
     //TODO: Fetch API to save edits
-    handleSaveButton = (event)=>{
+    handleSaveButton = async(event)=>{
         event.preventDefault();
 
         let objectCollection = [
@@ -64,8 +71,35 @@ class EditResources extends React.Component {
         ];
         
         if(!util.Alerts.alertIfObjectsAreEmpty(objectCollection)){
-            document.location = "/training/resources"
+            let body = {
+                resource_id : this.props.selectedItem.resource_id,
+                description : this.state.descriptionValue,
+                url : this.state.urlValue,
+                topic : {
+                    topic_id : this.state.resourceValue
+                }
+            }
+            let access_token = ls.get('login_token'); 
+
+            await util.FetchResource.update(access_token,body);
+            
+            this.props.closeEditContainer();
         }
+    }
+
+    //This function generate the items for the dropdown
+    generateDropdownItems = ()=>{
+        let dropdownItems = this.state.dropdownItems;
+
+        let dropdown = dropdownItems.map((item,index)=>{
+            return(
+                <p key={index} onClick={(event)=>this.handleDropdownMenu(event,item)}>
+                    {item.topic_id} - {item.name}
+                </p>
+            );
+        });
+
+        return dropdown;
     }
 
     render() {
@@ -107,13 +141,11 @@ class EditResources extends React.Component {
                             <button 
                                 onClick={(event)=>event.preventDefault()} 
                                 className="dropbtn">
-                                {state.resourceValue}
+                                {state.dropdownValue}
                             </button>
 
                             <div className="dropdown-content">
-                                <p onClick={this.handleDropdownMenu}>NodeJS</p>
-                                <p onClick={this.handleDropdownMenu}>Spring boot</p>
-                                <p onClick={this.handleDropdownMenu}>Another test</p>
+                                {this.generateDropdownItems()}
                             </div>
                         </div>
                     </div>
@@ -125,7 +157,7 @@ class EditResources extends React.Component {
                     </button>
                 </form>
 
-                <Link to="/training/resources">Back to list</Link>
+                <p onClick={this.props.closeEditContainer}>Back to list</p>
             </div>
         );
     }

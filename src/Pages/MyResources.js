@@ -12,26 +12,64 @@ class MyResources extends React.Component {
 
         this.state = {
             tableData : [],
-            crudStatus : "ADD"
+            crudStatus : "ADD",
+            selectedItem : undefined
         };
     }
 
-    //This sets the initial data for the resource table
-    componentDidMount(){
-        this.getResources();
+    //TODO: change access_token to a ls.get("login_token") once the merge is done
+    componentDidMount = async()=>{
+        let tableData = await this.getResources();
+        
+        this.setState({
+            tableData : tableData
+        })
+    }
+    
+    //Function that returns resource data
+    getResources = async()=>{
+        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+
+        let tableData = await Util.FetchResource.getAll(access_token);
+        console.log(tableData)
+        return tableData;
     }
 
-    //This function fetch the API to get resource data
-    getResources = async ()=>{
-        let access_token = ls.get("login_token");
-        let tableData = await Util.FetchResource.getResources(access_token);
+    //
+    handleDeleteButton = async(event,resource_id)=>{
+        event.preventDefault();
+        let access_token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYWVuZXJ5c0B0YXJnYXJ5ZW4uY29tIiwiZXhwIjoxNTczMjQwNzY5fQ.GGDYEe5nqyqhmmY87PanwNXqNnSkPYfS1QnHDjTXLD1kQfrJcPqLTyyWqS9Li4R3BwtW1SXXdWirhr5fEzgQnw';
+
+        await Util.FetchResource.delete(access_token,resource_id);
+
+        let tableData = await this.getResources();
 
         this.setState({
             tableData : tableData
+        })
+    }
+
+    //This functions allows this component to show edit resource component
+    handleEditButton = (event, item)=>{
+        event.preventDefault();
+        this.setState({
+            selectedItem : item,
+            crudStatus : "EDIT"
         });
     }
 
-    //This function generates the rows for the resource table
+    //This function will allow the edit resource component to close itself
+    closeEditContainer = async()=>{
+        let tableData = await this.getResources();
+
+        this.setState({
+            crudStatus : "ADD",
+            tableData : tableData
+        })
+    }
+
+
+    //This functions generates the items for the table
     generateTableContent = ()=>{
         let tableContent = this.state.tableData.map((item,index)=>{
             return(
@@ -42,8 +80,13 @@ class MyResources extends React.Component {
                     <th>{item.description}</th>
                     <th>
                         <div>
-                            <button className="btn btn-info">Edit</button>
-                            <button className="btn btn-danger">Delete</button>
+                            <button onClick={(event)=>this.handleEditButton(event,item)} 
+                                    className="btn btn-info">
+                                    Edit
+                            </button>
+                            <button onClick={(event)=>this.handleDeleteButton(event,item.resource_id)}
+                                className="btn btn-danger">
+                                Delete</button>
                         </div>
                     </th>
                 </tr>
@@ -56,7 +99,9 @@ class MyResources extends React.Component {
     render() { 
         return (
             <section className="my_resources_container">
-                <ResourceCRUDSelector status={this.state.crudStatus}/>
+                <ResourceCRUDSelector closeEditContainer={this.closeEditContainer}
+                                      selectedItem={this.state.selectedItem} 
+                                      status={this.state.crudStatus}/>
                 <div>
                     <h1>My Resources</h1>
                     <table className="table table-striped">
