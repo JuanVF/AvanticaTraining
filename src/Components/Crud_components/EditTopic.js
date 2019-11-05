@@ -2,80 +2,86 @@ import React from 'react';
 import ls from 'local-storage';
 
 import util from '../../Util/Util';
+import Modal from '../Modal';
 
-import '../Styles/CRUDTopics.css'
+import '../Styles/CRUDTopics.css';
 
 class EditTopic extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            topicName: "",
-            topicNameTitle : "",
-            editId : this.props.editId
+            topicName: props.editItem.name,
+            topicNameTitle: "",
+            editId: props.editItem.topic_id,
+            isModalVisible: false,
+            modalMessage: ''
         };
-        this.getTopic();
     }
 
-    //This function checks when a new prop is passed
-    //and refresh the component with new data
-    async componentWillReceiveProps(props){
-        const {editId} = this.props;
-
-        if(props.editId !== editId){
-            await this.setState({editId : props.editId})
-            this.getTopic();
+    componentDidUpdate(prevProps) {
+        if (prevProps.editItem.topic_id !== this.props.editItem.topic_id) {
+            this.setState({
+                topicName: this.props.editItem.name,
+                editId: this.props.editItem.topic_id
+            });
         }
     }
 
-    //This functions fetch API to get the new data
-    getTopic = async ()=>{
-        let access_token = ls.get("login_token");
-        let data = await util.FetchTopic.getTopic(access_token,this.state.editId);
-
-        this.setState({
-            topicName : data.name
-        });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.editItem.topic_id !== prevState.topic_id) {
+            return nextProps;
+        }
+        return null;
     }
 
-    //This function fetch API to update the selected data
-    updateData = async ()=>{
+    updateData = async () => {
         let access_token = ls.get("login_token");
         let body = {
-            topic_id : this.state.editId,
-            name : this.state.topicName
+            topic_id: this.state.editId,
+            name: this.state.topicName
         };
 
-        await util.FetchTopic.updateTopic(access_token,body);
+        await util.FetchTopic.updateTopic(access_token, body);
     }
 
-    //This function will handle the name value and a visual alert if the
-    //value is unfilled
-    handleInput = (event)=>{
+    handleInput = (event) => {
         let item = event.target;
 
         if (!util.Compare.isAnEmptyString(item.value)) {
             this.setState({
                 topicName: item.value,
-                topicNameTitle : ""
+                topicNameTitle: ""
             });
-        }else{
+        } else {
             this.setState({
                 topicName: item.value,
-                topicNameTitle : "Please fill out this field"
+                topicNameTitle: "Please fill out this field"
             });
         }
     }
 
-    //This function will alert the user to fill the inputs
-    handleSaveButton = async (event)=>{
+    toggleModal = (message) => {
+        setTimeout(() => {
+            this.setState({
+                isModalVisible: false
+            });
+        }, 4000);
+
+        this.setState({
+            isModalVisible: !this.isModalVisible,
+            modalMessage: message
+        });
+    }
+
+    handleSaveButton = async (event) => {
         event.preventDefault();
 
         let topicName = await this.state.topicName;
 
-        if(!util.Alerts.alertIfIsEmpty(topicName)){
+        if (!util.Alerts.alertIfIsEmpty(topicName, this.toggleModal)) {
             await this.updateData();
-            this.props.onEditFinish()
+            this.props.onEditFinish();
             this.props.onUpdate();
         }
     }
@@ -83,27 +89,32 @@ class EditTopic extends React.Component {
     render() {
         let state = this.state;
         return (
-            <div className="container crud_topic_container">
-                <h1>Edit Topic</h1>
+            <React.Fragment>
+                <div className="container crud_topic_container">
+                    <h1>Edit Topic</h1>
 
-                <form className="justify-content-start">
-                    <label className="font-weight-bold ">Name:</label>
-                    <input 
-                        className="form-control" 
-                        type="text" 
-                        title={this.state.topicNameTitle}
-                        value={state.topicName}
-                        placeholder="Topic Name" 
-                        onChange={this.handleInput} />
+                    <form className="justify-content-start">
+                        <label className="font-weight-bold ">Name:</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            title={this.state.topicNameTitle}
+                            value={state.topicName}
+                            placeholder="Topic Name"
+                            onChange={this.handleInput} />
 
-                    <button 
-                        onClick={this.handleSaveButton}
-                        className="btn save_button">
-                        Save
+                        <button
+                            onClick={this.handleSaveButton}
+                            className="btn save_button">
+                            Save
                     </button>
-                </form>
-                <p onClick={this.props.onEditFinish} className="text-primary">Add new topic</p>
-            </div>
+                    </form>
+                    <p onClick={this.props.onEditFinish} className="text-primary">Add new topic</p>
+                </div>
+                <Modal isVisible={state.isModalVisible}
+                    message={state.modalMessage} />
+            </React.Fragment>
+
         );
     }
 }

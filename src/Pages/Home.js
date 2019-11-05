@@ -1,8 +1,8 @@
-import React from 'react';
-import Util from '../Util/Util';
-import ls from 'local-storage';
+import React from "react";
+import Util from "../Util/Util";
+import ls from "local-storage";
 
-import './Styles/Home.css'
+import "./Styles/Home.css";
 
 class Home extends React.Component {
   constructor(props) {
@@ -10,21 +10,21 @@ class Home extends React.Component {
 
     this.state = {
       tableData: []
-    }
+    };
   }
 
   //This function fetch all the resource
   //then parse the data to know how many relations are
   componentDidMount = async () => {
-    let access_token = ls.get('login_token');
+    let access_token = ls.get("login_token");
 
     let tableData = await Util.FetchResource.getAll(access_token);
     tableData = Util.ParseData.parseHomeData(tableData);
 
     this.setState({
       tableData: tableData
-    })
-  }
+    });
+  };
 
   generateTableContent = () => {
     let tableContent = this.state.tableData.map((item, index) => {
@@ -37,10 +37,9 @@ class Home extends React.Component {
     });
 
     return tableContent;
-  }
+  };
 
   render() {
-
     return (
       <section className="container">
         <h2>Top ten topics</h2>
@@ -51,9 +50,7 @@ class Home extends React.Component {
               <th scope="col">Resources</th>
             </tr>
           </thead>
-          <tbody>
-            {this.generateTableContent()}
-          </tbody>
+          <tbody>{this.generateTableContent()}</tbody>
         </table>
       </section>
     );

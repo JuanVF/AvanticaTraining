@@ -1,13 +1,13 @@
 function parseHomeData(data) {
     let topics = [];
 
-    data.map((item) => {
+    data.map((item,index) => {
         if (topics.length === 0) {
             topics.push({
                 topic: item.topic.name,
                 num_resource: 1
             });
-            return;
+            return index;
         } else {
             let found = false;
             let index;
@@ -29,6 +29,7 @@ function parseHomeData(data) {
                 })
             }
         }
+        return index;
     });
 
     topics.sort(dynamicSort('num_resource'));

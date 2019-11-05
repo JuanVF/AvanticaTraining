@@ -17,44 +17,39 @@ class MyResources extends React.Component {
         };
     }
 
-    //TODO: change access_token to a ls.get("login_token") once the merge is done
     componentDidMount = async () => {
-        let tableData = await this.getResources();
-
-        this.setState({
-            tableData: tableData
-        })
+        await this.getResources();
     }
 
-    //Function that returns resource data
+
     getResources = async () => {
         let access_token = ls.get("login_token");
         let tableData = await Util.FetchResource.getAll(access_token);
 
-        return tableData;
+        this.setState({
+            tableData: tableData
+        });
     }
 
-    //This functions deletes a resource
+
     handleDeleteButton = async (event, resource_id) => {
         event.preventDefault();
         let access_token = ls.get("login_token");
 
 
 
-        let isConfirmed = prompt("Are you sure you want to delete this topic?[Yes/No]");
-
-        if (isConfirmed.toLowerCase() === "yes") {
+        let isConfirmed = prompt("Are you sure you want to delete this topic?[Yes/y]");
+        
+        if(isConfirmed === null){
+            return;
+        }else if(isConfirmed.toLowerCase() === "yes" || isConfirmed.toLowerCase() === "y") {
             await Util.FetchResource.delete(access_token, resource_id);
 
-            let tableData = await this.getResources();
-
-            this.setState({
-                tableData: tableData
-            });
+            this.closeEditContainer();
         }
     }
 
-    //This functions allows this component to show edit resource component
+
     handleEditButton = (event, item) => {
         event.preventDefault();
         this.setState({
@@ -65,40 +60,11 @@ class MyResources extends React.Component {
 
     //This function will allow the edit resource component to close itself
     closeEditContainer = async () => {
-        let tableData = await this.getResources();
+        await this.getResources();
 
         this.setState({
-            crudStatus: "ADD",
-            tableData: tableData
+            crudStatus: "ADD"
         })
-    }
-
-
-    //This functions generates the items for the table
-    generateTableContent = () => {
-        let tableContent = this.state.tableData.map((item, index) => {
-            return (
-                <tr key={index}>
-                    <th>{item.resource_id}</th>
-                    <th><a href={item.url}>{item.url}</a></th>
-                    <th>{`${item.topic.topic_id}-${item.topic.name}`}</th>
-                    <th>{item.description}</th>
-                    <th>
-                        <div>
-                            <button onClick={(event) => this.handleEditButton(event, item)}
-                                className="btn btn-info">
-                                Edit
-                            </button>
-                            <button onClick={(event) => this.handleDeleteButton(event, item.resource_id)}
-                                className="btn btn-danger">
-                                Delete</button>
-                        </div>
-                    </th>
-                </tr>
-            )
-        });
-
-        return tableContent;
     }
 
     render() {
@@ -107,26 +73,57 @@ class MyResources extends React.Component {
                 <ResourceCRUDSelector closeEditContainer={this.closeEditContainer}
                     selectedItem={this.state.selectedItem}
                     status={this.state.crudStatus} />
-                <div className="mr_table_container overflow-auto">
+                <div>
                     <h1>My Resources</h1>
-                    <table className="table table-striped">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th scope="column">Id</th>
-                                <th scope="column">Url</th>
-                                <th scope="column">Topic</th>
-                                <th scope="column">Description Name</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="mr_table">
-                            {this.generateTableContent()}
-                        </tbody>
-                    </table>
+                    <div className="mr_table_container overflow-auto">
+                        <table className="table table-striped">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th scope="column">Id</th>
+                                    <th scope="column">Url</th>
+                                    <th scope="column">Topic</th>
+                                    <th scope="column">Description Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <GenerateTableContent tableData={this.state.tableData}
+                                                        handleDeleteButton={this.handleDeleteButton}
+                                                        handleEditButton={this.handleEditButton}/>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
         );
     }
+}
+
+//This function generates the table for MyResource component
+function GenerateTableContent(props){
+    let tableContent = props.tableData.map((item, index) => {
+        return (
+            <tr key={index}>
+                <th>{item.resource_id}</th>
+                <th><a href={item.url}>{item.url}</a></th>
+                <th>{`${item.topic.topic_id}-${item.topic.name}`}</th>
+                <th>{item.description}</th>
+                <th>
+                    <div>
+                        <button onClick={(event) => props.handleEditButton(event, item)}
+                            className="btn btn-info">
+                            Edit
+                        </button>
+                        <button onClick={(event) => props.handleDeleteButton(event, item.resource_id)}
+                            className="btn btn-danger">
+                            Delete</button>
+                    </div>
+                </th>
+            </tr>
+        )
+    });
+
+    return tableContent;
 }
 
 export default MyResources;

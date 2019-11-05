@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-
 import util from '../Util/Util';
+
+import Modal from '../Components/Modal';
+import Input from '../Components/Input';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 import './Styles/SignAndLogin.css';
 
@@ -17,6 +19,9 @@ class SignUp extends React.Component {
             emailValueTitle: "Please fill out this field",
             passwordValueTitle: "Please fill out this field",
             nameValueTitle: "Please fill out this field",
+            isModalVisible: false,
+            modalMessage: "",
+            isASuccessModal: false
         };
     }
 
@@ -24,7 +29,7 @@ class SignUp extends React.Component {
     handleInputs = (event) => {
         let item = event.target;
 
-        if (util.Compare.isAnEmptyString(item.value)) {
+        if (item.value === "") {
             this.setState({
                 [item.name]: item.value,
                 [item.name + "Title"]: "Please fill out this field"
@@ -37,30 +42,26 @@ class SignUp extends React.Component {
         }
     }
 
-    //TODO: Implement Facebook login
-    handleFacebookSignup = async(res) => {
+    handleFacebookSignup = async (res) => {
         console.log(res);
 
         let data = {
-            email : res.userID,
-            name : res.name,
-            fb_token : res.accessToken,
-            password : '',
-            role : 1
+            email: res.userID,
+            name: res.name,
+            fb_token: res.accessToken,
+            password: '',
+            role: 1
         }
 
         let status = await util.FetchSignup.signup_fb(data);
 
-        if(status === 200){
-            alert("User was registered!")
-            document.location = "/";
-        }else if(status === 406){
-            alert("This user is already registered")
+        if (status === 200) {
+            this.toggleModal("User was registered!",true);
+        } else if (status === 406) {
+            this.toggleModal("This user is already registered")
         }
     }
 
-    //This function alerts the user to fill the empty inputs
-    //TODO: fetch the API to save the user data
     handleSignup = (event) => {
         event.preventDefault();
 
@@ -72,80 +73,102 @@ class SignUp extends React.Component {
 
         let alerts = util.Alerts;
 
-        if (!alerts.alertIfObjectsAreEmpty(objectCollection) && alerts.alertIfIsNotAnEmail(this.state.emailValue)) {
+        if (!alerts.alertIfObjectsAreEmpty(objectCollection, this.toggleModal) && alerts.alertIfIsNotAnEmail(this.state.emailValue, this.toggleModal)) {
             this.signUp();
         }
     }
 
-    signUp = async()=>{
+    signUp = async () => {
         let body = {
-            email : this.state.emailValue,
-            password : this.state.passwordValue,
-            name : this.state.nameValue
+            email: this.state.emailValue,
+            password: this.state.passwordValue,
+            name: this.state.nameValue
         };
 
         let status = await util.FetchSignup.signup(body);
 
-        if(status === 200){
-            alert("User was registered!")
-            document.location = "/";
-        }else if(status === 406){
-            alert("This user is already registered")
+        if (status === 200) {
+            this.toggleModal("User was registered!", true);
+            this.cleanInputs();
+        } else if (status === 406) {
+            this.toggleModal("This user is already registered")
         }
+    }
+
+    toggleModal = async (message, successModal) => {
+        setTimeout(() => {
+            this.setState({
+                isModalVisible: false,
+                successModal: false
+            });
+        }, 3000);
+
+        this.setState({
+            isModalVisible: !this.isModalVisible,
+            modalMessage: message,
+            isASuccessModal: successModal
+        });
+    }
+
+    cleanInputs = () => {
+        this.setState({
+            emailValue: "",
+            passwordValue: "",
+            nameValue: "",
+        })
     }
 
     render() {
         let state = this.state;
 
         return (
-            <section className="sl_container">
-                <div>
-                    <FacebookLogin
-                        id="facebook_login_button"
-                        appId="2627135220683277"
-                        fields="name,email,picture"
-                        callback={this.handleFacebookSignup}
-                        render={renderProps => (
-                            <button
-                                className="btn btn-lg btn-block facebook_login_button"
-                                onClick={renderProps.onClick}>
-                                Sign up with Facebook
+            <React.Fragment>
+                <section className="sl_container">
+                    <div>
+                        <FacebookLogin
+                            id="facebook_login_button"
+                            appId="2627135220683277"
+                            fields="name,email,picture"
+                            callback={this.handleFacebookSignup}
+                            render={renderProps => (
+                                <button
+                                    className="btn btn-lg btn-block facebook_login_button"
+                                    onClick={renderProps.onClick}>
+                                    Sign up with Facebook
                             </button>
-                        )} />
-                </div>
+                            )} />
+                    </div>
 
-                <form>
-                    <p className="h5">Sign up with your email address</p>
-                    <input
-                        value={state.emailValue}
-                        onChange={this.handleInputs}
-                        name="emailValue"
-                        className="form-control"
-                        type="email"
-                        title={state.emailValueTitle}
-                        placeholder="Email" />
-                    <input
-                        value={state.passwordValue}
-                        onChange={this.handleInputs}
-                        name="passwordValue"
-                        className="form-control"
-                        type="password"
-                        title={state.passwordValueTitle}
-                        placeholder="password" />
-                    <input
-                        value={state.nameValue}
-                        onChange={this.handleInputs}
-                        name="nameValue"
-                        className="form-control"
-                        type="text"
-                        title={state.nameValueTitle}
-                        placeholder="Name" />
+                    <form>
+                        <p className="h5">Sign up with your email address</p>
+                        <Input
+                            value={state.emailValue}
+                            handleInputs={this.handleInputs}
+                            name="emailValue"
+                            title={state.emailValueTitle}
+                            placeholder="Email" />
+                        <Input
+                            value={state.passwordValue}
+                            handleInputs={this.handleInputs}
+                            name="passwordValue"
+                            type="password"
+                            title={state.passwordValueTitle}
+                            placeholder="password" />
+                        <Input
+                            value={state.nameValue}
+                            handleInputs={this.handleInputs}
+                            name="nameValue"
+                            title={state.nameValueTitle}
+                            placeholder="Name" />
+                        <button onClick={this.handleSignup} className="btn btn-success">Sign Up</button>
+                    </form>
 
-                    <button onClick={this.handleSignup} className="btn btn-success">Sign Up</button>
-                </form>
-
-                <p>Already have an account? <Link to="/training/login">Log in</Link></p>
-            </section>
+                    <p>Already have an account? <Link to="/training/login">Log in</Link></p>
+                </section>
+                <Modal isVisible={state.isModalVisible}
+                    message={state.modalMessage}
+                    successModal={this.state.isASuccessModal} />
+            </React.Fragment>
         );
     }
 }

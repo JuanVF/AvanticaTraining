@@ -5,7 +5,7 @@ import EditTopic from './Crud_components/EditTopic';
 
 function TopicCRUDSelector(props){
     if(props.status === "EDIT"){
-        return <EditTopic editId={props.editId} 
+        return <EditTopic editItem={props.editItem} 
                           onEditFinish={props.onEditFinish} 
                           onUpdate={props.onUpdate}/>
     }

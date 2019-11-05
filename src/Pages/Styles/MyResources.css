@@ -9,8 +9,7 @@
 
 .my_resources_container .mr_table_container{
     width: 100%;
-    max-height: 80vh;
-    overflow: scroll;
+    max-height: 70vh;
 }
 
 .my_resources_container table thead{

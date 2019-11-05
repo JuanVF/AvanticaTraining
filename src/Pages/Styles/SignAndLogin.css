@@ -20,6 +20,16 @@
     border-bottom: 1px solid rgba(0, 0,0,0.3);
 }
 
+.sl_container form div{
+    border-bottom: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sl_container form div label{
+    display: none;
+}
+
 .facebook_login_button{
     background: #337AB7;
     color: white;

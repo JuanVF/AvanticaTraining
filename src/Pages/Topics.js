@@ -13,20 +13,18 @@ class Topics extends React.Component{
         this.state = {
             tableData : [],
             crudStatus : "ADD",
-            editId : null
+            editItem : null
         };
     }
 
-    //This fetch the data for the table
     componentDidMount(){
         this.getTopics();
     }
 
     //This allows the edit component to shows itself and also set the id
-    //get update
-    setEditMode = (id)=>{
+    setEditMode = (item)=>{
         this.setState({
-            editId : id,
+            editItem : item,
             crudStatus : "EDIT"
         });
     }
@@ -38,7 +36,6 @@ class Topics extends React.Component{
         });
     }
 
-    //This functions fetch the API to get topics data
     getTopics = async ()=>{
         let access_token = ls.get("login_token");
         let tableData = await Util.FetchTopic.getTopics(access_token);
@@ -53,45 +50,23 @@ class Topics extends React.Component{
         event.preventDefault();
         
         let access_token = ls.get("login_token");
-        let isConfirmed = prompt("Are you sure you want to delete this topic?[Yes/No]");
+        let isConfirmed = prompt("Are you sure you want to delete this topic?[Yes/y]");
+
         let relations = await Util.FetchResource.checkHowManyRelationsAre(access_token,id);
 
-        if(isConfirmed.toLowerCase() === "yes"){
+        if(isConfirmed === null){
+            return;
+
+        }else if(isConfirmed.toLowerCase() === "yes" || isConfirmed.toLowerCase() === "y"){
+
             if(relations.length === 0){
+                this.setAddMode();
                 await Util.FetchTopic.deleteTopic(access_token,id);
-                this.getTopics();
+                this.getTopics();        
             }else{
                 alert("You should remove the resource that references this topics");
             }
         }
-    }
-    
-    //This functions generates the rows with the Topic data
-    generateTableContent = ()=>{
-        let tableContent = this.state.tableData.map((item,index)=>{
-            return(
-                <tr key={index}>
-                    <th>{item.topic_id}</th>
-                    <th>{item.name}</th>
-                    <th>
-                        <div>
-                            <button 
-                                onClick={()=>{this.setEditMode(item.topic_id)}} 
-                                className="btn btn-info">
-                                Edit
-                            </button>
-                            <button 
-                                onClick={(event)=>this.deleteTopic(event,item.topic_id)} 
-                                className="btn btn-danger">
-                                Delete
-                            </button>
-                        </div>
-                    </th>
-                </tr>
-            )
-        });
-
-        return tableContent;
     }
 
     render(){
@@ -100,25 +75,56 @@ class Topics extends React.Component{
                 <TopicCRUDSelector onUpdate={this.getTopics} 
                                     onEditFinish={this.setAddMode}
                                     status={this.state.crudStatus}
-                                    editId={this.state.editId}/>
-                <div className="tp_table_container overflow-auto">
+                                    editItem={this.state.editItem}/>
+                <div>
                     <h1>My Topics</h1>
-                    <table onClick={()=>this.componentDidMount()} className="table table-striped">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.generateTableContent()}
-                        </tbody>
-                    </table>
+                    <div className="tp_table_container overflow-auto">
+                        <table onClick={()=>this.componentDidMount()} className="table table-striped">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <GenerateTableContent tableData={this.state.tableData}
+                                                        setEditMode={this.setEditMode}
+                                                        deleteTopic={this.deleteTopic}/>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
         );
     }
+}
+
+function GenerateTableContent(props){
+    let tableContent = props.tableData.map((item,index)=>{
+        return(
+            <tr key={index}>
+                <th>{item.topic_id}</th>
+                <th>{item.name}</th>
+                <th>
+                    <div>
+                        <button 
+                            onClick={()=>{props.setEditMode(item)}} 
+                            className="btn btn-info">
+                            Edit
+                        </button>
+                        <button 
+                            onClick={(event)=>props.deleteTopic(event,item.topic_id)} 
+                            className="btn btn-danger">
+                            Delete
+                        </button>
+                    </div>
+                </th>
+            </tr>
+        )
+    });
+
+    return tableContent;
 }
 
 export default Topics;

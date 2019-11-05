@@ -2,166 +2,201 @@ import React from 'react';
 import ls from 'local-storage';
 import util from '../../Util/Util';
 
+import Input from '../Input';
+import Modal from '../Modal';
+
 import '../Styles/EditResources.css';
 import '../Styles/AddResource.css';
 
 class EditResources extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         let selectedItem = props.selectedItem;
 
         this.state = {
-            descriptionValue : selectedItem.description,
-            urlValue : selectedItem.url,
-            descriptionValueTitle : "",
-            urlValueTitle : "",
-            resourceValue : selectedItem.topic.topic_id,
-            dropdownValue : `${selectedItem.topic.topic_id} - ${selectedItem.topic.name}`,
-            dropdownItems : []
+            resource_id: selectedItem.resource_id,
+            descriptionValue: selectedItem.description,
+            urlValue: selectedItem.url,
+            descriptionValueTitle: "",
+            urlValueTitle: "",
+            resourceValue: selectedItem.topic.topic_id,
+            dropdownValue: `${selectedItem.topic.topic_id} - ${selectedItem.topic.name}`,
+            dropdownItems: [],
+            isModalVisible: false,
+            modalMessage: ''
         };
     }
-    
-    //This function fetch topics api to get the dropdown items
-    componentDidMount = async()=>{
+
+    componentDidMount = async () => {
         let access_token = ls.get('login_token');
         let data = await util.FetchTopic.getTopics(access_token);
-
         this.setState({
-            dropdownItems : data
+            dropdownItems: data
         });
     }
 
-    //This function allows the user to change the dropdown menu item selected
-    handleDropdownMenu = (event,item)=>{
+    componentDidUpdate(prevProps) {
+        if (prevProps.selectedItem.resource_id !== this.props.selectedItem.resource_id) {
+            let selectedItem = this.props.selectedItem;
+
+            this.setState({
+                resource_id: selectedItem.resource_id,
+                descriptionValue: selectedItem.description,
+                urlValue: selectedItem.url,
+                resourceValue: selectedItem.topic.topic_id,
+                dropdownValue: `${selectedItem.topic.topic_id} - ${selectedItem.topic.name}`,
+            });
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let selectedItem = nextProps.selectedItem;
+
+        if (selectedItem.resource_id !== prevState.resource_id) {
+            return nextProps;
+        }
+        return null;
+    }
+
+    handleDropdownMenu = (event, item) => {
         event.preventDefault();
 
         this.setState({
-            resourceValue : item.topic_id,
-            dropdownValue : `${item.topic_id} - ${item.name}`
+            resourceValue: item.topic_id,
+            dropdownValue: `${item.topic_id} - ${item.name}`
         });
-        
+
     }
 
-    //This functions sets the value in state and makes an alert if the inputs is empty
-    handleInputs = (event)=>{
+    handleInputs = (event) => {
         let item = event.target;
 
-        if(item.value !== ""){
+        if (item.value !== "") {
             this.setState({
-                [item.name] : item.value,
-                [item.name+"Title"] : ""
+                [item.name]: item.value,
+                [item.name + "Title"]: ""
             });
-        }else{
+        } else {
             this.setState({
-                [item.name] : item.value,
-                [item.name+"Title"] : "Please fill out this field"
+                [item.name]: item.value,
+                [item.name + "Title"]: "Please fill out this field"
             });
         }
-        
+
     }
 
-    //This function will alert the user if the form has empty inputs
-    //Also saves the edit was made
-    handleSaveButton = async(event)=>{
+    handleSaveButton = async (event) => {
         event.preventDefault();
 
         let objectCollection = [
             this.state.urlValue,
             this.state.descriptionValue
         ];
-        
-        if(!util.Alerts.alertIfObjectsAreEmpty(objectCollection)){
-            let body = {
-                resource_id : this.props.selectedItem.resource_id,
-                description : this.state.descriptionValue,
-                url : this.state.urlValue,
-                topic : {
-                    topic_id : this.state.resourceValue
-                }
-            }
-            let access_token = ls.get('login_token'); 
 
-            await util.FetchResource.update(access_token,body);
-            
-            this.props.closeEditContainer();
+        if (!util.Alerts.alertIfObjectsAreEmpty(objectCollection, this.toggleModal)) {
+            this.saveResource();
         }
     }
 
-    //This function generate the items for the dropdown
-    generateDropdownItems = ()=>{
-        let dropdownItems = this.state.dropdownItems;
+    saveResource = async () => {
+        let body = {
+            resource_id: this.state.resource_id,
+            description: this.state.descriptionValue,
+            url: this.state.urlValue,
+            topic: {
+                topic_id: this.state.resourceValue
+            }
+        }
+        let access_token = ls.get('login_token');
 
-        let dropdown = dropdownItems.map((item,index)=>{
-            return(
-                <p key={index} onClick={(event)=>this.handleDropdownMenu(event,item)}>
-                    {item.topic_id} - {item.name}
-                </p>
-            );
+        await util.FetchResource.update(access_token, body);
+
+        this.props.closeEditContainer();
+    }
+
+    toggleModal = (message) => {
+        setTimeout(() => {
+            this.setState({
+                isModalVisible: false
+            });
+        }, 4000);
+
+        this.setState({
+            isModalVisible: !this.isModalVisible,
+            modalMessage: message
         });
-
-        return dropdown;
     }
 
     render() {
         let state = this.state;
 
         return (
-            <div className="edit_resource_container overflow-auto">
-                <h1>Edit Resource</h1>
+            <React.Fragment>
+                <div className="edit_resource_container">
+                    <h1>Edit Resource</h1>
 
-                <form className="justify-content-start">
-                    <div>
-                        <label className="font-weight-bold">Description:</label>
-                        <input
-                            onChange={this.handleInputs}
-                            type="text"
-                            name="descriptionValue"
+                    <form className="justify-content-start">
+                        <Input name="descriptionValue"
+                            label="Description:"
+                            handleInputs={this.handleInputs}
                             value={state.descriptionValue}
                             title={state.descriptionValueTitle}
-                            className="form-control"
                             placeholder="Description" />
-                    </div>
 
-                    <div>
-                        <label className="font-weight-bold">URL:</label>
-                        <input
-                            onChange={this.handleInputs}
-                            type="text"
-                            name="urlValue"
+                        <Input name="urlValue"
+                            label="URL:"
+                            handleInputs={this.handleInputs}
                             value={state.urlValue}
                             title={state.urlValueTitle}
-                            className="form-control"
                             placeholder="URL" />
-                    </div>
 
-                    <div className="dropdown-edit-resource">
-                        <label className="font-weight-bold">Resource:</label>
+                        <div className="dropdown-edit-resource">
+                            <label className="font-weight-bold">Resource:</label>
 
-                        <div className="dropdown">
-                            <button 
-                                onClick={(event)=>event.preventDefault()} 
-                                className="dropbtn">
-                                {state.dropdownValue}
-                            </button>
+                            <div className="dropdown">
+                                <button
+                                    onClick={(event) => event.preventDefault()}
+                                    className="dropbtn">
+                                    {state.dropdownValue}
+                                </button>
 
-                            <div className="dropdown-content">
-                                {this.generateDropdownItems()}
+                                <div className="dropdown-content overflow-auto">
+                                    <GenerateDropdownItems dropdownItems={state.dropdownItems}
+                                        handleDropdownMenu={this.handleDropdownMenu} />
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <button
-                        onClick={this.handleSaveButton}
-                        className="btn btn-success">
-                        Save
+                        <button
+                            onClick={this.handleSaveButton}
+                            className="btn btn-success">
+                            Save
                     </button>
-                </form>
+                    </form>
 
-                <p onClick={this.props.closeEditContainer}>Back to list</p>
-            </div>
+                    <p className="text-primary" onClick={this.props.closeEditContainer}>Back to list</p>
+                </div>
+                <Modal isVisible={this.state.isModalVisible}
+                    message={this.state.modalMessage} />
+            </React.Fragment>
+
         );
     }
+}
+
+function GenerateDropdownItems(props) {
+    let dropdownItems = props.dropdownItems;
+
+    let dropdown = dropdownItems.map((item, index) => {
+        return (
+            <p key={index} onClick={(event) => props.handleDropdownMenu(event, item)}>
+                {item.topic_id} - {item.name}
+            </p>
+        );
+    });
+
+    return dropdown;
 }
 
 export default EditResources;
