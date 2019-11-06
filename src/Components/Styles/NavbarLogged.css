@@ -1,9 +1,0 @@
-.navbar ul li button{
-    outline: none;
-    border: none;
-    background: transparent;
-}
-
-.navbar ul li button:hover{
-    filter: opacity(0.8);
-}
