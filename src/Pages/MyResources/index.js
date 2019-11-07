@@ -2,7 +2,7 @@ import React from 'react'
 import Util from '../../Util/Util'
 import ls from 'local-storage'
 
-import ResourceSelector from '../../Components/Selectors/Resource'
+import { MyResourcesUI } from './ui'
 
 import './style.css'
 
@@ -18,12 +18,11 @@ class MyResources extends React.Component {
   }
 
   componentDidMount = async () => {
-    await this.getResources()
+    await this.getResourcesItems()
   }
 
-  getResources = async () => {
-    let access_token = ls.get('login_token')
-    let tableData = await Util.FetchResource.getAll(access_token)
+  getResourcesItems = async () => {
+    let tableData = await Util.FetchResource.getAll()
 
     this.setState({
       tableData: tableData
@@ -32,25 +31,23 @@ class MyResources extends React.Component {
 
   handleDeleteButton = async (event, resource_id) => {
     event.preventDefault()
-    let access_token = ls.get('login_token')
 
-    let isConfirmed = prompt(
+    let wantToDeleteItem = prompt(
       'Are you sure you want to delete this topic?[Yes/y]'
     )
 
-    if (isConfirmed === null) {
-      return
-    } else if (
-      isConfirmed.toLowerCase() === 'yes' ||
-      isConfirmed.toLowerCase() === 'y'
-    ) {
-      await Util.FetchResource.delete(access_token, resource_id)
+    if (wantToDeleteItem === null) return
 
-      this.closeEditContainer()
+    wantToDeleteItem = wantToDeleteItem.toLowerCase()
+
+    if (wantToDeleteItem === 'yes' || wantToDeleteItem === 'y') {
+      await Util.FetchResource.delete(resource_id)
+
+      this.closeEditComponent()
     }
   }
 
-  handleEditButton = (event, item) => {
+  openEditComponent = (event, item) => {
     event.preventDefault()
     this.setState({
       selectedItem: item,
@@ -58,9 +55,8 @@ class MyResources extends React.Component {
     })
   }
 
-  //This function will allow the edit resource component to close itself
-  closeEditContainer = async () => {
-    await this.getResources()
+  closeEditComponent = async () => {
+    await this.getResourcesItems()
 
     this.setState({
       crudStatus: 'ADD'
@@ -68,79 +64,17 @@ class MyResources extends React.Component {
   }
 
   render() {
-    if (ls.get('login_token') === null) {
-      document.location = '/'
-    }
-
+    if (ls.get('login_token') === null) document.location = '/'
+    
     return (
-      <section className='my_resources_container'>
-        <ResourceSelector
-          closeEditContainer={this.closeEditContainer}
-          selectedItem={this.state.selectedItem}
-          status={this.state.crudStatus}
-        />
-        <div>
-          <h1>My Resources</h1>
-          <div className='mr_table_container overflow-auto'>
-            <table className='table table-striped'>
-              <thead className='thead-dark'>
-                <tr>
-                  <th scope='column'>Id</th>
-                  <th scope='column'>Url</th>
-                  <th scope='column'>Topic</th>
-                  <th scope='column'>Description Name</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <GenerateTableContent
-                  tableData={this.state.tableData}
-                  handleDeleteButton={this.handleDeleteButton}
-                  handleEditButton={this.handleEditButton}
-                />
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+      <MyResourcesUI
+        {...this.state}
+        closeEditComponent={this.closeEditComponent}
+        handleDeleteButton={this.handleDeleteButton}
+        openEditComponent={this.openEditComponent}
+      />
     )
   }
-}
-
-//This function generates the table for MyResource component
-function GenerateTableContent(props) {
-  let tableContent = props.tableData.map((item, index) => {
-    return (
-      <tr key={index}>
-        <th>{item.resource_id}</th>
-        <th>
-          <a href={item.url}>{item.url}</a>
-        </th>
-        <th>{`${item.topic.topic_id}-${item.topic.name}`}</th>
-        <th>{item.description}</th>
-        <th>
-          <div>
-            <button
-              onClick={event => props.handleEditButton(event, item)}
-              className='btn btn-info'
-            >
-              Edit
-            </button>
-            <button
-              onClick={event =>
-                props.handleDeleteButton(event, item.resource_id)
-              }
-              className='btn btn-danger'
-            >
-              Delete
-            </button>
-          </div>
-        </th>
-      </tr>
-    )
-  })
-
-  return tableContent
 }
 
 export default MyResources

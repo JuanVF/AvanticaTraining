@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Util from '../../Util/Util'
-import ls from 'local-storage'
 
 import { HomeUI } from './ui'
 
@@ -17,9 +16,7 @@ export const Home = () => {
 }
 
 const getTableData = async setTableData => {
-  let access_token = ls.get('login_token')
-
-  let tableData = await Util.FetchResource.getAll(access_token)
+  let tableData = await Util.FetchResource.getAll()
   if (tableData !== undefined) {
     tableData = Util.ParseData.parseHomeData(tableData)
 

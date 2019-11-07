@@ -1,6 +1,7 @@
 .topics_container{
     width: 100%;
     display: grid;
+    grid-template-rows: 80vh;
     justify-content: center;
     grid-template-columns: 30% 50%;
     grid-gap: 100px;
@@ -22,4 +23,8 @@
     width: 100%;
     max-height: 70vh;
     overflow: scroll;
+}
+
+.topics_container table th{
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }

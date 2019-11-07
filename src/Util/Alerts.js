@@ -31,8 +31,16 @@ function alertIfIsNotAnEmail(email, toggleModal) {
   return isAnEmail
 }
 
+function invalidData(objectCollection, email, toggleModal) {
+  const objectsEmpty = !alertIfObjectsAreEmpty(objectCollection, toggleModal)
+  const invalidEmail = alertIfIsNotAnEmail(email, toggleModal)
+
+  return (objectsEmpty && invalidEmail)
+}
+
 export default {
   alertIfIsEmpty: alertIfIsEmpty,
   alertIfObjectsAreEmpty: alertIfObjectsAreEmpty,
-  alertIfIsNotAnEmail: alertIfIsNotAnEmail
+  alertIfIsNotAnEmail: alertIfIsNotAnEmail,
+  invalidData: invalidData
 }

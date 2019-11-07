@@ -4,17 +4,17 @@ import AddTopics from '../AddTopics/'
 import EditTopic from '../EditTopic/'
 
 function TopicSelector(props) {
-  if (props.status === 'EDIT') {
+  if (props.showEditComponent) {
     return (
       <EditTopic
         editItem={props.editItem}
-        onEditFinish={props.onEditFinish}
-        onUpdate={props.onUpdate}
+        closeEditComponent={props.closeEditComponent}
+        updateTableData={props.updateTableData}
       />
     )
   }
 
-  return <AddTopics onUpdate={props.onUpdate} />
+  return <AddTopics updateTableData={props.updateTableData} />
 }
 
 export default TopicSelector

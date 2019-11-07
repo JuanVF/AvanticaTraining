@@ -1,4 +1,4 @@
-.page_404_container{
+.page_404_container {
     width: 100%;
     height: 80vh;
     display: grid;
@@ -11,7 +11,7 @@
     border-radius: 20px;
 }
 
-.page_404_container img{
+.page_404_container img {
     height: 256px;
     width: auto;
 }

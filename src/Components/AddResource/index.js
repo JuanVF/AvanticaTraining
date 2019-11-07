@@ -1,9 +1,8 @@
 import React from 'react'
-import ls from 'local-storage'
-
 import util from '../../Util/Util'
 
-import Modal from '../Modal/'
+import { AddResourceUI } from './ui'
+import { ResourceError } from '../ResourceError/'
 
 import './style.css'
 
@@ -11,32 +10,43 @@ class AddResource extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      resourceValue: undefined,
+    const componentsValues = {
       descriptionValue: '',
       urlValue: '',
-      descriptionValueTitle: 'Please fill out this field',
-      urlValueTitle: 'Please fill out this field',
-      dropdownItems: [],
       dropdownValue: '',
-      isModalVisible: false,
-      modalMessage: ''
+      resourceValue: undefined
+    }
+
+    const componentsTitles = {
+      descriptionTitle: 'Please fill out this field',
+      urlTitle: 'Please fill out this field'
+    }
+
+    this.state = {
+      ...componentsValues,
+      ...componentsTitles,
+      modalMessage: '',
+      dropdownItems: [],
+      isModalVisible: false
     }
   }
 
   async componentDidMount() {
-    let access_token = ls.get('login_token')
-    let dropdownItems = await util.FetchTopic.getTopics(access_token)
-    let dropdownValue = `${dropdownItems[0].topic_id} - ${dropdownItems[0].name}`
+    let dropdownItems = await util.FetchTopic.getTopics()
 
-    this.setState({
-      dropdownItems: dropdownItems,
-      resourceValue: dropdownItems[0].topic_id,
-      dropdownValue: dropdownValue
-    })
+    if(dropdownItems.length !== 0){
+      let dropdownValue = `${dropdownItems[0].topic_id} - ${dropdownItems[0].name}`
+      let resourceValue = dropdownItems[0].topic_id
+  
+      this.setState({
+        dropdownItems: dropdownItems,
+        resourceValue: resourceValue,
+        dropdownValue: dropdownValue
+      })
+    }
   }
 
-  handleDropdownValues = (event, item) => {
+  handleDropdown = (event, item) => {
     event.preventDefault()
 
     this.setState({
@@ -46,21 +56,15 @@ class AddResource extends React.Component {
   }
 
   handleInputsValues = event => {
-    event.preventDefault()
-
-    let value = event.target.value
-
-    if (value !== '') {
-      this.setState({
-        [event.target.name]: event.target.value,
-        [event.target.name + 'Title']: ''
-      })
-    } else {
-      this.setState({
-        [event.target.name]: event.target.value,
-        [event.target.name + 'Title']: 'Please fill out this field'
-      })
+    let component = event.target
+    let itemValues = {
+      [component.name + 'Value']: component.value,
+      [component.name + 'Title']: 'Please fill out this field'
     }
+
+    if (component.value) itemValues[component.name + 'Title'] = ''
+
+    this.setState(itemValues)
   }
 
   handleSaveButton = async event => {
@@ -75,12 +79,11 @@ class AddResource extends React.Component {
     if (
       !util.Alerts.alertIfObjectsAreEmpty(objectCollection, this.toggleModal)
     ) {
-      this.saveResource()
+      this.saveNewResource()
     }
   }
 
-  saveResource = async () => {
-    let access_token = ls.get('login_token')
+  saveNewResource = async () => {
     let body = {
       description: this.state.descriptionValue,
       url: this.state.urlValue,
@@ -89,13 +92,13 @@ class AddResource extends React.Component {
       }
     }
 
-    await util.FetchResource.save(access_token, body)
+    await util.FetchResource.save(body)
 
-    this.cleanInputs()
-    this.props.closeEditContainer()
+    this.cleanInputsValues()
+    this.props.updateTableContent()
   }
 
-  cleanInputs = () => {
+  cleanInputsValues = () => {
     let dropdownValue = `${this.state.dropdownItems[0].topic_id} - ${this.state.dropdownItems[0].name}`
 
     this.setState({
@@ -120,77 +123,19 @@ class AddResource extends React.Component {
   }
 
   render() {
-    let state = this.state
+    const dropdownItemsLength = this.state.dropdownItems.length
+
+    if(dropdownItemsLength === 0) return <ResourceError />
 
     return (
-      <React.Fragment>
-        <div className='add_resource_container crud_topic_container'>
-          <h1>Add Resource</h1>
-
-          <form>
-            <input
-              onChange={this.handleInputsValues}
-              value={state.descriptionValue}
-              name='descriptionValue'
-              type='text'
-              title={state.descriptionValueTitle}
-              className='form-control'
-              placeholder='Description'
-            />
-
-            <input
-              onChange={this.handleInputsValues}
-              value={state.urlValue}
-              name='urlValue'
-              title={state.urlValueTitle}
-              type='text'
-              className='form-control'
-              placeholder='URL'
-            />
-
-            <div className='dropdown'>
-              <button
-                onClick={event => event.preventDefault()}
-                className='dropbtn'
-              >
-                {state.dropdownValue}
-              </button>
-              <div className='dropdown-content overflow-auto'>
-                <GenerateDropdownItems
-                  dropdownItems={this.state.dropdownItems}
-                  handleDropdown={this.handleDropdownValues}
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                onClick={this.handleSaveButton}
-                className='btn save_button'
-              >
-                Save
-              </button>
-            </div>
-          </form>
-        </div>
-        <Modal isVisible={state.isModalVisible} message={state.modalMessage} />
-      </React.Fragment>
+      <AddResourceUI
+        {...this.state}
+        handleInputsValues={this.handleInputsValues}
+        handleDropdown={this.handleDropdown}
+        handleSaveButton={this.handleSaveButton}
+      />
     )
   }
-}
-
-function GenerateDropdownItems(props) {
-  let dropdownItems = props.dropdownItems
-
-  let dropdown = dropdownItems.map((item, index) => {
-    return (
-      <p key={index} onClick={event => props.handleDropdown(event, item)}>
-        {item.topic_id} - {item.name}
-      </p>
-    )
-  })
-
-  return dropdown
 }
 
 export default AddResource

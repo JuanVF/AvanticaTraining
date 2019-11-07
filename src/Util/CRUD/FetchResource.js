@@ -1,6 +1,9 @@
-const base_url = 'http://localhost:8080'
+const ls = require('local-storage')
 
-async function getAll(access_token) {
+const base_url = 'http://localhost:8080'
+const access_token = ls.get('login_token')
+
+async function getAll() {
   let data
   let url = `${base_url}/resource`
   let params = {
@@ -9,8 +12,6 @@ async function getAll(access_token) {
       'Content-Type': 'application/json'
     }
   }
-
-  if (access_token !== null) params.headers.Authorization = access_token
 
   await fetch(url, params)
     .then(res => res.json())
@@ -24,9 +25,10 @@ async function getAll(access_token) {
   return data
 }
 
-async function save(access_token, body) {
-  let status
+async function save(body) {
   let url = `${base_url}/resource`
+  let status
+
   let params = {
     method: 'POST',
     headers: {
@@ -48,9 +50,10 @@ async function save(access_token, body) {
   return status
 }
 
-async function update(access_token, body) {
-  let status
+async function update(body) {
   let url = `${base_url}/resource`
+  let status
+
   let params = {
     method: 'PUT',
     headers: {
@@ -72,9 +75,10 @@ async function update(access_token, body) {
   return status
 }
 
-async function deleteResource(access_token, id) {
-  let status
+async function deleteResource(id) {
   let url = `${base_url}/resource/${id}`
+  let status
+
   let params = {
     method: 'DELETE',
     headers: {
@@ -95,9 +99,10 @@ async function deleteResource(access_token, id) {
   return status
 }
 
-async function checkHowManyRelationsAre(access_token, topic_id) {
-  let data
+async function checkHowManyRelationsAre(topic_id) {
   let url = `${base_url}/resource/relations/`
+  let data
+
   let body = {
     topic_id: topic_id
   }

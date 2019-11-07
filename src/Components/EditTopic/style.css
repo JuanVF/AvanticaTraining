@@ -24,3 +24,8 @@
 .crud_topic_container input:not(:placeholder-shown){
     border-left: 4px solid #42A948;
 }
+
+.crud_topic_container p:hover{
+    cursor: pointer;
+    filter: opacity(0.5);
+}

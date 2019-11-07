@@ -1,5 +1,4 @@
 import React from 'react'
-import ls from 'local-storage'
 
 import util from '../../Util/Util'
 import Modal from '../Modal/'
@@ -36,13 +35,12 @@ class EditTopic extends React.Component {
   }
 
   updateData = async () => {
-    let access_token = ls.get('login_token')
     let body = {
       topic_id: this.state.editId,
       name: this.state.topicName
     }
 
-    await util.FetchTopic.updateTopic(access_token, body)
+    await util.FetchTopic.updateTopic(body)
   }
 
   handleInput = event => {
@@ -81,8 +79,8 @@ class EditTopic extends React.Component {
 
     if (!util.Alerts.alertIfIsEmpty(topicName, this.toggleModal)) {
       await this.updateData()
-      this.props.onEditFinish()
-      this.props.onUpdate()
+      this.props.closeEditComponent()
+      this.props.updateTableData()
     }
   }
 
@@ -108,7 +106,7 @@ class EditTopic extends React.Component {
               Save
             </button>
           </form>
-          <p onClick={this.props.onEditFinish} className='text-primary'>
+          <p onClick={this.props.closeEditComponent} className='text-primary'>
             Add new topic
           </p>
         </div>

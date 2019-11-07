@@ -1,14 +1,17 @@
-//Simple fetch CRUD to manage topic data in API
+const ls = require('local-storage')
+
 const base_url = 'http://localhost:8080'
+const access_token = ls.get('login_token')
 
-async function getTopics(login_token) {
-  let data
+async function getTopics() {
   let url = `${base_url}/topic`
+  let data
+
   let params = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: login_token
+      Authorization: access_token
     }
   }
 
@@ -24,14 +27,15 @@ async function getTopics(login_token) {
   return data
 }
 
-async function getTopic(login_token, topic_id) {
-  let data
+async function getTopic(topic_id) {
   let url = `${base_url}/topic/${topic_id}`
+  let data
+
   let params = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: login_token
+      Authorization: access_token
     }
   }
 
@@ -47,14 +51,15 @@ async function getTopic(login_token, topic_id) {
   return data
 }
 
-async function saveTopic(login_token, topic) {
-  let responseStatus
+async function saveTopic(topic) {
   let url = `${base_url}/topic`
+  let responseStatus
+
   let params = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: login_token
+      Authorization: access_token
     },
     body: JSON.stringify(topic)
   }
@@ -70,14 +75,15 @@ async function saveTopic(login_token, topic) {
   return responseStatus
 }
 
-async function updateTopic(login_token, topic) {
-  let responseStatus
+async function updateTopic(topic) {
   let url = `${base_url}/topic`
+  let responseStatus
+
   let params = {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: login_token
+      Authorization: access_token
     },
     body: JSON.stringify(topic)
   }
@@ -93,14 +99,15 @@ async function updateTopic(login_token, topic) {
   return responseStatus
 }
 
-async function deleteTopic(login_token, topic_id) {
-  let responseStatus
+async function deleteTopic(topic_id) {
   let url = `${base_url}/topic/${topic_id}`
+  let responseStatus
+
   let params = {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: login_token
+      Authorization: access_token
     }
   }
 

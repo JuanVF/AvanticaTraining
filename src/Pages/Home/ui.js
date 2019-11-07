@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const HomeUI = props => {
-  let tableData = props.tableData;
+  let tableData = props.tableData
   if (props.tableData === undefined || props.tableData.length === 0) {
     tableData = []
   }

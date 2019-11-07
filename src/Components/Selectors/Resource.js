@@ -7,13 +7,13 @@ function Resource(props) {
   if (props.status === 'EDIT') {
     return (
       <EditResource
-        closeEditContainer={props.closeEditContainer}
+        closeEditComponent={props.closeEditComponent}
         selectedItem={props.selectedItem}
       />
     )
   }
 
-  return <AddResource closeEditContainer={props.closeEditContainer} />
+  return <AddResource updateTableContent={props.closeEditComponent} />
 }
 
 export default Resource

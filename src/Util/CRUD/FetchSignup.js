@@ -19,7 +19,7 @@ async function signup(data) {
   return status
 }
 
-async function signup_fb(data) {
+async function signupFB(data) {
   let status
   let url = `${base_url}/fb/signup`
 
@@ -40,5 +40,5 @@ async function signup_fb(data) {
 
 module.exports = {
   signup: signup,
-  signup_fb: signup_fb
+  signupFB: signupFB
 }

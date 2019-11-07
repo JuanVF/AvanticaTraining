@@ -45,8 +45,9 @@ function dynamicSort(property) {
 
 function deleteExtraTopics(topics) {
   let final_topic = []
+  let MAX_COUNT = (topics.length < 10) ? topics.length : 10;
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < MAX_COUNT; i++) {
     final_topic.push(topics[i])
   }
 

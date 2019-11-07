@@ -3,30 +3,34 @@
     display: grid;
     gap: 100px;
     grid-template-columns: 30% 50%;
+    grid-template-rows: 80vh;
     justify-content: center;
     overflow: hidden;
 }
 
-.my_resources_container .mr_table_container{
+.my_resources_container .mr_table_container {
     width: 100%;
     max-height: 70vh;
 }
 
-.my_resources_container table thead{
+.my_resources_container table thead {
     text-align: center;
 }
 
-.my_resources_container table tbody div{
+.my_resources_container table th{
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.my_resources_container table tbody div {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2,100px);
+    grid-template-columns: repeat(2, 100px);
     justify-items: center;
     justify-content: center;
 }
 
-.my_resources_container table tbody tr th:nth-of-type(2){
+.my_resources_container table tbody tr th:nth-of-type(2) {
     max-width: 250px;
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
-

@@ -1,4 +1,4 @@
-.sl_container{
+.sl_container {
     width: 100%;
     display: grid;
     padding-top: 80px;
@@ -7,30 +7,30 @@
     align-content: center;
 }
 
-.sl_container form{
+.sl_container form {
     display: grid;
     justify-items: flex-start;
     grid-gap: 20px;
     padding-top: 20px;
 }
 
-.sl_container div{
+.sl_container div {
     width: 100%;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(0, 0,0,0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.sl_container form div{
+.sl_container form div {
     border-bottom: none;
     padding: 0;
     margin: 0;
 }
 
-.sl_container form div label{
+.sl_container form div label {
     display: none;
 }
 
-.facebook_login_button{
+.facebook_login_button {
     background: #337AB7;
     color: white;
 }

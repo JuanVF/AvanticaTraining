@@ -1,4 +1,4 @@
-.edit_resource_container{
+.edit_resource_container {
     width: 100%;
     display: grid;
     grid-gap: 20px;
@@ -7,29 +7,29 @@
     justify-items: flex-start;
 }
 
-.edit_resource_container form{
+.edit_resource_container form {
     display: grid;
     grid-gap: 20px;
     grid-template-columns: 100%;
 }
 
-.edit_resource_container .dropdown, .edit_resource_container form button{
+.edit_resource_container .dropdown, .edit_resource_container form button {
     justify-self: flex-start;
 }
 
-.dropdown-edit-resource{
+.dropdown-edit-resource {
     display: grid;
 }
 
-.edit_resource_container input:placeholder-shown{
+.edit_resource_container input:placeholder-shown {
     border-left: 4px solid #AB4846;
 }
 
-.edit_resource_container input:not(:placeholder-shown){
+.edit_resource_container input:not(:placeholder-shown) {
     border-left: 4px solid #42A948;
 }
 
-.edit_resource_container p:hover{
+.edit_resource_container p:hover {
     filter: opacity(0.5);
     cursor: pointer;
 }
@@ -98,10 +98,10 @@
     border-left: 5px solid #42A948;
 }
 
-.add_resource_container input:placeholder-shown{
+.add_resource_container input:placeholder-shown {
     border-left: 4px solid #AB4846;
 }
 
-.add_resource_container input:not(:placeholder-shown){
+.add_resource_container input:not(:placeholder-shown) {
     border-left: 4px solid #42A948;
 }
