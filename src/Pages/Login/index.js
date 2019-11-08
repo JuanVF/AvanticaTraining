@@ -40,7 +40,11 @@ class Login extends React.Component {
 
     await util.FetchLogin.login(body)
 
-    if (ls.get('login_token')) document.location = '/'
+    if (ls.get('login_token')) {
+      document.location = '/'
+    } else {
+      this.toggleModal('You should signup first')
+    }
   }
 
   handleLoginButton = async event => {
@@ -49,7 +53,6 @@ class Login extends React.Component {
     const email = this.state.emailValue
     const alert = util.Alerts
     const objectCollection = [this.state.passwordValue, email]
-    
 
     if (!alert.invalidData(objectCollection, email, this.toggleModal)) return
 

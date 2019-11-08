@@ -99,6 +99,12 @@ async function deleteResource(id) {
   return status
 }
 
+/***
+ * This functions is used in /src/Pages/Topic/index.js
+ * this is util to check if a Topic has relations 
+ * so it can prevent errors on MyResource.js trying to 
+ * find a topic that doesn't exists 
+ * ***/
 async function checkHowManyRelationsAre(topic_id) {
   let url = `${base_url}/resource/relations/`
   let data
