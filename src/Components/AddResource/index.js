@@ -26,14 +26,18 @@ class AddResource extends React.Component {
       ...componentsValues,
       ...componentsTitles,
       modalMessage: '',
-      dropdownItems: [],
+      dropdownItems: null,
       isModalVisible: false
     }
   }
 
   async componentDidMount() {
     let dropdownItems = await util.FetchTopic.getTopics()
+    
+    this.showAddTopicComponent(dropdownItems);
+  }
 
+  showAddTopicComponent = dropdownItems =>{
     if(dropdownItems.length !== 0){
       let dropdownValue = `${dropdownItems[0].topic_id} - ${dropdownItems[0].name}`
       let resourceValue = dropdownItems[0].topic_id
@@ -42,6 +46,10 @@ class AddResource extends React.Component {
         dropdownItems: dropdownItems,
         resourceValue: resourceValue,
         dropdownValue: dropdownValue
+      })
+    }else{
+      this.setState({
+        dropdownItems : []
       })
     }
   }
@@ -123,18 +131,22 @@ class AddResource extends React.Component {
   }
 
   render() {
-    const dropdownItemsLength = this.state.dropdownItems.length
+    const {dropdownItems} = this.state
 
-    if(dropdownItemsLength === 0) return <ResourceError />
+    if(dropdownItems !== null){
+      if(dropdownItems.length === 0) return <ResourceError />
 
-    return (
-      <AddResourceUI
-        {...this.state}
-        handleInputsValues={this.handleInputsValues}
-        handleDropdown={this.handleDropdown}
-        handleSaveButton={this.handleSaveButton}
-      />
-    )
+      return (
+        <AddResourceUI
+          {...this.state}
+          handleInputsValues={this.handleInputsValues}
+          handleDropdown={this.handleDropdown}
+          handleSaveButton={this.handleSaveButton}
+        />
+      )
+    }
+
+    return null;
   }
 }
 
