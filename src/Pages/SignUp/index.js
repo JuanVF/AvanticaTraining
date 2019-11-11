@@ -34,13 +34,21 @@ class SignUp extends React.Component {
     this.setState(itemValues)
   }
 
-  handleFBButton = async res => {
-    let body = {
-      email: res.userID,
-      name: res.name,
-      fb_token: res.accessToken
+  handleFBButton = async ({email,name,accessToken}) => {
+    if(email){
+      let body = {
+        email: email,
+        name: name,
+        fbtoken: accessToken
+      }
+  
+      this.insertFBUser(body)
+    }else{
+      this.toggleModal("Your Facebook Account doesnt have an email")
     }
+  }
 
+  insertFBUser = async body => {
     let status = await util.FetchSignup.signupFB(body)
 
     switch (status) {

@@ -32,13 +32,13 @@ class Login extends React.Component {
     this.setState(itemValues)
   }
 
-  handleFBButton = async response => {
+  handleFBButton = async ({email,accessToken}) => {
     const body = {
-      email: response.userID,
-      fbtoken: response.accessToken
+      email: email,
+      fbtoken: accessToken
     }
 
-    await util.FetchLogin.login(body)
+    await util.FetchLogin.fbLogin(body)
 
     if (ls.get('login_token')) {
       document.location = '/'
