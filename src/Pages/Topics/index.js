@@ -1,6 +1,6 @@
 import React from 'react'
-import ls from 'local-storage'
 import Util from '../../Util/Util'
+import ls from 'local-storage'
 
 import { TopicsUI } from './ui'
 
@@ -13,14 +13,34 @@ class Topics extends React.Component {
     this.state = {
       tableData: [],
       editItem: null,
+      isAValidToken : null,
       showEditComponent: false,
       isModalVisible: false,
       modalMessage: ''
     }
+
+    if (!Util.VerifyToken.isAValidToken()) document.location = '/?session_expired=true'
   }
 
   componentDidMount() {
-    this.updateTableData()
+    this.handleExpiredToken()
+  }
+
+  handleExpiredToken = async ()=>{
+    const isAValidToken = await Util.VerifyToken.isAValidToken();
+
+    if(isAValidToken){
+      this.setState({
+        isAValidToken : isAValidToken
+      });
+      this.updateTableData()
+    }else{
+      alert('Your session expired. Please login')
+      this.setState({
+        isAValidToken : isAValidToken
+      });
+      ls.remove('login_token')
+    }
   }
 
   updateTableData = async () => {
@@ -92,9 +112,9 @@ class Topics extends React.Component {
   }
 
   render() {
-    if (ls.get('login_token') === null) {
-      document.location = '/'
-    }
+    if(this.state.isAValidToken === null) return null
+
+    if(!this.state.isAValidToken) document.location = '/'
     return (
       <TopicsUI
         {...this.state}

@@ -1,9 +1,10 @@
 import Alerts from './Alerts'
 import ParseData from './ParseData'
-import FetchTopic from './CRUD/FetchTopic'
-import FetchResource from './CRUD/FetchResource'
-import FetchLogin from './CRUD/FetchLogin'
-import FetchSignup from './CRUD/FetchSignup'
+import FetchTopic from './API/FetchTopic'
+import FetchResource from './API/FetchResource'
+import FetchLogin from './API/FetchLogin'
+import FetchSignup from './API/FetchSignup'
+import VerifyToken from './API/VerifyToken'
 
 export default {
   Alerts: Alerts,
@@ -11,5 +12,6 @@ export default {
   FetchTopic: FetchTopic,
   FetchResource: FetchResource,
   FetchLogin: FetchLogin,
-  FetchSignup: FetchSignup
+  FetchSignup: FetchSignup,
+  VerifyToken: VerifyToken
 }

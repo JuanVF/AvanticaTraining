@@ -13,12 +13,30 @@ class MyResources extends React.Component {
     this.state = {
       tableData: [],
       crudStatus: 'ADD',
-      selectedItem: undefined
+      selectedItem: undefined,
+      isAValidToken : null
     }
   }
 
-  componentDidMount = async () => {
-    await this.getResourcesItems()
+  componentDidMount(){
+    this.handleExpiredToken()
+  }
+
+  handleExpiredToken = async ()=>{
+    const isAValidToken = await Util.VerifyToken.isAValidToken();
+
+    if(isAValidToken){
+      this.setState({
+        isAValidToken : isAValidToken
+      });
+      await this.getResourcesItems()
+    }else{
+      alert('Your session expired. Please login')
+      this.setState({
+        isAValidToken : isAValidToken
+      });
+      ls.remove('login_token')
+    }
   }
 
   getResourcesItems = async () => {
@@ -62,10 +80,13 @@ class MyResources extends React.Component {
       crudStatus: 'ADD'
     })
   }
+  
 
-  render() {
-    if (ls.get('login_token') === null) document.location = '/'
-    
+  render(){    
+    if(this.state.isAValidToken === null) return null
+
+    if(!this.state.isAValidToken) document.location = '/'
+
     return (
       <MyResourcesUI
         {...this.state}

@@ -5,9 +5,8 @@ import { HomeUI } from './ui'
 
 import './style.css'
 
-export const Home = () => {
+export const Home = props => {
   const [tableData, setTableData] = useState([])
-
   useEffect(function() {
     getTableData(setTableData)
   }, [])
@@ -15,7 +14,7 @@ export const Home = () => {
   return <HomeUI tableData={tableData} />
 }
 
-const getTableData = async setTableData => {
+async function getTableData(setTableData){
   let tableData = await Util.FetchResource.getAll()
   if (tableData !== undefined) {
     tableData = Util.ParseData.parseHomeData(tableData)
