@@ -4,8 +4,6 @@ import util from '../../Util/Util'
 
 import { LoginUI } from './ui'
 
-import './style.css'
-
 class Login extends React.Component {
   constructor(props) {
     super(props)

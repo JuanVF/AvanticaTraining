@@ -5,9 +5,11 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import Modal from '../../Components/Modal/'
 import { LoginForm } from '../../Components/LoginForm'
 
+import './style.css'
+
 export const LoginUI = props => (
   <React.Fragment>
-    <section className='sl_container'>
+    <section className='login_container'>
       <div>
         <FacebookLogin
           id='facebook_login_button'

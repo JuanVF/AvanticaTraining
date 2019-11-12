@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './style.css'
+import { SidebarMenuUnlogged } from '../SidebarMenu/';
 
 class NavbarLogged extends React.Component {
   render() {
@@ -16,7 +17,7 @@ class NavbarLogged extends React.Component {
           <ul className='d-flex justify-content-end'>
             <li className='nav-item'>
               <Link className='nav-link' to='/training/login'>
-                Log in
+                Login
               </Link>
             </li>
             <li className='nav-item'>
@@ -26,6 +27,7 @@ class NavbarLogged extends React.Component {
             </li>
           </ul>
         </div>
+        <SidebarMenuUnlogged handleLogout={this.handleLogout}/>
       </nav>
     )
   }

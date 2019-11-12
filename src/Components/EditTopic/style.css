@@ -1,4 +1,4 @@
-.crud_topic_container form{
+.edit_topic_container form{
     width: 100%;
     display: grid;
     grid-template-columns: 60%;
@@ -7,25 +7,25 @@
     align-items: flex-start;
     gap: 15px;
 }
-.crud_topic_container form input{
+.edit_topic_container form input{
     width: 100%;
     border-left: 5px solid #AB4846;
 }
 
-.crud_topic_container form .save_button{
+.edit_topic_container form .save_button{
     background: #337AB7;
     color: white;
 }
 
-.crud_topic_container input:placeholder-shown{
+.edit_topic_container input:placeholder-shown{
     border-left: 4px solid #AB4846;
 }
 
-.crud_topic_container input:not(:placeholder-shown){
+.edit_topic_container input:not(:placeholder-shown){
     border-left: 4px solid #42A948;
 }
 
-.crud_topic_container p:hover{
+.edit_topic_container p:hover{
     cursor: pointer;
     filter: opacity(0.5);
 }

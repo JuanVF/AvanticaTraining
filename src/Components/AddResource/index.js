@@ -4,7 +4,6 @@ import util from '../../Util/Util'
 import { AddResourceUI } from './ui'
 import { ResourceError } from '../ResourceError/'
 
-import './style.css'
 
 class AddResource extends React.Component {
   constructor(props) {

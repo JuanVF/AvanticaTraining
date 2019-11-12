@@ -88,7 +88,7 @@ class EditTopic extends React.Component {
     let state = this.state
     return (
       <React.Fragment>
-        <div className='container crud_topic_container'>
+        <div className='container edit_topic_container'>
           <h1>Edit Topic</h1>
 
           <form className='justify-content-start'>

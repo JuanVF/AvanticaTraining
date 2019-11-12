@@ -10,7 +10,7 @@ export const MyResourcesUI = props => (
       status={props.crudStatus}
     />
     <div>
-      <h1>My Resources</h1>
+      <h1 className="mr_title">My Resources</h1>
       <div className='mr_table_container overflow-auto'>
         <table className='table table-striped'>
           <thead className='thead-dark'>
@@ -39,13 +39,13 @@ const GenerateTableContent = props => {
   let tableContent = props.tableData.map((item, index) => {
     return (
       <tr key={index}>
-        <th>{item.resource_id}</th>
-        <th>
+        <td>{item.resource_id}</td>
+        <td>
           <a href={item.url}>{item.url}</a>
-        </th>
-        <th>{`${item.topic.topic_id}-${item.topic.name}`}</th>
-        <th>{item.description}</th>
-        <th>
+        </td>
+        <td>{`${item.topic.topic_id}-${item.topic.name}`}</td>
+        <td>{item.description}</td>
+        <td>
           <div>
             <button
               onClick={event => props.openEditComponent(event, item)}
@@ -62,7 +62,7 @@ const GenerateTableContent = props => {
               Delete
             </button>
           </div>
-        </th>
+        </td>
       </tr>
     )
   })

@@ -3,8 +3,6 @@ import util from '../../Util/Util'
 
 import { SignUpUI } from './ui'
 
-import './style.css'
-
 class SignUp extends React.Component {
   constructor(props) {
     super(props)
@@ -42,7 +40,7 @@ class SignUp extends React.Component {
         fbtoken: accessToken
       }
   
-      this.insertFBUser(body)
+      await this.insertFBUser(body)
     }else{
       this.toggleModal("Your Facebook Account doesnt have an email")
     }

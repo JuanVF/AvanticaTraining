@@ -2,9 +2,11 @@ import React from 'react'
 
 import Modal from '../Modal/'
 
+import './style.css'
+
 export const AddResourceUI = props => (
   <React.Fragment>
-    <div className='add_resource_container crud_topic_container'>
+    <div className='add_resource_container'>
       <h1>Add Resource</h1>
 
       <form>

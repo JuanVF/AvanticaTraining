@@ -13,7 +13,7 @@ export const TopicsUI = props => (
         editItem={props.editItem}
       />
       <div>
-        <h1>My Topics</h1>
+        <h1 className="tp_title">My Topics</h1>
         <div className='tp_table_container overflow-auto'>
           <table className='table table-striped'>
             <thead className='thead-dark'>
@@ -47,9 +47,9 @@ const GenerateTableContent = props => {
   let tableContent = props.tableData.map((item, index) => {
     return (
       <tr key={index}>
-        <th>{item.topic_id}</th>
-        <th>{item.name}</th>
-        <th>
+        <td>{item.topic_id}</td>
+        <td>{item.name}</td>
+        <td>
           <div>
             <button
               onClick={() => {
@@ -66,7 +66,7 @@ const GenerateTableContent = props => {
               Delete
             </button>
           </div>
-        </th>
+        </td>
       </tr>
     )
   })

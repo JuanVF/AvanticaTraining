@@ -1,3 +1,30 @@
+.add_resource_container form{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60%;
+    grid-template-rows: auto;
+    justify-items: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+}
+.add_resource_container form input{
+    width: 100%;
+    border-left: 5px solid #AB4846;
+}
+
+.add_resource_container form .save_button{
+    background: #337AB7;
+    color: white;
+}
+
+.add_resource_container input:placeholder-shown{
+    border-left: 4px solid #AB4846;
+}
+
+.add_resource_container input:not(:placeholder-shown){
+    border-left: 4px solid #42A948;
+}
+
 .dropbtn {
     width: 100%;
     background-color: transparent;
@@ -49,39 +76,4 @@
     color: #696969;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-left: 5px solid #42A948;
-}
-
-.add_resource_container input:placeholder-shown{
-    border-left: 4px solid #AB4846;
-}
-
-.add_resource_container input:not(:placeholder-shown){
-    border-left: 4px solid #42A948;
-}
-
-.crud_topic_container form{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 60%;
-    grid-template-rows: auto;
-    justify-items: flex-start;
-    align-items: flex-start;
-    gap: 15px;
-}
-.crud_topic_container form input{
-    width: 100%;
-    border-left: 5px solid #AB4846;
-}
-
-.crud_topic_container form .save_button{
-    background: #337AB7;
-    color: white;
-}
-
-.crud_topic_container input:placeholder-shown{
-    border-left: 4px solid #AB4846;
-}
-
-.crud_topic_container input:not(:placeholder-shown){
-    border-left: 4px solid #42A948;
 }

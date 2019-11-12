@@ -2,6 +2,8 @@ import React from 'react'
 
 import Modal from '../Modal/'
 
+import './style.css'
+
 export const AddTopicUI = props => (
   <React.Fragment>
     <div className='container add_topic_container'>

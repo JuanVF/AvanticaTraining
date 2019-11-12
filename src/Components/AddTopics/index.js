@@ -3,8 +3,6 @@ import util from '../../Util/Util'
 
 import { AddTopicUI } from './ui'
 
-import './style.css'
-
 class AddTopics extends React.Component {
   constructor(props) {
     super(props)
