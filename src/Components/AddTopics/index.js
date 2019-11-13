@@ -1,69 +1,69 @@
-import React from 'react'
-import util from '../../Util/Util'
+import React from "react";
+import util from "../../Util/Util";
 
-import { AddTopicUI } from './ui'
+import { AddTopicUI } from "./ui";
 
 class AddTopics extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      nameValue: '',
-      nameTitle: 'Please fill out this field',
+      nameValue: "",
+      nameTitle: "Please fill out this field",
       isModalVisible: false,
-      modalMessage: ''
-    }
+      modalMessage: ""
+    };
   }
 
   handleInputValues = event => {
-    let component = event.target
+    let component = event.target;
     let itemValues = {
-      [component.name + 'Value']: component.value,
-      [component.name + 'Title']: 'Please fill out this field'
-    }
+      [component.name + "Value"]: component.value,
+      [component.name + "Title"]: "Please fill out this field"
+    };
 
-    if (component.value) itemValues[component.name + 'Title'] = ''
+    if (component.value) itemValues[component.name + "Title"] = "";
 
-    this.setState(itemValues)
-  }
+    this.setState(itemValues);
+  };
 
   handleSaveButton = event => {
-    event.preventDefault()
+    event.preventDefault();
 
-    let nameValue = this.state.nameValue
+    let nameValue = this.state.nameValue;
     if (!util.Alerts.alertIfIsEmpty(nameValue, this.toggleModal)) {
-      this.addNewTopic()
+      this.addNewTopic();
     }
-  }
+  };
 
   addNewTopic = async function() {
     let topic = {
       name: this.state.nameValue
-    }
+    };
 
-    await util.FetchTopic.saveTopic(topic)
-    this.cleanInputs()
-    this.props.updateTableData()
-  }
+    await util.FetchTopic.saveTopic(topic);
+    this.cleanInputs();
+    this.props.updateTableData();
+  };
 
   cleanInputs = () => {
     this.setState({
-      nameValue: ''
-    })
-  }
+      nameValue: ""
+    });
+  };
 
   toggleModal = message => {
     setTimeout(() => {
       this.setState({
         isModalVisible: false
-      })
-    }, 4000)
+      });
+    }, 4000);
 
     this.setState({
       isModalVisible: !this.isModalVisible,
       modalMessage: message
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -72,8 +72,8 @@ class AddTopics extends React.Component {
         handleInputValues={this.handleInputValues}
         handleSaveButton={this.handleSaveButton}
       />
-    )
+    );
   }
 }
 
-export default AddTopics
+export default AddTopics;
