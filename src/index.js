@@ -7,6 +7,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 import App from './App'
 
+window.scroll({
+    top: 2500, 
+    left: 0, 
+    behavior: 'smooth'
+});
+
 ReactDOM.render(<App />, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change

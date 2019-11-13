@@ -63,7 +63,7 @@ class AddResource extends React.Component {
   }
 
   handleInputsValues = event => {
-    let component = event.target
+    const component = event.target
     let itemValues = {
       [component.name + 'Value']: component.value,
       [component.name + 'Title']: 'Please fill out this field'
@@ -77,7 +77,7 @@ class AddResource extends React.Component {
   handleSaveButton = async event => {
     event.preventDefault()
 
-    let objectCollection = [
+    const objectCollection = [
       this.state.resourceValue,
       this.state.descriptionValue,
       this.state.urlValue
@@ -91,7 +91,7 @@ class AddResource extends React.Component {
   }
 
   saveNewResource = async () => {
-    let body = {
+    const body = {
       description: this.state.descriptionValue,
       url: this.state.urlValue,
       topic: {
