@@ -1,107 +1,78 @@
-import Alerts from "../../src/Util/Alerts";
+import Alerts from '../../src/Util/Alerts'
 
-describe("Alerts.test.js: ", () => {
-  test("verify if a collection of Strings is also empty ", () => {
-    const email = "";
-    const password = "A STRONG PASSWORD";
-    const name = "Fake Jhon Doe";
+describe('Testing possible alerts: ', () => {
+  const printMsg = msg => console.log(msg)
 
-    const ObjectCollection = [email, password, name];
+  const emptyEmail = ''
+  const email = 'jhon@doe.com'
+  const fakeEmail = 'jhon@fakedoe'
 
-    const isEmpty = Alerts.alertIfObjectsAreEmpty(ObjectCollection, msg =>
-      console.log(msg)
-    );
+  const password = 'STRONG_PASSWORD'
+  const emptyPassword = ''
 
-    expect(isEmpty).toBeTruthy();
-  });
+  const name = 'Jhon Doe'
 
-  test("Verify if it can handle a false email", () => {
-    const falseEmail = "this@notanemail";
+  test('verify if a collection of Strings is also empty ', () => {
+    const ObjectCollection = [emptyEmail, password, name]
 
-    const isAnEmail = Alerts.alertIfIsNotAnEmail(falseEmail, msg =>
-      console.log(msg)
-    );
+    const isEmpty = Alerts.alertIfObjectsAreEmpty(ObjectCollection, printMsg)
 
-    expect(isAnEmail).toBeFalsy();
-  });
+    expect(isEmpty).toBeTruthy()
+  })
 
-  test("Verify if it can handle a true email", () => {
-    const email = "dani@gmail.com";
+  test('Verify if it can handle a false email', () => {
+    const isAnEmail = Alerts.alertIfIsNotAnEmail(fakeEmail, printMsg)
 
-    const isAnEmail = Alerts.alertIfIsNotAnEmail(email, msg =>
-      console.log(msg)
-    );
+    expect(isAnEmail).toBeFalsy()
+  })
 
-    expect(isAnEmail).toBeTruthy();
-  });
+  test('Verify if it can handle a true email', () => {
+    const isAnEmail = Alerts.alertIfIsNotAnEmail(email, printMsg)
 
-  test("Verify if a collection of Strings are not empty", () => {
-    const email = "androidapps0703@gmail.com";
-    const password = "12345678!";
-    const name = "The Real Jhon Doe";
+    expect(isAnEmail).toBeTruthy()
+  })
 
-    const ObjectCollection = [email, password, name];
+  test('Verify if a collection of Strings are not empty', () => {
+    const ObjectCollection = [email, password, name]
 
-    const isEmpty = Alerts.alertIfObjectsAreEmpty(ObjectCollection, msg =>
-      console.log(msg)
-    );
+    const isEmpty = Alerts.alertIfObjectsAreEmpty(ObjectCollection, printMsg)
 
-    expect(isEmpty).toBeFalsy();
-  });
+    expect(isEmpty).toBeFalsy()
+  })
 
-  test("Verify if a collection of String arent empty also verify the email", () => {
-    const email = "test@jhon.doe";
-    const password = "TEST";
-    const name = "Jhon Doe";
+  test('Verify if a collection of String arent empty also verify the email', () => {
+    const ObjectCollection = [email, password, name]
 
-    const ObjectCollection = [email, password, name];
+    const isAValidData = Alerts.invalidData(ObjectCollection, email, printMsg)
 
-    const isAValidData = Alerts.invalidData(ObjectCollection, email, msg => {
-      console.log(msg);
-    });
+    expect(isAValidData).toBeTruthy()
+  })
 
-    expect(isAValidData).toBeTruthy();
-  });
+  test('Verify if a collection of Strings arent empty and also verify a false email', () => {
+    const ObjectCollection = [fakeEmail, password, name]
 
-  test("Verify if a collection of Strings arent empty and also verify a false email", () => {
-    const email = "test@jhondoe";
-    const password = "TEST";
-    const name = "Jhon Doe";
+    const isAValidData = Alerts.invalidData(
+      ObjectCollection,
+      fakeEmail,
+      printMsg
+    )
 
-    const ObjectCollection = [email, password, name];
+    expect(isAValidData).toBeFalsy()
+  })
 
-    const isAValidData = Alerts.invalidData(ObjectCollection, email, msg => {
-      console.log(msg);
-    });
+  test('Verify if a collection of Strings are empty and also verify a true email', () => {
+    const ObjectCollection = [email, emptyPassword, name]
 
-    expect(isAValidData).toBeFalsy();
-  });
+    const isAValidData = Alerts.invalidData(ObjectCollection, email, printMsg)
 
-  test("Verify if a collection of Strings are empty and also verify a true email",()=>{
-    const email = "test@jhon.doe";
-    const password = "";
-    const name = "Jhon Doe";
+    expect(isAValidData).toBeFalsy()
+  })
 
-    const ObjectCollection = [email, password, name];
+  test('Verify if a collection of Strings are empty and also verify a false email', () => {
+    const ObjectCollection = [fakeEmail, emptyEmail, name]
 
-    const isAValidData = Alerts.invalidData(ObjectCollection, email, msg => {
-      console.log(msg);
-    });
+    const isAValidData = Alerts.invalidData(ObjectCollection, email, printMsg)
 
-    expect(isAValidData).toBeFalsy();
-  });
-
-  test("Verify if a collection of Strings are empty and also verify a false email",()=>{
-    const email = "not an email";
-    const password = "";
-    const name = "";
-
-    const ObjectCollection = [email, password, name];
-
-    const isAValidData = Alerts.invalidData(ObjectCollection, email, msg => {
-      console.log(msg);
-    });
-
-    expect(isAValidData).toBeFalsy();
-  });
-});
+    expect(isAValidData).toBeFalsy()
+  })
+})

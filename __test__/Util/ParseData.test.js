@@ -1,39 +1,39 @@
-import parseHome from "../../src/Util/ParseData";
+import parseHome from '../../src/Util/ParseData'
 
-describe("ParseData.js", () => {
-  test("parseHomeData function:", () => {
+describe('ParseData.js', () => {
+  test('parseHomeData function:', () => {
     const testData = [
       {
         resource_id: 1,
-        description: "Node.js documentation",
-        url: "https://nodejs.org/es/",
+        description: 'Node.js documentation',
+        url: 'https://nodejs.org/es/',
         topic: {
           topic_id: 1,
-          name: "node.js"
+          name: 'node.js'
         }
       },
       {
         resource_id: 2,
-        description: "Udemy Node.js Course",
-        url: "https://www.udemy.com/es/topic/nodejs/",
+        description: 'Udemy Node.js Course',
+        url: 'https://www.udemy.com/es/topic/nodejs/',
         topic: {
           topic_id: 1,
-          name: "node.js"
+          name: 'node.js'
         }
       },
       {
         resource_id: 4,
-        description: "React Native Course",
-        url: "https://www.udemy.com/course/react-native-sin-fronteras/",
+        description: 'React Native Course',
+        url: 'https://www.udemy.com/course/react-native-sin-fronteras/',
         topic: {
           topic_id: 3,
-          name: "React.js"
+          name: 'React.js'
         }
       }
-    ];
+    ]
 
-    const parsedData = parseHome.parseHomeData(testData);
+    const parsedData = parseHome.parseHomeData(testData)
 
-    expect(parsedData.length).toBe(2);
-  });
-});
+    expect(parsedData.length).toBe(2)
+  })
+})
