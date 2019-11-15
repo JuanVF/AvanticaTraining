@@ -1,4 +1,4 @@
-import Alerts from '../../src/Util/Alerts'
+import Alerts from '../../Util/Alerts'
 
 describe('Testing possible alerts: ', () => {
   const printMsg = msg => console.log(msg)

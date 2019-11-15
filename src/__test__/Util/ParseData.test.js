@@ -1,4 +1,4 @@
-import parseHome from '../../src/Util/ParseData'
+import parseHome from '../../Util/ParseData'
 
 describe('ParseData.js', () => {
   test('parseHomeData function:', () => {

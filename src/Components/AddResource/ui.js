@@ -2,7 +2,7 @@ import React from "react";
 
 import Modal from "../Modal/";
 
-import "./style.css";
+if(process.env.NODE_ENV !== 'test') require('./style.css')
 
 export const AddResourceUI = props => (
   <React.Fragment>

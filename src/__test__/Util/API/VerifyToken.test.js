@@ -1,6 +1,6 @@
-import VerifyToken from '../../../src/Util/API/VerifyToken'
+import VerifyToken from '../../../Util/API/VerifyToken.js'
 import 'isomorphic-fetch'
-const ls_mock = require('../../../src/localStorageMock')
+const ls_mock = require('../../../localStorageMock')
 
 afterAll(() => {
   ls_mock.clear()

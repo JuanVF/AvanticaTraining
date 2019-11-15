@@ -1,4 +1,4 @@
-import FetchLogin from '../../../src/Util/API/FetchLogin'
+import FetchLogin from '../../../Util/API/FetchLogin'
 import ls from 'local-storage'
 import 'isomorphic-fetch'
 
@@ -39,7 +39,7 @@ describe('Facebook login tests with API', () => {
     const body = {
       email: 'samantha_ezuxmjf_castillo@tfbnw.net',
       fbtoken:
-        'EAAlVXZAWbEg0BAAavGT4dWtlJSoFSa6bgMc70QqmypnzKLUonnzsP2uko2YZBpKqOGZCiTD9chx9ZAUPRcflW6AMMd8lUyyGijZAZBkYZAOJrckdMun2Cy0z8sX9KhGFNK5hefZBNCAm507knqjJEZBVGSSP10HsxlBeDVneCw9USNc1QVAxn6ZCeTPfgmET9T5jv5UR8bjhyhg1ZADp9waCbgI'
+        'EAAlVXZAWbEg0BAE3fV0jvS9Do7xOfTqpzQAlFcGVOC2EQxfmp9ZB4y6na5633Rami4TI9tpDdJWXGgy2UWTS7r8zTi4qxh0p6VGeQN6OY3sEZBC09qSJP0V0vPO7Gl8FD2sHiRtexAfcVsI86j6QAhjIb29w2uRfii0jXZAhvwmVje2dHjV88Dligk5OQztCMkz6CrEepPxYnQzvm8Vw'
     }
 
     await FetchLogin.fbLogin(body)

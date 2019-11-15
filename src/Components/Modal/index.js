@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './style.css'
+if(process.env.NODE_ENV !== 'test') require('./style.css')
 
 function Modal(props) {
   let modalClass = 'alert alert-danger'

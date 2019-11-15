@@ -31,8 +31,10 @@ class AddTopics extends React.Component {
     event.preventDefault();
 
     let nameValue = this.state.nameValue;
-    if (!util.Alerts.alertIfIsEmpty(nameValue, this.toggleModal)) {
+    if (nameValue !== "") {
       this.addNewTopic();
+    }else{
+      this.toggleModal("Fill the empty input")
     }
   };
 

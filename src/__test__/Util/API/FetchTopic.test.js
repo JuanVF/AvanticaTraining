@@ -1,6 +1,6 @@
-import FetchTopic from '../../../src/Util/API/FetchTopic'
+import FetchTopic from '../../../Util/API/FetchTopic'
 import 'isomorphic-fetch'
-const ls_mock = require('../../../src/localStorageMock')
+const ls_mock = require('../../../localStorageMock')
 
 beforeAll(() => {
   const accessToken =

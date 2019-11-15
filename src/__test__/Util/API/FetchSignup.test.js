@@ -1,4 +1,4 @@
-import FetchSignup from '../../../src/Util/API/FetchSignup'
+import FetchSignup from '../../../Util/API/FetchSignup'
 import 'isomorphic-fetch'
 
 afterAll(() => {
@@ -46,7 +46,7 @@ describe('Try Facebook signup', () => {
     email: 'luzu_zxanogd_vlogs@tfbnw.net',
     name: 'Luzu Vlogs',
     fbtoken:
-      'EAAlVXZAWbEg0BABhLEFv1db7rXBdkwkhGffS3AEHRg1qMFY37CNbzemgQnCMJQSsRsp8NbI1PpTCRY11uYeNeRyciu3lzwkettQpQz4gN8ZBiuL3aRZC3MsP1rqEJfNrarWiUwKJdcJnNgBcY4KspJKXZB0XH5QZCwzNlZCubE5Th2pXRvFQ4jDiUzhKLtn9Fro93mUFP8YwZDZD'
+      'EAAlVXZAWbEg0BAFZAyDhSSN60hbF00ESCp2LBwQj2alNZADTdiZBI0uJLxSAfjkvw219XSUo2OLWRMkhFKCXHg2UNSX194LmekkZCOvvi3aNDVxWAuIp9gRbf4mNF1yQNRKF7ZCPQ39KtT0TZCQdCUzX8bYS336rJKHJ8AdaqM1zSELZAxbypx5sK3HVblU8trB0pKNXbsvQQJXpuEsU0lKv'
   }
 
   test('Try an successful Facebook signup', async () => {

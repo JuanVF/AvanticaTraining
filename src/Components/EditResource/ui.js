@@ -3,6 +3,8 @@ import React from 'react'
 import Input from '../Input/'
 import Modal from '../Modal/'
 
+if(process.env.NODE_ENV !== 'test') require('./style.css')
+
 export const EditResourceUI = props => (
   <React.Fragment>
     <div className='edit_resource_container'>

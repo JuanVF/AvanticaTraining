@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
-import './style.css'
+if(process.env.NODE_ENV !== 'test') require('./style.css')
 
 export const ResourceError = () => (
   <div className='re_container'>

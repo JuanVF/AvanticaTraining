@@ -1,6 +1,6 @@
-import FetchResource from '../../../src/Util/API/FetchResource'
+import FetchResource from '../../../Util/API/FetchResource'
 import 'isomorphic-fetch'
-const ls_mock = require('../../../src/localStorageMock')
+const ls_mock = require('../../../localStorageMock')
 
 beforeAll(() => {
   const accessToken =

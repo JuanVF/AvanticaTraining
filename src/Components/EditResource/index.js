@@ -3,8 +3,6 @@ import util from "../../Util/Util";
 
 import { EditResourceUI } from "./ui";
 
-import "./style.css";
-
 class EditResources extends React.Component {
   constructor(props) {
     super(props);
