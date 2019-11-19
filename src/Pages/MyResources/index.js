@@ -4,8 +4,6 @@ import ls from 'local-storage'
 
 import { MyResourcesUI } from './ui'
 
-import './style.css'
-
 class MyResources extends React.Component {
   constructor(props) {
     super(props)

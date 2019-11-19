@@ -5,7 +5,7 @@ import Modal from '../../Components/Modal/'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { SignupForm } from '../../Components/SignupForm/'
 
-import './style.css'
+if(process.env.NODE_ENV !== 'test') require('./style.css')
 
 export const SignUpUI = props => (
   <React.Fragment>

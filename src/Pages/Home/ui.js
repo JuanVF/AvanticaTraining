@@ -1,5 +1,7 @@
 import React from 'react'
 
+if(process.env.NODE_ENV !== 'test') require('./style.css')
+
 export const HomeUI = props => {
   let tableData = props.tableData
   if (props.tableData === undefined || props.tableData.length === 0) {

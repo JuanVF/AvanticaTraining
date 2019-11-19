@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ResourceSelector from '../../Components/Selectors/Resource'
+if(process.env.NODE_ENV !== 'test') require('./style.css')
 
 export const MyResourcesUI = props => (
   <section className='my_resources_container'>
