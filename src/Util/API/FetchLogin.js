@@ -1,6 +1,5 @@
 const ls = require('local-storage')
-
-const base_url = 'http://localhost:8080'
+const { base_url } = require('./constants')
 
 async function login(data) {
   let url = `${base_url}/login`
@@ -41,7 +40,7 @@ async function fbLogin(data) {
     })
 }
 
-module.exports = {
+export default {
   login: login,
   fbLogin: fbLogin
 }

@@ -1,4 +1,4 @@
-const base_url = "http://localhost:8080";
+const { base_url } = require('./constants')
 
 async function signup(data) {
   let status;
@@ -38,7 +38,7 @@ async function signupFB(data) {
   return status;
 }
 
-module.exports = {
+export default {
   signup: signup,
   signupFB: signupFB
 };

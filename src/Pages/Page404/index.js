@@ -10,7 +10,7 @@ class Page404 extends React.Component {
       <section className='container page_404_container'>
         <img src={AvanticaLogo} alt='Avantica' />
         <h2>Ups, that page doesn't exists...</h2>
-        <Link to='/' className='h5'>
+        <Link to='/AvanticaTraining/' className='h5'>
           Click here to go home
         </Link>
       </section>

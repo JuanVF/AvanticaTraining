@@ -1,8 +1,8 @@
 const ls = require('local-storage')
 const ls_mock = require('../../localStorageMock')
 
+const { base_url } = require('./constants')
 const ENV = process.env.NODE_ENV
-const base_url = 'http://localhost:8080'
 let access_token = ls.get('login_token')
 
 async function getTopics() {
@@ -133,7 +133,7 @@ function setTestToken() {
   if (ENV === 'test') access_token = ls_mock.getItem('login_token')
 }
 
-module.exports = {
+export default {
   getTopics: getTopics,
   getTopic: getTopic,
   saveTopic: saveTopic,

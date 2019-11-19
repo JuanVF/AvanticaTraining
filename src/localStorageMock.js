@@ -20,4 +20,4 @@ class LocalStorageMock {
   }
 };
 
-module.exports = new LocalStorageMock
+export default new LocalStorageMock

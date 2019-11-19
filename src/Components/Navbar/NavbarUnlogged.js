@@ -10,7 +10,7 @@ class NavbarLogged extends React.Component {
       <nav className='navbar navbar-light bg-light'>
         <div className='container-fluid'>
           <div className='navbar-header'>
-            <Link to='/training/top' className='navbar-brand active'>
+            <Link to='/AvanticaTraining/' className='navbar-brand active'>
               Avantica Training
             </Link>
           </div>
