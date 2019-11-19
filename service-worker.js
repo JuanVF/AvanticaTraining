@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/AvanticaTraining/precache-manifest.863f9a94a3f574c7d72eefd78c113a2d.js"
+  "/AvanticaTraining/precache-manifest.cecdfc5e0300fedc6e5c928ae2493dc2.js"
 );
 
 self.addEventListener('message', (event) => {
