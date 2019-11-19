@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c20339fb4cab906ec6aeee12fb54e2ac",
+    "revision": "fd7691cc8b6c8651a47e61a11b712ff9",
     "url": "/AvanticaTraining/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/AvanticaTraining/static/css/2.510409cd.chunk.css"
   },
   {
-    "revision": "7410aa1d46a5f878179a",
+    "revision": "e801e916900b596d8a25",
     "url": "/AvanticaTraining/static/css/main.7681292b.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/AvanticaTraining/static/js/2.608fc923.chunk.js"
   },
   {
-    "revision": "7410aa1d46a5f878179a",
-    "url": "/AvanticaTraining/static/js/main.356ba0eb.chunk.js"
+    "revision": "e801e916900b596d8a25",
+    "url": "/AvanticaTraining/static/js/main.ff484539.chunk.js"
   },
   {
     "revision": "a3901c9f6208d84f0a84",
