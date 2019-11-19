@@ -114,7 +114,7 @@ class Topics extends React.Component {
   render() {
     if(this.state.isAValidToken === null) return null
 
-    if(!this.state.isAValidToken) document.location = '/'
+    if(!this.state.isAValidToken) this.props.history.push('/AvanticaTraining/')
     return (
       <TopicsUI
         {...this.state}

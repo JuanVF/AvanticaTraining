@@ -39,7 +39,7 @@ class Login extends React.Component {
     await util.FetchLogin.fbLogin(body)
 
     if (ls.get('login_token')) {
-      document.location = '/'
+      document.location = '/AvanticaTraining/'
     } else {
       this.toggleModal('You should signup first')
     }

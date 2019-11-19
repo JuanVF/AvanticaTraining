@@ -2,13 +2,13 @@ import React from 'react'
 import ls from 'local-storage'
 
 import { Link } from 'react-router-dom'
-import { SidebarMenu } from '../SidebarMenu/';
+import { SidebarMenu } from '../SidebarMenu/'
 import './style.css'
 
 class NavbarLogged extends React.Component {
   handleLogout = event => {
     ls.remove('login_token')
-    document.location = '/'
+    document.location = '/AvanticaTraining'
   }
   render() {
     return (
@@ -33,7 +33,7 @@ class NavbarLogged extends React.Component {
             </li>
           </ul>
         </div>
-        <SidebarMenu handleLogout={this.handleLogout}/>
+        <SidebarMenu handleLogout={this.handleLogout} />
       </nav>
     )
   }
