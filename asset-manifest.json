@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/AvanticaTraining/static/css/main.7681292b.chunk.css",
+    "main.js": "/AvanticaTraining/static/js/main.754ab618.chunk.js",
+    "main.js.map": "/AvanticaTraining/static/js/main.754ab618.chunk.js.map",
+    "runtime-main.js": "/AvanticaTraining/static/js/runtime-main.63c43b7f.js",
+    "runtime-main.js.map": "/AvanticaTraining/static/js/runtime-main.63c43b7f.js.map",
+    "static/css/2.510409cd.chunk.css": "/AvanticaTraining/static/css/2.510409cd.chunk.css",
+    "static/js/2.3f8838d4.chunk.js": "/AvanticaTraining/static/js/2.3f8838d4.chunk.js",
+    "static/js/2.3f8838d4.chunk.js.map": "/AvanticaTraining/static/js/2.3f8838d4.chunk.js.map",
+    "index.html": "/AvanticaTraining/index.html",
+    "precache-manifest.9974dd4a54fcfddcf83edc55681dfa13.js": "/AvanticaTraining/precache-manifest.9974dd4a54fcfddcf83edc55681dfa13.js",
+    "service-worker.js": "/AvanticaTraining/service-worker.js",
+    "static/css/2.510409cd.chunk.css.map": "/AvanticaTraining/static/css/2.510409cd.chunk.css.map",
+    "static/css/main.7681292b.chunk.css.map": "/AvanticaTraining/static/css/main.7681292b.chunk.css.map",
+    "static/media/avantica.png": "/AvanticaTraining/static/media/avantica.3d84ed28.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.63c43b7f.js",
+    "static/css/2.510409cd.chunk.css",
+    "static/js/2.3f8838d4.chunk.js",
+    "static/css/main.7681292b.chunk.css",
+    "static/js/main.754ab618.chunk.js"
+  ]
+}
