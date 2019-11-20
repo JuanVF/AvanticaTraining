@@ -12,6 +12,10 @@
     border-left: 5px solid #AB4846;
 }
 
+.add_resource_container form label {
+    display: none;
+}
+
 .add_resource_container form .save_button{
     background: #337AB7;
     color: white;
@@ -23,7 +27,7 @@
 
 .add_resource_container input:not(:placeholder-shown){
     border-left: 4px solid #42A948;
-}
+} 
 
 .dropbtn {
     width: 100%;

@@ -6,114 +6,123 @@ import Modal from '../Modal/'
 import './style.css'
 
 class EditTopic extends React.Component {
-  constructor(props) {
-    super(props)
+	constructor(props) {
+		super(props)
 
-    this.state = {
-      topicName: props.editItem.name,
-      topicNameTitle: '',
-      editId: props.editItem.topic_id,
-      isModalVisible: false,
-      modalMessage: ''
-    }
-  }
+		const { name, topic_id } = props.editItem
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.editItem.topic_id !== this.props.editItem.topic_id) {
-      this.setState({
-        topicName: this.props.editItem.name,
-        editId: this.props.editItem.topic_id
-      })
-    }
-  }
+		this.state = {
+			topicName: name,
+			topicNameTitle: '',
+			editId: topic_id,
+			isModalVisible: false,
+			modalMessage: ''
+		}
+	}
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.editItem.topic_id !== prevState.topic_id) {
-      return nextProps
-    }
-    return null
-  }
+	componentDidUpdate(prevProps) {
+		if (prevProps.editItem.topic_id !== this.props.editItem.topic_id) {
+			this.setState({
+				topicName: this.props.editItem.name,
+				editId: this.props.editItem.topic_id
+			})
+		}
+	}
 
-  updateData = async () => {
-    let body = {
-      topic_id: this.state.editId,
-      name: this.state.topicName
-    }
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.editItem.topic_id !== prevState.topic_id) {
+			return nextProps
+		}
+		return null
+	}
 
-    await util.FetchTopic.updateTopic(body)
-  }
+	updateData = async () => {
+		let body = {
+			topic_id: this.state.editId,
+			name: this.state.topicName
+		}
 
-  handleInput = event => {
-    let item = event.target
+		await util.FetchTopic.updateTopic(body)
+	}
 
-    if (item.value !== '') {
-      this.setState({
-        topicName: item.value,
-        topicNameTitle: ''
-      })
-    } else {
-      this.setState({
-        topicName: item.value,
-        topicNameTitle: 'Please fill out this field'
-      })
-    }
-  }
+	handleInput = event => {
+		let item = event.target
 
-  toggleModal = message => {
-    setTimeout(() => {
-      this.setState({
-        isModalVisible: false
-      })
-    }, 4000)
+		if (item.value !== '') {
+			this.setState({
+				topicName: item.value,
+				topicNameTitle: ''
+			})
+		} else {
+			this.setState({
+				topicName: item.value,
+				topicNameTitle: 'Please fill out this field'
+			})
+		}
+	}
 
-    this.setState({
-      isModalVisible: !this.isModalVisible,
-      modalMessage: message
-    })
-  }
+	toggleModal = message => {
+		setTimeout(() => {
+			this.setState({
+				isModalVisible: false
+			})
+		}, 4000)
 
-  handleSaveButton = async event => {
-    event.preventDefault()
+		this.setState({
+			isModalVisible: !this.isModalVisible,
+			modalMessage: message
+		})
+	}
 
-    let topicName = await this.state.topicName
+	handleSaveButton = async event => {
+		event.preventDefault()
 
-    if (!util.Alerts.alertIfIsEmpty(topicName, this.toggleModal)) {
-      await this.updateData()
-      this.props.closeEditComponent()
-      this.props.updateTableData()
-    }
-  }
+		let topicName = await this.state.topicName
 
-  render() {
-    let state = this.state
-    return (
-      <React.Fragment>
-        <div className='container edit_topic_container'>
-          <h1>Edit Topic</h1>
+		if (!util.Alerts.alertIfIsEmpty(topicName, this.toggleModal)) {
+			await this.updateData()
+			this.props.closeEditComponent()
+			this.props.updateTableData()
+		}
+	}
 
-          <form className='justify-content-start'>
-            <label className='font-weight-bold '>Name:</label>
-            <input
-              className='form-control'
-              type='text'
-              title={this.state.topicNameTitle}
-              value={state.topicName}
-              placeholder='Topic Name'
-              onChange={this.handleInput}
-            />
+	render() {
+		let state = this.state
+		return (
+			<React.Fragment>
+				<div className='container edit_topic_container'>
+					<h1>Edit Topic</h1>
 
-            <button onClick={this.handleSaveButton} className='btn save_button'>
-              Save
-            </button>
-          </form>
-          <p onClick={this.props.closeEditComponent} className='text-primary'>
-            Add new topic
-          </p>
-        </div>
-        <Modal isVisible={state.isModalVisible} message={state.modalMessage} />
-      </React.Fragment>
-    )
-  }
+					<form className='justify-content-start'>
+						<label className='font-weight-bold '>Name:</label>
+						<input
+							className='form-control'
+							type='text'
+							title={this.state.topicNameTitle}
+							value={state.topicName}
+							placeholder='Topic Name'
+							onChange={this.handleInput}
+						/>
+
+						<button
+							onClick={this.handleSaveButton}
+							className='btn save_button'>
+							Save
+						</button>
+					</form>
+					<p
+						onClick={this.props.closeEditComponent}
+						className='text-primary'>
+						Add new topic
+					</p>
+				</div>
+				<Modal
+					isVisible={state.isModalVisible}
+					message={state.modalMessage}
+				/>
+			</React.Fragment>
+		)
+	}
 }
 
 export default EditTopic

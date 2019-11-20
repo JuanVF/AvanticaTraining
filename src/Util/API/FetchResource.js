@@ -1,108 +1,101 @@
 const ls = require('local-storage')
-const ls_mock = require('../../localStorageMock')
 const { base_url } = require('./constants')
-
-const ENV = process.env.NODE_ENV
 
 let access_token = ls.get('login_token')
 
 async function getAll() {
-  let data
-  let url = `${base_url}/resource`
-  let params = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-  setTestToken()
+	let data
+	let url = `${base_url}/resource`
+	let params = {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}
 
-  await fetch(url, params)
-    .then(res => res.json())
-    .then(res => {
-      data = res
-    })
-    .catch(err => {
-      console.log(err)
-    })
+	await fetch(url, params)
+		.then(res => res.json())
+		.then(res => {
+			data = res
+		})
+		.catch(err => {
+			console.log(err)
+		})
 
-  return data
+	return data
 }
 
 async function save(body) {
-  let url = `${base_url}/resource`
-  let status
-  setTestToken()
+	let url = `${base_url}/resource`
+	let status
 
-  let params = {
-    method: 'POST',
-    headers: {
-      Authorization: access_token,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  }
+	let params = {
+		method: 'POST',
+		headers: {
+			Authorization: access_token,
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(body)
+	}
 
-  await fetch(url, params)
-    .then(res => {
-      status = res.status
-    })
-    .catch(err => {
-      status = err.status
-    })
+	await fetch(url, params)
+		.then(res => {
+			status = res.status
+		})
+		.catch(err => {
+			status = err.status
+		})
 
-  return status
+	return status
 }
 
 async function update(body) {
-  let url = `${base_url}/resource`
-  let status
-  setTestToken()
+	let url = `${base_url}/resource`
+	let status
 
-  let params = {
-    method: 'PUT',
-    headers: {
-      Authorization: access_token,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  }
+	let params = {
+		method: 'PUT',
+		headers: {
+			Authorization: access_token,
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(body)
+	}
 
-  await fetch(url, params)
-    .then(res => {
-      status = res.status
-    })
-    .catch(err => {
-      console.log(err)
-      status = err.status
-    })
+	await fetch(url, params)
+		.then(res => {
+			status = res.status
+		})
+		.catch(err => {
+			console.log(err)
+			status = err.status
+		})
 
-  return status
+	return status
 }
 
 async function deleteResource(id) {
-  let url = `${base_url}/resource/${id}`
-  let status
-  setTestToken()
+	let url = `${base_url}/resource/${id}`
+	let status
 
-  let params = {
-    method: 'DELETE',
-    headers: {
-      Authorization: access_token,
-      'Content-Type': 'application/json'
-    }
-  }
+	let params = {
+		method: 'DELETE',
+		headers: {
+			Authorization: access_token,
+			'Content-Type': 'application/json'
+		}
+	}
 
-  await fetch(url, params)
-    .then(res => {
-      status = res.status
-    })
-    .catch(err => {
-      console.log(err)
-      status = err.status
-    })
+	await fetch(url, params)
+		.then(res => {
+			status = res.status
+		})
+		.catch(err => {
+			console.log(err)
+			status = err.status
+		})
 
-  return status
+	return status
 }
 
 /***
@@ -112,42 +105,37 @@ async function deleteResource(id) {
  * find a topic that doesn't exists
  * ***/
 async function checkHowManyRelationsAre(topic_id) {
-  let url = `${base_url}/resource/relations/`
-  let data
-  setTestToken()
+	let url = `${base_url}/resource/relations/`
+	let data
 
-  let body = {
-    topic_id: topic_id
-  }
-  let params = {
-    method: 'POST',
-    headers: {
-      Authorization: access_token,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  }
+	let body = {
+		topic_id: topic_id
+	}
+	let params = {
+		method: 'POST',
+		headers: {
+			Authorization: access_token,
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(body)
+	}
 
-  await fetch(url, params)
-    .then(res => res.json())
-    .then(res => {
-      data = res
-    })
-    .catch(err => {
-      console.log(err)
-    })
+	await fetch(url, params)
+		.then(res => res.json())
+		.then(res => {
+			data = res
+		})
+		.catch(err => {
+			console.log(err)
+		})
 
-  return data
-}
-
-function setTestToken() {
-  if (ENV === 'test') access_token = ls_mock.getItem('login_token')
+	return data
 }
 
 export default {
-  getAll: getAll,
-  save: save,
-  update: update,
-  delete: deleteResource,
-  checkHowManyRelationsAre: checkHowManyRelationsAre
+	getAll: getAll,
+	save: save,
+	update: update,
+	delete: deleteResource,
+	checkHowManyRelationsAre: checkHowManyRelationsAre
 }
