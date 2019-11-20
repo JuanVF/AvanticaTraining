@@ -1,7 +1,6 @@
-const ls = require('local-storage')
 const { base_url } = require('./constants')
 
-let access_token = ls.get('login_token')
+var access_token = localStorage.getItem('login_token')
 
 async function isAValidToken() {
 	let isValid
@@ -31,6 +30,11 @@ async function isAValidToken() {
 	return isValid
 }
 
+function setTestToken() {
+	access_token = localStorage.getItem('login_token')
+}
+
 export default {
-	isAValidToken: isAValidToken
+	isAValidToken: isAValidToken,
+	setTestToken: setTestToken
 }

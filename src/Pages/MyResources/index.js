@@ -1,6 +1,5 @@
 import React from 'react'
 import Util from '../../Util/Util'
-import ls from 'local-storage'
 
 import { MyResourcesUI } from './ui'
 
@@ -33,7 +32,7 @@ class MyResources extends React.Component {
       this.setState({
         isAValidToken : isAValidToken
       });
-      ls.remove('login_token')
+      localStorage.removeItem('login_token')
     }
   }
 

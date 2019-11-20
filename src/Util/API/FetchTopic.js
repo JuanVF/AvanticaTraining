@@ -1,7 +1,5 @@
-const ls = require('local-storage')
-
 const { base_url } = require('./constants')
-let access_token = ls.get('login_token')
+let access_token = localStorage.getItem('login_token')
 
 async function getTopics() {
 	let url = `${base_url}/topic`
@@ -122,10 +120,15 @@ async function deleteTopic(topic_id) {
 	return responseStatus
 }
 
+function setTestToken() {
+	access_token = localStorage.getItem('login_token')
+}
+
 export default {
 	getTopics: getTopics,
 	getTopic: getTopic,
 	saveTopic: saveTopic,
 	updateTopic: updateTopic,
-	deleteTopic: deleteTopic
+	deleteTopic: deleteTopic,
+	setTestToken : setTestToken
 }

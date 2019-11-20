@@ -1,7 +1,6 @@
-const ls = require('local-storage')
 const { base_url } = require('./constants')
 
-let access_token = ls.get('login_token')
+let access_token = localStorage.getItem('login_token')
 
 async function getAll() {
 	let data
@@ -132,10 +131,15 @@ async function checkHowManyRelationsAre(topic_id) {
 	return data
 }
 
+function setTestToken() {
+	access_token = localStorage.getItem('login_token')
+}
+
 export default {
 	getAll: getAll,
 	save: save,
 	update: update,
 	delete: deleteResource,
-	checkHowManyRelationsAre: checkHowManyRelationsAre
+	checkHowManyRelationsAre: checkHowManyRelationsAre,
+	setTestToken : setTestToken
 }

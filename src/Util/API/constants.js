@@ -3,5 +3,20 @@ const ENV = process.env.NODE_ENV
 const base_url_dev = 'http://localhost:8080'
 const base_url_prod = 'https://juanvfproaa.herokuapp.com'
 
+export const test_token =
+	'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWFudmZsZXRlc0BnbWFpbC5jb20iLCJleHAiOjE1NzUxNDYxNzB9.dh3wfj6ORAMLra1AAPBz8Cbboj-hg0AMkVVuATKYLcyMzk1deQi3xn64khxkeq6eWm-CxCIekFN-2gnBu61eMw'
+
+export const luzu_fb_token =
+	'EAAlVXZAWbEg0BAA4vsoT9rofOlUaBVd9CxUVQTGs16pkWZCbXl3ZBeJeMxT3vOOC8ybJIDEzM52vB1uBJZAiFwcbZBZAlXbFB4r2XtykpE1N3KbMGAkYUzxZBpZBkIKtoegPwZBJ9kn0gBH9YRf5iEBlW7w9ZBOewJ1fA5nfLZCODxhg2pygcsryKFh1THtWBhdEdx54lftRIzWpgZDZD'
+
+export const samantha_fb_token =
+	'EAAlVXZAWbEg0BAMZB6nxwS7rPJPGUpcrbVgJWrWRXBCaVNA4vugGVFwjMCFKPjoIFIpSlK3QXdMkxV3DGQFfKqZBMuUvuaMk0ZAXuxGZCbGQJ0AfID95WPJc8UN1VC2Im4WUfZAR6D8ZCTSYcJ9Ievl1aDUOKEf7FZA57ynVQZCOiMxJDMrOhZA01xh4XExhqe4cFZCbwOkActFkQZDZD'
+
+export const expired_token =
+	'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWFudmZsZXRlc0BnbWFpbC5jb20iLCJleHAiOjE1fQ.QqPW6kkZSLW5xDtOq07WRCBorRK7HCFbUQ-1DqjXe3rCpmyLrG6bWW2biKuiwpa0svxeSI6grPXrwFCKtDsczg'
+
+export const non_api_token =
+	'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqaG9uQGRvZS5mYWtlIiwiZXhwIjo5OTk5OTk5OTk5OTl9.3cGyS9LLtPDvUJu0G370y5jGJKPe52OkyGpRlYlAs4ayCI8nEpBOwgVDOkNc2BrUwnecQD4U9x1-e0yWIa8YhQ'
+
 export const base_url =
-  ENV === 'development' || ENV === 'test' ? base_url_dev : base_url_prod
+	ENV === 'development' || ENV === 'test' ? base_url_dev : base_url_prod
