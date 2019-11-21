@@ -50,7 +50,7 @@ describe('Test API functions on FetchResource.js', () => {
 		expect(httpStatus).toBe(200)
 	})
 
-	test('Try get relations', async () => {
+	test('Try to get relations', async () => {
 		const Relations = await FetchResource.checkHowManyRelationsAre(1)
 
 		expect(Relations.length).toBeGreaterThan(0)

@@ -41,7 +41,7 @@ const GenerateTableContent = ({
 	openEditComponent,
 	handleDeleteButton
 }) => {
-	if (tableData === undefined || tableData === null) return null
+	if (tableData === undefined || !tableData.map) return null
 	let tableContent = tableData.map((item, index) => {
 		return (
 			<tr key={index}>

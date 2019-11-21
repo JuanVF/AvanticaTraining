@@ -1,33 +1,15 @@
 import FetchSignup from '../../../Util/API/FetchSignup'
-import { test_token, luzu_fb_token } from '../../../Util/API/constants'
+import { luzu_fb_token } from '../../../Util/API/constants'
+import { cleanup_users } from '../../TestConstants'
 
 afterAll(async () => {
-	const access_token = test_token
-
-	await fetch('http://localhost:8080/user/delete/jhon@doe.com', {
-		method: 'DELETE',
-		headers: {
-			Authorization: access_token,
-			'Content-Type': 'application/json'
-		}
-	})
-
-	await fetch(
-		'http://localhost:8080/fb/delete/luzu_zxanogd_vlogs@tfbnw.net',
-		{
-			method: 'DELETE',
-			headers: {
-				Authorization: access_token,
-				'Content-Type': 'application/json'
-			}
-		}
-	)
+	await cleanup_users()
 })
 
 describe('Try email-password signup', () => {
 	const body = {
-		email: 'jhon@doe.com',
-		password: 'STRONGEST_PASSWORD_IN_ZAWARDO',
+		email: 'jhon@test.doe',
+		password: '123456',
 		name: 'Jhon Doe'
 	}
 	test('Try a successful signup', async () => {
@@ -50,7 +32,7 @@ describe('Try Facebook signup', () => {
 		fbtoken: luzu_fb_token
 	}
 
-	test('Try an successful Facebook signup', async () => {
+	test('Try a successful Facebook signup', async () => {
 		const httpStatus = await FetchSignup.signupFB(body)
 
 		expect(httpStatus).toBe(200)

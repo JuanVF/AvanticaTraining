@@ -1,6 +1,8 @@
 function parseHomeData(data) {
   let topics = [];
 
+  if(!data.map) return []
+
   data.map((item, index) => {
     if (topics.length === 0) {
       topics.push({

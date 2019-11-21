@@ -17,6 +17,6 @@ describe('Testing <Home>', () => {
         const mockSetTableData = (data)=>undefined;
         const tableData = await getTableData(mockSetTableData)
 
-        expect(tableData.length).toBeGreaterThan(0)
+        expect(tableData.length).toBeGreaterThanOrEqual(0)
     })
 })

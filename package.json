@@ -33,5 +33,9 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://juanvf.github.io/AvanticaTraining"
+  "homepage": "https://juanvf.github.io/AvanticaTraining",
+  "devDependencies": {
+    "@testing-library/react": "^9.3.2",
+    "sinon": "^7.5.0"
+  }
 }

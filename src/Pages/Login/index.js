@@ -1,5 +1,4 @@
 import React from 'react'
-import ls from 'local-storage'
 import util from '../../Util/Util'
 
 import { LoginUI } from './ui'
@@ -31,6 +30,7 @@ class Login extends React.Component {
   }
 
   handleFBButton = async ({email,accessToken}) => {
+
     const body = {
       email: email,
       fbtoken: accessToken
@@ -38,8 +38,8 @@ class Login extends React.Component {
 
     await util.FetchLogin.fbLogin(body)
 
-    if (ls.get('login_token')) {
-      document.location = '/AvanticaTraining/'
+    if (localStorage.getItem('login_token')) {
+      window.location.assign('/AvanticaTraining/')
     } else {
       this.toggleModal('You should signup first')
     }
@@ -53,10 +53,9 @@ class Login extends React.Component {
     const objectCollection = [this.state.passwordValue, email]
 
     if (!alert.invalidData(objectCollection, email, this.toggleModal)) return
-
     await this.login()
 
-    if (ls.get('login_token')) {
+    if (localStorage.getItem('login_token')) {
       document.location = '/'
     } else {
       this.toggleModal('Please verify your email and password')

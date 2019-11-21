@@ -31,12 +31,11 @@ class AddResource extends React.Component {
 
 	async componentDidMount() {
 		let dropdownItems = await util.FetchTopic.getTopics()
-		console.log(dropdownItems)
 		this.showAddTopicComponent(dropdownItems)
 	}
 
 	showAddTopicComponent = dropdownItems => {
-		if (dropdownItems.length !== 0) {
+		if (dropdownItems && dropdownItems.length !== 0) {
 			let dropdownValue = `${dropdownItems[0].topic_id} - ${dropdownItems[0].name}`
 			let resourceValue = dropdownItems[0].topic_id
 

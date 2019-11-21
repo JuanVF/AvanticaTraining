@@ -4,134 +4,134 @@ import util from '../../Util/Util'
 import { SignUpUI } from './ui'
 
 class SignUp extends React.Component {
-  constructor(props) {
-    super(props)
+	constructor(props) {
+		super(props)
 
-    this.state = {
-      emailTitle: 'Please fill out this field',
-      passwordTitle: 'Please fill out this field',
-      nameTitle: 'Please fill out this field',
-      emailValue: '',
-      passwordValue: '',
-      nameValue: '',
-      modalMessage: '',
-      isModalVisible: false,
-      isASuccessModal: false
-    }
-  }
+		this.state = {
+			emailTitle: 'Please fill out this field',
+			passwordTitle: 'Please fill out this field',
+			nameTitle: 'Please fill out this field',
+			emailValue: '',
+			passwordValue: '',
+			nameValue: '',
+			modalMessage: '',
+			isModalVisible: false,
+			isASuccessModal: false
+		}
+	}
 
-  handleInputs = event => {
-    let component = event.target
-    let itemValues = {
-      [component.name + 'Value']: component.value,
-      [component.name + 'Title']: 'Please fill out this field'
-    }
+	handleInputs = event => {
+		let component = event.target
+		let itemValues = {
+			[component.name + 'Value']: component.value,
+			[component.name + 'Title']: 'Please fill out this field'
+		}
 
-    if (component.value) itemValues[component.name + 'Title'] = ''
+		if (component.value) itemValues[component.name + 'Title'] = ''
 
-    this.setState(itemValues)
-  }
+		this.setState(itemValues)
+	}
 
-  handleFBButton = async ({email,name,accessToken}) => {
-    if(email){
-      let body = {
-        email: email,
-        name: name,
-        fbtoken: accessToken
-      }
-  
-      await this.insertFBUser(body)
-    }else{
-      this.toggleModal("Your Facebook Account doesnt have an email")
-    }
-  }
+	handleFBButton = async ({ email, name, accessToken }) => {
+		if (email) {
+			let body = {
+				email: email,
+				name: name,
+				fbtoken: accessToken
+			}
 
-  insertFBUser = async body => {
-    let status = await util.FetchSignup.signupFB(body)
+			await this.insertFBUser(body)
+		} else {
+			this.toggleModal('Your Facebook Account doesnt have an email')
+		}
+	}
 
-    switch (status) {
-      case 200:
-        this.toggleModal('User was registered!', true)
-        break
-      case 406:
-        this.toggleModal('This user is already registered')
-        break
-      default:
-        break
-    }
-  }
+	insertFBUser = async body => {
+		let status = await util.FetchSignup.signupFB(body)
 
-  handleSignup = event => {
-    event.preventDefault()
+		switch (status) {
+			case 200:
+				this.toggleModal('User was registered!', true)
+				break
+			case 406:
+				this.toggleModal('This user is already registered')
+				break
+			default:
+				break
+		}
+	}
 
-    const email = this.state.emailValue
-    const alert = util.Alerts
-    const objectCollection = [
-      this.state.passwordValue,
-      email,
-      this.state.nameValue
-    ]
+	handleSignup = event => {
+		event.preventDefault()
 
-    if (alert.invalidData(objectCollection, email, this.toggleModal)) {
-      this.signUp()
-    }
-  }
+		const email = this.state.emailValue
+		const alert = util.Alerts
+		const objectCollection = [
+			this.state.passwordValue,
+			email,
+			this.state.nameValue
+		]
 
-  signUp = async () => {
-    let body = {
-      email: this.state.emailValue,
-      password: this.state.passwordValue,
-      name: this.state.nameValue
-    }
+		if (alert.invalidData(objectCollection, email, this.toggleModal)) {
+			this.signUp()
+		}
+	}
 
-    let status = await util.FetchSignup.signup(body)
+	signUp = async () => {
+		let body = {
+			email: this.state.emailValue,
+			password: this.state.passwordValue,
+			name: this.state.nameValue
+		}
 
-    switch (status) {
-      case 200:
-        this.toggleModal('User was registered!', true)
-        this.cleanInputs()
-        break
-      case 406:
-        this.toggleModal('This user is already registered')
-        break
-      default:
-        break
-    }
-  }
+		let status = await util.FetchSignup.signup(body)
 
-  toggleModal = async (message, successModal) => {
-    setTimeout(() => {
-      this.setState({
-        isModalVisible: false,
-        successModal: false
-      })
-    }, 3000)
+		switch (status) {
+			case 200:
+				this.toggleModal('User was registered!', true)
+				this.cleanInputs()
+				break
+			case 406:
+				this.toggleModal('This user is already registered')
+				break
+			default:
+				break
+		}
+	}
 
-    this.setState({
-      isModalVisible: !this.isModalVisible,
-      modalMessage: message,
-      isASuccessModal: successModal
-    })
-  }
+	toggleModal = async (message, successModal) => {
+		setTimeout(() => {
+			this.setState({
+				isModalVisible: false,
+				successModal: false
+			})
+		}, 3000)
 
-  cleanInputs = () => {
-    this.setState({
-      emailValue: '',
-      passwordValue: '',
-      nameValue: ''
-    })
-  }
+		this.setState({
+			isModalVisible: !this.isModalVisible,
+			modalMessage: message,
+			isASuccessModal: successModal
+		})
+	}
 
-  render() {
-    return (
-      <SignUpUI
-        {...this.state}
-        handleFBButton={this.handleFBButton}
-        handleSignup={this.handleSignup}
-        handleInputs={this.handleInputs}
-      />
-    )
-  }
+	cleanInputs = () => {
+		this.setState({
+			emailValue: '',
+			passwordValue: '',
+			nameValue: ''
+		})
+	}
+
+	render() {
+		return (
+			<SignUpUI
+				{...this.state}
+				handleFBButton={this.handleFBButton}
+				handleSignup={this.handleSignup}
+				handleInputs={this.handleInputs}
+			/>
+		)
+	}
 }
 
 export default SignUp

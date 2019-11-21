@@ -8,16 +8,16 @@ export const Home = () => {
 	const [tableData, setTableData] = useState([])
 	useEffect(function() {
 		getTableData(setTableData)
-  }, [])
+	}, [])
 
 	return <HomeUI tableData={tableData} />
 }
 
 export async function getTableData(setTableData) {
 	let tableData = await Util.FetchResource.getAll()
-	if (tableData !== undefined) {
+	if (tableData !== undefined || tableData !== null) {
 		tableData = Util.ParseData.parseHomeData(tableData)
-
+	
 		act(() => setTableData(tableData))
 	}
 
