@@ -2,17 +2,9 @@ import React from 'react'
 import Login from '../../../Pages/Login/index'
 import { render, cleanup } from '@testing-library/react'
 import { BrowserRouter as MockRouter } from 'react-router-dom'
-import { samantha_fb_token } from '../../../Util/API/constants'
-import { insert_test_users, cleanup_users } from '../../TestConstants'
 
-beforeAll(async () => {
-	await insert_test_users()
-})
 afterEach(() => localStorage.removeItem('login_token'))
-afterAll(async ()=>{
-	cleanup()
-	await cleanup_users()
-})
+afterAll(cleanup)
 setupFBComponent()
 
 describe('Testing <Login>', () => {
@@ -38,20 +30,6 @@ describe('Testing Login page functions', () => {
 	}
 
 	loginClass.setState = mockSetState
-
-	test('login function creates token', async () => {
-		loginClass.state = {
-			emailValue: 'test@jhon.doe',
-			passwordValue: '123456'
-		}
-
-		await loginClass.login()
-
-		const token = localStorage.getItem('login_token')
-
-		expect(token).toMatch(/Bearer /)
-	})
-
 	test('login function will not create tokens with bad credentials', async () => {
 		loginClass.state = {
 			emailValue: 'fake@gmail.com',
@@ -97,38 +75,6 @@ describe('Testing Login page functions', () => {
 		loginClass.handleInputs(event)
 
 		expect(loginClass.state.state.emailValue).toBe('')
-	})
-
-	test('it can login with a real FB Token', async () => {
-		const fbdata = {
-			accessToken: samantha_fb_token,
-			email: 'samantha_ezuxmjf_castillo@tfbnw.net'
-		}
-
-		await loginClass.handleFBButton(fbdata)
-
-		const token = localStorage.getItem('login_token')
-
-		expect(token).toMatch(/Bearer /)
-	})
-
-	test('it can login with email-password users', async () => {
-		loginClass.state = {
-			passwordValue: 'testing',
-			emailValue: 'jhon@doe.com'
-		}
-
-		loginClass.login = () => localStorage.setItem('login_token', 'Bearer.')
-
-		const event = {
-			preventDefault: jest.fn
-		}
-
-		await loginClass.handleLoginButton(event)
-
-		const token = localStorage.getItem('login_token')
-
-		expect(token).toMatch(/Bearer./)
 	})
 
 	test('will fail with empty data', async () => {

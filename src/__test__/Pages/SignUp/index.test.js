@@ -2,13 +2,8 @@ import React from 'react'
 import SignUp from '../../../Pages/SignUp/index'
 import { render, cleanup } from '@testing-library/react'
 import { BrowserRouter as MockRouter } from 'react-router-dom'
-import { samantha_fb_token } from '../../../Util/API/constants'
-import { cleanup_users } from '../../TestConstants'
 
-afterAll(async () => {
-	cleanup()
-	await cleanup_users()
-})
+afterAll(cleanup)
 
 //This is necessary to make react-facebook-login PASS the test
 const fbScript = document.createElement('script')
@@ -93,64 +88,6 @@ describe('Testing sign up functions', () => {
 			signUp.state.msg = msg
 		}
 		await signUp.insertFBUser(body)
-
-		expect(signUp.state.msg).toBe('This user is already registered')
-	})
-
-	it('will success a fb signup', async () => {
-		const body = {
-			email: 'samantha_ezuxmjf_castillo@tfbnw.net',
-			fbtoken: samantha_fb_token
-		}
-
-		signUp.toggleModal = msg => {
-			signUp.state.msg = msg
-		}
-		await signUp.insertFBUser(body)
-
-		expect(signUp.state.msg).toBe('User was registered!')
-	})
-
-	it('will handle a duplicate fb user', async () => {
-		const body = {
-			email: 'samantha_ezuxmjf_castillo@tfbnw.net',
-			fbtoken: samantha_fb_token
-		}
-
-		signUp.toggleModal = msg => {
-			signUp.state.msg = msg
-		}
-		await signUp.insertFBUser(body)
-
-		expect(signUp.state.msg).toBe('This user is already registered')
-	})
-
-	it('will sucess an email-password signup', async () => {
-		signUp.state = {
-			emailValue: 'test@jhon.doe',
-			passwordValue: 'jhondoe123456',
-			nameValue: 'Jhon Doe'
-		}
-
-		signUp.toggleModal = msg => {
-			signUp.state.msg = msg
-		}
-		await signUp.signUp()
-
-		expect(signUp.state.msg).toBe('User was registered!')
-	})
-
-	it('will handle a duplicate user', async () => {
-		signUp.state = {
-			emailValue: 'test@jhon.doe',
-			passwordValue: 'jhondoe123456',
-			nameValue: 'Jhon Doe'
-		}
-
-		signUp.toggleModal = msg => {
-			signUp.state.msg = msg
-		}
-		await signUp.signUp()
 
 		expect(signUp.state.msg).toBe('This user is already registered')
 	})

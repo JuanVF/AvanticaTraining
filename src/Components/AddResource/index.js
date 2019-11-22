@@ -31,10 +31,10 @@ class AddResource extends React.Component {
 
 	async componentDidMount() {
 		let dropdownItems = await util.FetchTopic.getTopics()
-		this.showAddTopicComponent(dropdownItems)
+		this.setDropdownItems(dropdownItems)
 	}
 
-	showAddTopicComponent = dropdownItems => {
+	setDropdownItems = dropdownItems => {
 		if (dropdownItems && dropdownItems.length !== 0) {
 			let dropdownValue = `${dropdownItems[0].topic_id} - ${dropdownItems[0].name}`
 			let resourceValue = dropdownItems[0].topic_id
@@ -133,7 +133,8 @@ class AddResource extends React.Component {
 	render() {
 		const { dropdownItems } = this.state
 
-		if (dropdownItems && dropdownItems.length === 0) return <ResourceError />
+		if (dropdownItems && dropdownItems.length === 0)
+			return <ResourceError />
 
 		return (
 			<AddResourceUI

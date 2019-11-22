@@ -24,3 +24,29 @@ describe('Testing <AddTopics/>', () => {
 		expect(nameInput.value).toMatch('Node.js')
 	})
 })
+
+describe('test AddTopics functions', () => {
+	const addTopics = new AddTopics()
+
+	//Mock setState
+	addTopics.setState = data => {
+		addTopics.state = {
+			...addTopics.state,
+			...data
+		}
+	}
+
+	it('will clean state values', () => {
+		addTopics.cleanInputs()
+
+		expect(addTopics.state.nameValue).toBe('')
+	})
+
+	it('will change modal state', () => {
+		const msg = 'test msg'
+
+		addTopics.toggleModal(msg)
+
+		expect(addTopics.state.modalMessage).toBe(msg)
+	})
+})

@@ -38,7 +38,7 @@ describe('Try Facebook signup', () => {
 		expect(httpStatus).toBe(200)
 	})
 
-	test('Test if it can handle duplicate Facebook users', async () => {
+	test('if it can handle duplicate Facebook users', async () => {
 		const httpStatus = await FetchSignup.signupFB(body)
 
 		expect(httpStatus).toBe(406)
